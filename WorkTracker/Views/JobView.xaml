@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism ="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:input="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:behavior="clr-namespace:WorkTracker.CustomControls.Behavior;assembly=WorkTracker"
+             xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
+             xmlns:controls="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls"
+             x:Class="WorkTracker.Views.JobView">
+    <ContentView.Resources>
+        
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid BackgroundColor="{StaticResource MainColorGreen}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Padding="10" Margin="10" ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"></RowDefinition>
+                    <RowDefinition Height="100"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="100"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <shades:Shadows Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="30" Margin="0"
+                                Style="{StaticResource BackgroundMainColorShadow}">
+                    <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="20" VerticalOptions="StartAndExpand" Spacing="10">
+                                <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
+                                       Text="Job :"></Label>
+                                <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
+                                                            Text="{Binding Job.Name,Mode=TwoWay}" TextColor="White">
+
+                                </customControls:CustomEntry>
+                            </StackLayout>
+                        </StackLayout>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+                <Grid Grid.Row="1" Grid.Column="0" Margin="10" ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <shades:Shadows  Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50"
+                                     Style="{StaticResource BackgroundMainColorShadow}">
+                        <primitives:RadBorder  Margin="15" Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                            <Button Text="Submit"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding AddJobCommand}">
+
+                            </Button>
+                    </primitives:RadBorder>
+                    </shades:Shadows>
+                </Grid>
+            </Grid >
+           
+                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand" Margin="0,0,0,20">
+                <dataControls:RadListView x:Name="listView" ItemsSource="{Binding AllJobs}" VerticalOptions="FillAndExpand" SelectionMode="None"
+                                          IsItemsReorderEnabled="True">
+                    <dataControls:RadListView.ItemTemplate>
+                    <DataTemplate>
+                        <listView:ListViewTemplateCell>
+                            <listView:ListViewTemplateCell.View>
+                                <shades:Shadows CornerRadius="30" Padding="10,15,10,15"
+                                                Style="{StaticResource BackgroundMainColorShadow}">
+                                    <primitives:RadBorder CornerRadius="30" BackgroundColor="{StaticResource MainColorGreen}" Margin="10,0,10,0" >
+                                            <Grid Padding="20,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                                <Image  Source="circle.png">
+                                                </Image>
+                                                <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center" Margin="10,0,0,0" Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Start"/>
+                                </Grid>
+                                        </primitives:RadBorder>
+                                </shades:Shadows>
+                                </listView:ListViewTemplateCell.View>
+                        </listView:ListViewTemplateCell>
+                    </DataTemplate>
+                </dataControls:RadListView.ItemTemplate>
+                <dataControls:RadListView.LayoutDefinition>
+                    <listView:ListViewLinearLayout ItemLength="80" />
+                </dataControls:RadListView.LayoutDefinition>
+                </dataControls:RadListView>
+            </ScrollView>
+            <Label Grid.Row="0" Grid.RowSpan="2" VerticalOptions="Center" IsVisible="{Binding IsNoJob}" Text="Please add a job" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
+
+        </Grid>
+    </ContentView.Content>
+</ContentView>

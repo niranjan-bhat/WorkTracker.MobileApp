@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:workTracker="clr-namespace:WorkTracker;assembly=WorkTracker"
+             xmlns:input="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             x:Class="WorkTracker.Views.DummyView">
+    <ContentPage.Resources>
+        <Style x:Key="CenterTabHeaderShadow" ApplyToDerivedTypes="True" TargetType="shades:Shadows">
+            <Setter Property="Shades">
+                <shades:ImmutableShades>
+                    <shades:Shade BlurRadius="10"
+                                  Opacity="1"
+                                  Offset="0,-10"
+                                  Color="{StaticResource UpperShadowColor}" />
+                    <shades:Shade BlurRadius="10"
+                                  Opacity="1"
+                                  Offset="0, 10"
+                                  Color="{StaticResource lowerShadowColor}" />
+                </shades:ImmutableShades>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="HeaderControlTemplateLeftSide">
+            <shades:Shadows CornerRadius="30" Padding="10,15,0,25" Margin="0"  BackgroundColor="Red"
+                            Style="{StaticResource BackgroundMainColorShadow}">
+                <primitives:RadBorder BackgroundColor="{StaticResource MainColorGreen}" CornerRadius="50,0,0,50">
+                <Grid BackgroundColor="Transparent" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <BoxView Grid.Row="2" IsVisible="{TemplateBinding IsSelected}"
+                             BackgroundColor="{StaticResource FontColor}"
+                             VerticalOptions="End"
+                             HeightRequest="5"/>
+                    <Image Grid.Row="0" Margin="0,10,0,0" Source="{TemplateBinding TabHeaderImage}" Aspect="AspectFit" HeightRequest="23"></Image>
+                    <Label VerticalOptions="Center" Grid.Row="1" Padding="0" Text="{TemplateBinding Text}"
+                           Style="{StaticResource WhiteLabelStyle}"
+                           HorizontalTextAlignment="Start"/>
+                </Grid>
+            </primitives:RadBorder>
+                </shades:Shadows>
+        </ControlTemplate>
+        <ControlTemplate x:Key="HeaderControlTemplateCenter">
+            <shades:Shadows CornerRadius="0" Padding="0,15,0,25" Margin="0" BackgroundColor="Red"
+                            Style="{StaticResource CenterTabHeaderShadow}">
+                <primitives:RadBorder BackgroundColor="{StaticResource MainColorGreen}">
+                    <Grid BackgroundColor="Transparent" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <BoxView Grid.Row="2" IsVisible="{TemplateBinding IsSelected}"
+                                 BackgroundColor="{StaticResource FontColor}"
+                                 VerticalOptions="End"
+                                 HeightRequest="5"/>
+                        <Image Grid.Row="0" Margin="0,10,0,0" Source="{TemplateBinding TabHeaderImage}" Aspect="AspectFit" HeightRequest="23"></Image>
+                        <Label VerticalOptions="Center" Grid.Row="1" Padding="0" Text="{TemplateBinding Text}"
+                               Style="{StaticResource WhiteLabelStyle}"
+                               HorizontalTextAlignment="Start"/>
+                    </Grid>
+                </primitives:RadBorder>
+            </shades:Shadows>
+        </ControlTemplate>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="{StaticResource MainColorGreen}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"></RowDefinition>
+                </Grid.RowDefinitions>
+                <shades:Shadows Grid.Column="1" Style="{StaticResource BackgroundMainColorShadow}" Padding="15" WidthRequest="40" CornerRadius="50">
+                    <ImageButton HeightRequest="80" WidthRequest="80" Source="plus_256px.png" CornerRadius="50"
+                                 BackgroundColor="{StaticResource MainColorGreen}"
+                                 Opacity="0.7"
+                                 Command="{Binding AddNewWorkerCommand}">
+                    </ImageButton>
+                </shades:Shadows>
+               
+            </Grid>
+            <primitives:RadTabView x:Name="tabView" HeightRequest="300">
+                    <primitives:RadTabView.HeaderPosition>Bottom</primitives:RadTabView.HeaderPosition>
+                    <primitives:RadTabView.Items>
+
+                        <primitives:TabViewItem >
+                            <primitives:TabViewItem.Header>
+                            <workTracker:TabWithIcon Margin="30,0" Text="Attendance" BackgroundColor="White" TabHeaderImage="Attendance.png">
+                                </workTracker:TabWithIcon>
+                            </primitives:TabViewItem.Header>
+                        </primitives:TabViewItem>
+
+                        <primitives:TabViewItem >
+                            <primitives:TabViewItem.Header>
+                                <workTracker:TabWithIcon Margin="30,0"  BackgroundColor="White" Text="worker" TabHeaderImage="Attendance.png">
+                                </workTracker:TabWithIcon>
+                            </primitives:TabViewItem.Header>
+                        </primitives:TabViewItem>
+                </primitives:RadTabView.Items>
+                </primitives:RadTabView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

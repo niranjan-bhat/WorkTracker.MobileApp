@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:input="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
+             xmlns:views="clr-namespace:WorkTracker.Views;assembly=WorkTracker"
+             xmlns:converters="clr-namespace:WorkTracker.Converters;assembly=WorkTracker"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkTracker.Views.LoginPage">
+    <ContentPage.Resources>
+        <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"></converters:BooleanNegationConverter>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+       <Grid>
+           <Grid.RowDefinitions>
+                <RowDefinition Height=".7*"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+               <RowDefinition Height=".3*"></RowDefinition>
+           </Grid.RowDefinitions>
+           <Grid.ColumnDefinitions>
+               <ColumnDefinition></ColumnDefinition>
+               <ColumnDefinition></ColumnDefinition>
+               <ColumnDefinition></ColumnDefinition>
+               <ColumnDefinition></ColumnDefinition>
+               <ColumnDefinition></ColumnDefinition>
+               <ColumnDefinition></ColumnDefinition>
+           </Grid.ColumnDefinitions>
+           <Image Grid.Row="1" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="6" Margin="-15,-30,-15,-40" Source="Pen.jpg"></Image>
+            <BoxView Grid.Row="1" BackgroundColor="Black" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="6" 
+                     Margin="-15,-30,-15,-15" Opacity="0.8"></BoxView>
+           <Label Grid.Row="0" Grid.Column="2" Text="Log In"></Label>
+            <pancakeView:PancakeView Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="6" CornerRadius="0,0,50,50" BackgroundColor="{StaticResource MainColorGreen}" >
+               <Grid >
+                   <Grid.RowDefinitions>
+                       <RowDefinition Height="*"></RowDefinition>
+                   </Grid.RowDefinitions>
+
+                    <StackLayout WidthRequest="350"  HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,50" Spacing="25">
+                        <Label Style="{StaticResource WhiteBoldLabelStyle}" Text="Log In"></Label>
+                        <shades:Shadows  CornerRadius="30" Margin="0,5,0,0"
+                                    Style="{StaticResource BackgroundMainColorShadow}">
+                        <primitives:RadBorder  HeightRequest="70" CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                            <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                                <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="20,0,25,0"
+                                                            Text="{Binding UserEmail}" TextColor="White" Placeholder="Email">
+                                </customControls:CustomEntry>
+                            </StackLayout>
+                        </primitives:RadBorder>
+                    </shades:Shadows>
+                    <shades:Shadows  CornerRadius="30" Margin="0,5,0,0"
+                                    Style="{StaticResource BackgroundMainColorShadow}">
+                            <primitives:RadBorder HeightRequest="70" CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                            <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                                <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="20,0,25,0"
+                                                            Text="{Binding Password}" TextColor="White" IsPassword="True" Placeholder="Password">
+                                </customControls:CustomEntry>
+                            </StackLayout>
+                        </primitives:RadBorder>
+                    </shades:Shadows>
+                        <Grid HeightRequest="70">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <shades:Shadows   Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="50"
+                                              Style="{StaticResource BackgroundMainColorShadow}">
+                                <primitives:RadBorder  Margin="15" Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                                    <Button Text="Sign Up"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding RegisterCommand}">
+
+                                    </Button>
+                                </primitives:RadBorder>
+                            </shades:Shadows>
+
+                            <shades:Shadows   Grid.Column="3" Grid.ColumnSpan="3" CornerRadius="50"
+                                              Style="{StaticResource BackgroundMainColorShadow}">
+                                <primitives:RadBorder  Margin="15" Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                                    <Button Text="Login"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding LoginCommand}">
+
+                                    </Button>
+                                </primitives:RadBorder>
+                            </shades:Shadows>
+                        </Grid>
+                    </StackLayout>
+               </Grid>
+            </pancakeView:PancakeView>
+
+       </Grid>
+    </ContentPage.Content>
+</views:BasePage>

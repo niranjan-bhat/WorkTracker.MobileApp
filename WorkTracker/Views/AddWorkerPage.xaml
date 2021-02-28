@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:behavior="clr-namespace:WorkTracker.CustomControls.Behavior;assembly=WorkTracker"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkTracker.Views.AddWorkerPage"
+             Title="{Binding Title}" BackgroundColor="{StaticResource MainColorGreen}">
+    <ContentPage.Content>
+        <Grid Padding="10" Margin="10" RowSpacing="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <shades:Shadows Grid.Row="0" CornerRadius="30" Margin="0,5,0,0"
+                            Style="{StaticResource BackgroundMainColorShadow}">
+                <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="20,10,0,10" VerticalOptions="StartAndExpand" Spacing="10">
+                            <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
+                                   Text="Name :"></Label>
+                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
+                                                        Text="{Binding NewWorker.Name}" TextColor="White">
+                                <Entry.Behaviors>
+                                    <behavior:EntryRestrictionOnlyAlphabet/>
+                                </Entry.Behaviors>
+                            </customControls:CustomEntry>
+                        </StackLayout>
+                    </StackLayout>
+                </primitives:RadBorder>
+            </shades:Shadows>
+
+            <shades:Shadows Grid.Row="1" CornerRadius="30" Margin="0,5,0,0"
+                            Style="{StaticResource BackgroundMainColorShadow}">
+                <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="20,10,0,10" VerticalOptions="StartAndExpand" Spacing="10">
+                            <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
+                                   Text="Mobile :"></Label>
+                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
+                                                        MaxLength="10"  Text="{Binding NewWorker.Mobile}" TextColor="White">
+                                <Entry.Behaviors>
+                                    <behavior:EntryRestrictionOnlyNumber></behavior:EntryRestrictionOnlyNumber>
+                                </Entry.Behaviors>
+                            </customControls:CustomEntry>
+                        </StackLayout>
+                    </StackLayout>
+                </primitives:RadBorder>
+            </shades:Shadows>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <shades:Shadows   Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50"
+                                 Style="{StaticResource BackgroundMainColorShadow}">
+                    <primitives:RadBorder  Margin="15" Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                        <Button Text="Submit"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding SubmitCommand}">
+
+                        </Button>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

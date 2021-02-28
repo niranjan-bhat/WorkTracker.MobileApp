@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkTracker.Views.JobAssignmentPage"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:converters="clr-namespace:WorkTracker.Converters;assembly=WorkTracker"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:controls="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls"
+             xmlns:shades="http://sharpnado.com"
+             prism:ViewModelLocator.AutowireViewModel="True" Title="Job Assignment">
+    <ContentPage.Resources>
+        <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"></converters:BooleanNegationConverter>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid BackgroundColor="{StaticResource MainColorGreen}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="90"></RowDefinition>
+            </Grid.RowDefinitions>
+            <shades:Shadows Grid.Column="1"  Grid.Row="0" CornerRadius="30" Padding="10"
+                            Style="{StaticResource BackgroundMainColorShadow}">
+                <primitives:RadBorder CornerRadius="30" Margin="0,10" BackgroundColor="{StaticResource MainColorGreen}">
+                    <Label  Text="{Binding Worker.Name,StringFormat='Available jobs for {0}'}" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
+                </primitives:RadBorder>
+            </shades:Shadows>
+            <!--<Label Text="Available jobs for: {0}"></Label>-->
+            <dataControls:RadListView Grid.Column="0" Grid.ColumnSpan="3" x:Name="ListView" Grid.Row="1" Margin="0,0,0,10"
+                                      ItemsSource="{Binding AllJobs}" SelectionMode="None">
+                <dataControls:RadListView.ItemTemplate>
+                    <DataTemplate>
+                        <listView:ListViewTemplateCell>
+                            <listView:ListViewTemplateCell.View>
+                                <shades:Shadows CornerRadius="30" Margin="20,0"
+                                               Style="{StaticResource BackgroundMainColorShadow}">
+                                    <primitives:RadBorder CornerRadius="30" Margin="20,15">
+                                        <StackLayout Padding="20,5"  Orientation="Horizontal" BackgroundColor="{StaticResource MainColorGreen}">
+                                            <controls:Checkbox VerticalOptions="Center"
+                                                               IsChecked="{Binding IsSelected}" FillColor="{StaticResource CheckboxColor}" 
+                                                               OutlineColor="{StaticResource CheckboxColor}" CheckColor="White" Shape="Circle">
+                                            </controls:Checkbox>
+                                            <Label Margin="10,0" Style="{StaticResource WhiteLabelStyle}" Text="{Binding Job.Name}"></Label>
+                                        </StackLayout>
+                                    </primitives:RadBorder>
+                                </shades:Shadows>
+                            </listView:ListViewTemplateCell.View>
+                        </listView:ListViewTemplateCell>
+                    </DataTemplate>
+                </dataControls:RadListView.ItemTemplate>
+                <dataControls:RadListView.Behaviors>
+                    <prism:EventToCommandBehavior EventName="ItemTapped"
+                                                      Command="{Binding ItemTappedCommand}"
+                                                      EventArgsParameterPath="Item"/>
+
+                </dataControls:RadListView.Behaviors>
+                <dataControls:RadListView.SelectedItemStyle>
+                    <listView:ListViewItemStyle BackgroundColor="{StaticResource MainColorGreen}"/>
+                </dataControls:RadListView.SelectedItemStyle>
+                <dataControls:RadListView.LayoutDefinition>
+                    <listView:ListViewLinearLayout Orientation="Vertical"
+                                 ItemLength="70"
+                                 VerticalItemSpacing="0" />
+                </dataControls:RadListView.LayoutDefinition>
+            </dataControls:RadListView>
+
+            <shades:Shadows Grid.Column="1"  Grid.Row="2" CornerRadius="30" Padding="10"
+                            Style="{StaticResource BackgroundMainColorShadow}">
+                <primitives:RadBorder CornerRadius="30" Margin="0,10" Style="{StaticResource BorderStyleForSimpleButton}">
+                    <Button  Text="Done" Style="{StaticResource SimpleButtonStyle}" Command="{Binding DoneCommand}"></Button>
+                </primitives:RadBorder>
+            </shades:Shadows>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

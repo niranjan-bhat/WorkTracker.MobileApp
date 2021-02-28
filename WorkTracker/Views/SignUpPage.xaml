@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
+             xmlns:behavior="clr-namespace:WorkTracker.CustomControls.Behavior;assembly=WorkTracker"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkTracker.Views.SignUpPage" Title="Sign Up">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="{StaticResource MainColorGreen}">
+            <Grid Padding="10" Margin="10" RowSpacing="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <shades:Shadows Grid.Row="0" CornerRadius="30" Margin="0,5,0,0"
+                            Style="{StaticResource BackgroundMainColorShadow}">
+                    <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                                <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="20,0,25,0"
+                                                        Text="{Binding UserName}" TextColor="White" Placeholder="Name">
+                                </customControls:CustomEntry>
+                        </StackLayout>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+
+                <shades:Shadows Grid.Row="1" CornerRadius="30" Margin="0,5,0,0"
+                                Style="{StaticResource BackgroundMainColorShadow}">
+                    <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="20,0,25,0"
+                                                        Text="{Binding UserEmail}" TextColor="White" Placeholder="Email">
+                            </customControls:CustomEntry>
+                        </StackLayout>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+
+                <shades:Shadows Grid.Row="2" CornerRadius="30" Margin="0,5,0,0"
+                                Style="{StaticResource BackgroundMainColorShadow}">
+                    <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="20,0,25,0"
+                                                        Text="{Binding Password}" TextColor="White" IsPassword="True" Placeholder="Password">
+                            </customControls:CustomEntry>
+                        </StackLayout>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+
+                <shades:Shadows Grid.Row="3" CornerRadius="30" Margin="0,5,0,0"
+                                Style="{StaticResource BackgroundMainColorShadow}">
+                    <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
+                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="20,0,25,0"
+                                                        Text="{Binding ConfirmPassword}" TextColor="White" IsPassword="True" Placeholder="Confirm Password">
+                            </customControls:CustomEntry>
+                        </StackLayout>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+
+
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <shades:Shadows   Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50"
+                                 Style="{StaticResource BackgroundMainColorShadow}">
+                        <primitives:RadBorder  Margin="15" Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                            <Button Text="Register"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding LoginCommand}">
+
+                            </Button>
+                        </primitives:RadBorder>
+                    </shades:Shadows>
+                </Grid>
+
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
