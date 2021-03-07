@@ -17,15 +17,17 @@ namespace WorkTracker.ViewModels
         private readonly IEventAggregator _ea;
         private WorkerDTO _newWorker;
         private ICommand _submitCommand;
+        private INotificationService _notificationService;
         private readonly IWorkerDataAccessService _workerDAService;
 
         public AddWorkerPageViewModel(INavigationService navigationService, IEventAggregator ea,
-            IWorkerDataAccessService dataAccessService) : base(navigationService)
+            IWorkerDataAccessService dataAccessService, INotificationService notificationService) : base(navigationService)
         {
             Title = "Add a new worker";
             _ea = ea;
             NewWorker = new WorkerDTO();
             _workerDAService = dataAccessService;
+            _notificationService = notificationService;
         }
 
         public WorkerDTO NewWorker
@@ -50,11 +52,12 @@ namespace WorkTracker.ViewModels
                     ModificationType = CrudEnum.Added,
                     Worker = result
                 });
-
+                _notificationService.Notify(Resource.UserAddedSuccess,NotificationTypeEnum.Success);
                 NewWorker = new WorkerDTO();
             }
             catch (Exception e)
             {
+                _notificationService.Notify(e.Message,NotificationTypeEnum.Error);
             }
         }
 

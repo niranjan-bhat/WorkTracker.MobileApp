@@ -46,7 +46,7 @@
                             <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
                                    Text="Mobile :"></Label>
                             <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
-                                                        MaxLength="10"  Text="{Binding NewWorker.Mobile}" TextColor="White">
+                                                        MaxLength="10" Keyboard="Numeric" Text="{Binding NewWorker.Mobile}" TextColor="White">
                                 <Entry.Behaviors>
                                     <behavior:EntryRestrictionOnlyNumber></behavior:EntryRestrictionOnlyNumber>
                                 </Entry.Behaviors>

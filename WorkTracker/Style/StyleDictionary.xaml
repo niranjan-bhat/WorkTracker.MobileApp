@@ -7,6 +7,7 @@
              xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
              xmlns:dataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
              x:Class="WorkTracker.Style.StyleDictionary">
     <Color x:Key="FontColor">#45596b</Color>
     <Color x:Key="MainColorGreen">#57B6C2</Color>
@@ -262,6 +263,14 @@
 
     <Style x:Key="DatePickerFooterStyle" TargetType="input:PickerPopupFooterView">
         <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+    <Style x:Key="DefaultEntryStyle" TargetType="customControls:RoundEdgeEntryBox">
+        <Setter Property="BackgroundColor" Value="White"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderColor" Value="{StaticResource MainColorGreen}"></Setter>
+        <Setter Property="CornerRadius" Value="35"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+        <Setter Property="TextColor" Value="{StaticResource FontColor}"></Setter>
     </Style>
 
 </ResourceDictionary>

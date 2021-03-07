@@ -17,7 +17,7 @@ namespace WorkTracker.ViewModels
         private IPopupService _popupservice;
         private DelegateCommand _registerCommand;
 
-        public DelegateCommand LoginCommand =>
+        public DelegateCommand RegisterCommand =>
             _registerCommand ??= new DelegateCommand(ExecuteRegisterCommand);
 
         private async void ExecuteRegisterCommand()

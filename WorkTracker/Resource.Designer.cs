@@ -70,6 +70,15 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job has been added successfully.
+        /// </summary>
+        internal static string JobAddedSuccess {
+            get {
+                return ResourceManager.GetString("JobAddedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to login..
         /// </summary>
         internal static string LoginFailed {
@@ -93,6 +102,15 @@ namespace WorkTracker {
         internal static string RegistrationSuccess {
             get {
                 return ResourceManager.GetString("RegistrationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User has been added successfully.
+        /// </summary>
+        internal static string UserAddedSuccess {
+            get {
+                return ResourceManager.GetString("UserAddedSuccess", resourceCulture);
             }
         }
     }

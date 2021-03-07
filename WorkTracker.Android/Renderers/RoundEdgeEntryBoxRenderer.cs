@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Runtime;
 using Android.Widget;
+using AndroidX.Core.Content;
 using WorkTracker.CustomControls;
 using WorkTracker.Droid.Renderers;
 using Xamarin.Forms;
@@ -30,9 +32,30 @@ namespace WorkTracker.Droid.Renderers
         {
             base.OnElementChanged(e);
 
+            if (e.OldElement != null || e.NewElement == null)
+                return;
+
+            var editText = this.Control;
+            if (!string.IsNullOrEmpty(ElementV2.Image))
+            {
+                editText.SetCompoundDrawablesWithIntrinsicBounds(GetDrawable(ElementV2.Image), null, null, null);
+
+            }
+
             Control.SetTextCursorDrawable(Resource.Drawable.EntryCursor);
             Control.SetTextIsSelectable(false);
         }
+
+        private Drawable GetDrawable(string image)
+        {
+            int resID = Resources.GetIdentifier(image, "drawable", this.Context.PackageName);
+            var drawable = ContextCompat.GetDrawable(this.Context, resID);
+            var bitmap = ((BitmapDrawable)drawable).Bitmap;
+
+            return new BitmapDrawable(Resources, Bitmap.CreateScaledBitmap(bitmap, ElementV2.ImageWidth * 2, ElementV2.ImageHeight * 2, true));
+
+        }
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == RoundEdgeEntryBox.CornerRadiusProperty.PropertyName)

@@ -21,6 +21,7 @@ namespace WorkTracker.Droid
             //TabLayoutResource = Resource.Layout.Tabbar;
             //ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(savedInstanceState);
+            Forms.SetFlags("Shapes_Experimental");
             UserDialogs.Init(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
