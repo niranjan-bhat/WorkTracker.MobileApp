@@ -123,14 +123,23 @@
   <data name="JobAddedSuccess" xml:space="preserve">
     <value>Job has been added successfully</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Please login to continue</value>
+  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Unable to login.</value>
+  </data>
+  <data name="OtpMismatch" xml:space="preserve">
+    <value>OTP is not recognized</value>
   </data>
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Password mismatch</value>
   </data>
+  <data name="PleaseEnterOtp" xml:space="preserve">
+    <value>Please enter the OTP sent to {0}</value>
+  </data>
   <data name="RegistrationSuccess" xml:space="preserve">
-    <value>Registration has been completed, please login.</value>
+    <value>Registration has been completed</value>
   </data>
   <data name="UserAddedSuccess" xml:space="preserve">
     <value>User has been added successfully</value>

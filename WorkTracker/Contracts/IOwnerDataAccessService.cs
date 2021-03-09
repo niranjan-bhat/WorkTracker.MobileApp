@@ -11,5 +11,6 @@ namespace WorkTracker.Contracts
         Task<bool> Login(string email, string password);
         Task<OwnerDTO> Register(string name, string email, string password);
         Task<OwnerDTO> GetOwnerByEmail(string email);
+        Task<bool> VerifyEmail(string email);
     }
 }

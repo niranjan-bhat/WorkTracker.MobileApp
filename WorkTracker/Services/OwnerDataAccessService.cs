@@ -43,5 +43,11 @@ namespace WorkTracker.Services
             var response = await _webAccess.GetAsync<OwnerDTO>($"{_controller}GetUserByEmail?email={emailUrlEncoded}");
             return response;
         }
+
+        public async Task<bool> VerifyEmail(string email)
+        {
+            var emailUrlEncoded = HttpUtility.UrlEncode(email); 
+            return await _webAccess.PostAsync<bool>($"{_controller}VerifyEmail?email={emailUrlEncoded}", null);
+        }
     }
 }

@@ -79,11 +79,29 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please login to continue.
+        /// </summary>
+        internal static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to login..
         /// </summary>
         internal static string LoginFailed {
             get {
                 return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OTP is not recognized.
+        /// </summary>
+        internal static string OtpMismatch {
+            get {
+                return ResourceManager.GetString("OtpMismatch", resourceCulture);
             }
         }
         
@@ -97,7 +115,16 @@ namespace WorkTracker {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Registration has been completed, please login..
+        ///   Looks up a localized string similar to Please enter the OTP sent to {0}.
+        /// </summary>
+        internal static string PleaseEnterOtp {
+            get {
+                return ResourceManager.GetString("PleaseEnterOtp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration has been completed.
         /// </summary>
         internal static string RegistrationSuccess {
             get {

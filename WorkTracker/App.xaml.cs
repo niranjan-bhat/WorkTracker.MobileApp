@@ -53,6 +53,7 @@ namespace WorkTracker
                 containerRegistry.RegisterSingleton(typeof(IConfiguration), typeof(WebConfig));
                 containerRegistry.Register<IAuthorization, Authorization>();
                 containerRegistry.Register<IEncryptionHelper, EncryptionHelper>();
+                containerRegistry.Register<IMiscellaneousService, MiscellaneousService>();
                 containerRegistry.Register<IPopupService, PopupService>();
                 containerRegistry.Register<IWorkerDataAccessService, WorkerDataAccessService>();
                 containerRegistry.Register<IJobDataAccessService, JobDataAccessService>();
