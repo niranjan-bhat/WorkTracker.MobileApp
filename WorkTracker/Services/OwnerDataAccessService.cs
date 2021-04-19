@@ -6,6 +6,7 @@ using System.Web;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTO;
 using WorkTracker.WebAccess.Interfaces;
+using WorkTracker.WebAccessLayer.Interfaces;
 
 namespace WorkTracker.Services
 {

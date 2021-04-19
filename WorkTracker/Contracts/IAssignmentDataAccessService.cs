@@ -11,8 +11,8 @@ namespace WorkTracker.Contracts
         Task<AssignmentDTO> GetAssignmentById(int id);
         Task<AssignmentDTO> InsertAssignment(int ownerId, int wage, int workerId, DateTime assignedDate,
             List<JobDTO> jobs);
-        Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int workerId);
+        Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int? workerId);
         Task<CommentDTO> AddComment(int assignmentId, string comment);
-        Task<AssignmentDTO> GetAssignmentOnDate(int workerId, DateTime date, int ownerId);
+        Task<bool> DeleteAssignments(int ownerId, DateTime assignedDate);
     }
 }

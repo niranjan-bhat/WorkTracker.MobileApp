@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WorkTracker.WebAccess.Interfaces;
+using WorkTracker.WebAccessLayer.Interfaces;
 
 namespace WorkTracker.WebAccess.Implementations
 {
@@ -35,6 +36,35 @@ namespace WorkTracker.WebAccess.Implementations
             var httpClient = GetHttpClient();
 
             var response = await httpClient.PostAsync(requestUrl,obj);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<T>(json);
+                return result;
+            }
+
+            throw await RetrieveHttpCallFailure(response);
+        }
+        public async Task<T> PutAsync<T>(string requestUrl, HttpContent obj)
+        {
+            var httpClient = GetHttpClient();
+
+            var response = await httpClient.PutAsync(requestUrl, obj);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<T>(json);
+                return result;
+            }
+
+            throw await RetrieveHttpCallFailure(response);
+        }
+
+        public async Task<T> DeleteAsync<T>(string requestUrl)
+        {
+            var httpClient = GetHttpClient();
+
+            var response = await httpClient.DeleteAsync(requestUrl);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var json = await response.Content.ReadAsStringAsync();

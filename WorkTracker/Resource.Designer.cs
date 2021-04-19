@@ -61,6 +61,15 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attendance was already submitted for this day. You wish to update the attendance ?.
+        /// </summary>
+        internal static string AttendanceSubmissionWarning {
+            get {
+                return ResourceManager.GetString("AttendanceSubmissionWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid value for {0}.
         /// </summary>
         internal static string InvalidValue {
@@ -93,6 +102,15 @@ namespace WorkTracker {
         internal static string LoginFailed {
             get {
                 return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -138,6 +156,24 @@ namespace WorkTracker {
         internal static string UserAddedSuccess {
             get {
                 return ResourceManager.GetString("UserAddedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

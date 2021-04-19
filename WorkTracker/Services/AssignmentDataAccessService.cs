@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Newtonsoft.Json;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
 using WorkTracker.WebAccess.Interfaces;
+using WorkTracker.WebAccessLayer.Interfaces;
 
 namespace WorkTracker.Services
 {
@@ -28,14 +29,14 @@ namespace WorkTracker.Services
 
         public async Task<AssignmentDTO> InsertAssignment(int ownerId, int wage, int workerId, DateTime assignedDate, List<JobDTO> jobs)
         {
-            var assignedDateUrlParam =assignedDate.ToString(Constants.DateFormat);
+            var assignedDateUrlParam = assignedDate.ToString(Constants.DateFormat);
             var stringContent = new StringContent(JsonConvert.SerializeObject(jobs), Encoding.UTF8, "application/json");
 
             var result = await _webAccess.PostAsync<AssignmentDTO>($"{_controller}?ownerId={ownerId}&wage={wage}&workerId={workerId}&assignedDate={assignedDateUrlParam}", stringContent);
             return result;
         }
 
-        public async Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int workerId)
+        public async Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int? workerId)
         {
             var startDateUrl = HttpUtility.UrlEncode(startDate.ToString(Constants.DateFormat));
             var endDateUrl = HttpUtility.UrlEncode(enDateTime.ToString(Constants.DateFormat));
@@ -49,12 +50,10 @@ namespace WorkTracker.Services
             return await _webAccess.PostAsync<CommentDTO>($"{_controller}/AddComment?assignmentId={assignmentId}&comment={comUrl}", null);
         }
 
-        public async Task<AssignmentDTO> GetAssignmentOnDate(int workerId, DateTime date, int ownerId)
+        public async Task<bool> DeleteAssignments(int ownerId, DateTime assignedDate)
         {
-            var assignedDate = HttpUtility.UrlEncode(date.ToString(Constants.DateFormat));
-
-            return await _webAccess.GetAsync<AssignmentDTO>($"{_controller}/GetAssignmentByDate?workerId={workerId}&assignedDate={assignedDate}&ownerId={ownerId}");
-
+            var assignedDateUrlParam = assignedDate.ToString(Constants.DateFormat);
+            return await _webAccess.DeleteAsync<bool>($"{_controller}?ownerId={ownerId}&assignedDate={assignedDateUrlParam}");
         }
     }
 }

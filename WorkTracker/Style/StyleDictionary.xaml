@@ -15,6 +15,7 @@
     <Color x:Key="UpperShadowColor">#7DCFD9</Color>
     <Color x:Key="lowerShadowColor">#3C000000</Color>
     <Color x:Key="CheckboxColor">#BD273C</Color>
+    <Color x:Key="SubmitCoinFillColor">#E7911D</Color>
 
     <Font x:Key="UniversalFontSize"></Font>
 

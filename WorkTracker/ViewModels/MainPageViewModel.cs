@@ -15,8 +15,10 @@ using Xamarin.Forms;
 
 namespace WorkTracker.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase,IDisposable
+    public class MainPageViewModel : ViewModelBase, IDisposable
     {
+        public delegate void AttendanceDateChanged();
+
         private readonly IAssignmentDataAccessService _assignmentDataAccessService;
         private readonly IEventAggregator _eventAggrigator;
         private readonly IJobDataAccessService _jobDataAccessService;
@@ -33,6 +35,12 @@ namespace WorkTracker.ViewModels
         private WorkerDTO _selectedWorker;
         private DelegateCommand _submitAttendance;
         private DateTime? _userSelectedDate = DateTime.Today;
+        private bool _isAssignmentSubmittedAlreadies;
+        public bool IsAssignmentSubmittedAlready
+        {
+            get { return _isAssignmentSubmittedAlreadies; }
+            set { SetProperty(ref _isAssignmentSubmittedAlreadies, value); }
+        }
 
         public MainPageViewModel(INavigationService navigationService, IPopupService popupService,
             IEventAggregator ea, INotificationService ns, IAssignmentDataAccessService assignmentDataAccessService,
@@ -68,7 +76,11 @@ namespace WorkTracker.ViewModels
         public DateTime? SelectedDate
         {
             get => _userSelectedDate;
-            set => SetProperty(ref _userSelectedDate, value);
+            set
+            {
+                SetProperty(ref _userSelectedDate, value);
+                DateSelectionModified?.Invoke();
+            }
         }
 
         public ObservableCollection<UiBindableAssignment> AllAssignments
@@ -88,6 +100,63 @@ namespace WorkTracker.ViewModels
 
         public DelegateCommand<object> NavigateToJobAssignmentCommand =>
             _navigateToJobAssignmentCommand ??= new DelegateCommand<object>(ExecuteNavigateToJobAssignmentCommand);
+
+        public void Dispose()
+        {
+            AllWorkers.Clear();
+            AllAssignments.Clear();
+        }
+
+        public event AttendanceDateChanged DateSelectionModified;
+
+        private async void FetchSubmittedAttendanceForSelectedDate()
+        {
+            var ownerId = Preferences.Get(Constants.UserId, 0);
+            _popupService.ShowLoadingScreen();
+            try
+            {
+                var submittedAssignment =
+                    await _assignmentDataAccessService.GetAllAssignment(ownerId, SelectedDate.Value, SelectedDate.Value,
+                        null);
+
+                if (!submittedAssignment.Any())
+                {
+                    foreach (var assignment in AllAssignments)
+                    {
+                        assignment.IsAttendanceSubmitted = false;
+                    }
+                    IsAssignmentSubmittedAlready = false;
+                    return;
+                }
+
+                IsAssignmentSubmittedAlready = true;
+                foreach (var assignmentToDeSelect in AllAssignments)
+                {
+                    assignmentToDeSelect.IsSelected = false;
+                    assignmentToDeSelect.IsAttendanceSubmitted = false;
+                    assignmentToDeSelect.AssignedJobs?.Clear();
+                    assignmentToDeSelect.Wage = null;
+                }
+
+                foreach (var assignment in submittedAssignment)
+                {
+                    var assignmentForWorker =
+                        AllAssignments.FirstOrDefault(x => x.Assignment.Worker.Id == assignment.WorkerId);
+                    assignmentForWorker.Wage = assignment.Wage;
+                    assignmentForWorker.IsAttendanceSubmitted = true;
+                    assignmentForWorker.AssignedJobs = new ObservableCollection<JobDTO>(assignment.Jobs);
+                    assignmentForWorker.IsSelected = true;
+                    assignmentForWorker.Assignment.Id = assignment.Id;
+                }
+            }
+            catch (Exception e)
+            {
+            }
+            finally
+            {
+                _popupService.HideLoadingScreen();
+            }
+        }
 
         private async void ExecuteBackButtonPressCommand(BackButtonPressedEventArgs arg)
         {
@@ -115,6 +184,7 @@ namespace WorkTracker.ViewModels
             base.OnNavigatedTo(parameters);
             string from;
             parameters.TryGetValue("from", out from);
+
             switch (from)
             {
                 case Constants.JobAssignmentPage:
@@ -122,10 +192,12 @@ namespace WorkTracker.ViewModels
                     HandleAssignedJobs(jobs);
                     break;
                 case Constants.Login:
+                    IsAssignmentSubmittedAlready = false;
                     AllWorkers = await GetAllWorkers();
                     AllAssignments = PopulateAssignment(AllWorkers);
                     SubscribeEvents();
                     IsNoWorker = AllWorkers.Count == 0;
+                    SelectedDate = Preferences.Get(Constants.LatestDateOfAttendanceSubmission, DateTime.Today);
                     break;
             }
         }
@@ -139,6 +211,7 @@ namespace WorkTracker.ViewModels
         private void SubscribeEvents()
         {
             _eventAggrigator.GetEvent<WorkerModifiedEvent>().Subscribe(WorkerModifiedEventHandler);
+            DateSelectionModified += FetchSubmittedAttendanceForSelectedDate;
         }
 
         private async void WorkerModifiedEventHandler(WorkerModifiedEventArguments obj)
@@ -180,7 +253,6 @@ namespace WorkTracker.ViewModels
                     Assignment = new AssignmentDTO
                     {
                         AssignedDate = DateTime.Now,
-                        Wage = null,
                         Worker = worker
                     },
                     IsSelected = true
@@ -203,20 +275,40 @@ namespace WorkTracker.ViewModels
             IsBusy = true;
             try
             {
-                await CheckForSubmission();
+                await ValidateAttendanceForSubmission();
 
-                foreach (var uiBindableAssignment in AllAssignments.Where(x => x.IsSelected))
+                if (IsAssignmentSubmittedAlready && !await _popupService.ShowPopup(Resource.Warning,
+                    Resource.AttendanceSubmissionWarning, Resource.Yes,
+                    Resource.No))
+                {
+                    return;
+                }
+                else
                 {
                     var ownerId = Preferences.Get(Constants.UserId, 0);
-                    await _assignmentDataAccessService.InsertAssignment(ownerId,
-                        uiBindableAssignment.Assignment.Wage.HasValue
-                            ? uiBindableAssignment.Assignment.Wage.Value
-                            : 0,
-                        uiBindableAssignment.Assignment.Worker.Id, SelectedDate.Value,
-                        uiBindableAssignment.AssignedJobs?.ToList());
-                }
+                    await _assignmentDataAccessService.DeleteAssignments(ownerId, SelectedDate.Value);
 
-                _notify.Notify("Success", NotificationTypeEnum.Success);
+                    foreach (var uiBindableAssignment in AllAssignments.Where(x => x.IsSelected))
+                    {
+                       
+
+                        if (!uiBindableAssignment.IsAttendanceSubmitted)
+                        {
+                            await _assignmentDataAccessService.InsertAssignment(ownerId,
+                                uiBindableAssignment.Wage.HasValue
+                                    ? uiBindableAssignment.Wage.Value
+                                    : 0,
+                                uiBindableAssignment.Assignment.Worker.Id, SelectedDate.Value,
+                                uiBindableAssignment.AssignedJobs?.ToList());
+
+                            uiBindableAssignment.IsAttendanceSubmitted = true;
+                        }
+                    }
+
+                    IsAssignmentSubmittedAlready = true;
+                    _notify.Notify("Success", NotificationTypeEnum.Success);
+                    Preferences.Set(Constants.LatestDateOfAttendanceSubmission, SelectedDate.Value);
+                }
             }
             catch (Exception e)
             {
@@ -228,14 +320,11 @@ namespace WorkTracker.ViewModels
             }
         }
 
-        private async Task<bool> CheckForSubmission()
+        private async Task<bool> ValidateAttendanceForSubmission()
         {
             var assignmentsToSubmit = AllAssignments.Where(x => x.IsSelected);
 
-            if (!assignmentsToSubmit.ToList().Any())
-            {
-                throw new Exception("Unable to submit");
-            }
+            if (!assignmentsToSubmit.ToList().Any()) throw new Exception("Unable to submit");
 
             var noJobAssignments = assignmentsToSubmit.Where(x => x.AssignedJobs == null);
 
@@ -252,12 +341,6 @@ namespace WorkTracker.ViewModels
             }
 
             return true;
-        }
-
-        public void Dispose()
-        {
-            AllWorkers.Clear();
-            AllAssignments.Clear();
         }
     }
 }

@@ -161,8 +161,8 @@ namespace WorkTracker.ViewModels
         {
             try
             {
-                var result = await _assignmentDAService.GetAssignmentOnDate(workerObj.Id, date, _ownerId);
-                return result;
+                var result = await _assignmentDAService.GetAllAssignment(_ownerId, date,date, workerObj.Id);
+                return result.FirstOrDefault();
             }
             catch (Exception e)
             {

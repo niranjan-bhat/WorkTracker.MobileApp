@@ -11,6 +11,7 @@ using WorkTracker.Contracts;
 using WorkTracker.Services;
 using WorkTracker.WebAccess.Implementations;
 using WorkTracker.WebAccess.Interfaces;
+using WorkTracker.WebAccessLayer.Interfaces;
 
 namespace WorkTracker
 {
