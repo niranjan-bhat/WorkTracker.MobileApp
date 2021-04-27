@@ -2,6 +2,9 @@
 
 namespace WorkTracker.CustomControls
 {
+    /// <summary>
+    /// Rounded edge entry box with image displayed on the left.  
+    /// </summary>
     public class RoundEdgeEntryBox : Entry
     {
         public static BindableProperty CornerRadiusProperty =
@@ -35,19 +38,19 @@ namespace WorkTracker.CustomControls
 
         public int CornerRadius
         {
-            get => (int) GetValue(CornerRadiusProperty);
+            get => (int)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
         }
 
         public int BorderThickness
         {
-            get => (int) GetValue(BorderThicknessProperty);
+            get => (int)GetValue(BorderThicknessProperty);
             set => SetValue(BorderThicknessProperty, value);
         }
 
         public Color BorderColor
         {
-            get => (Color) GetValue(BorderColorProperty);
+            get => (Color)GetValue(BorderColorProperty);
             set => SetValue(BorderColorProperty, value);
         }
 
@@ -56,37 +59,37 @@ namespace WorkTracker.CustomControls
         /// </summary>
         public Thickness Padding
         {
-            get => (Thickness) GetValue(PaddingProperty);
+            get => (Thickness)GetValue(PaddingProperty);
             set => SetValue(PaddingProperty, value);
         }
 
         public Color LineColor
         {
-            get => (Color) GetValue(LineColorProperty);
+            get => (Color)GetValue(LineColorProperty);
             set => SetValue(LineColorProperty, value);
         }
 
         public int ImageWidth
         {
-            get => (int) GetValue(ImageWidthProperty);
+            get => (int)GetValue(ImageWidthProperty);
             set => SetValue(ImageWidthProperty, value);
         }
 
         public int ImageHeight
         {
-            get => (int) GetValue(ImageHeightProperty);
+            get => (int)GetValue(ImageHeightProperty);
             set => SetValue(ImageHeightProperty, value);
         }
 
         public string Image
         {
-            get => (string) GetValue(ImageProperty);
+            get => (string)GetValue(ImageProperty);
             set => SetValue(ImageProperty, value);
         }
 
         public ImageAlignment ImageAlignment
         {
-            get => (ImageAlignment) GetValue(ImageAlignmentProperty);
+            get => (ImageAlignment)GetValue(ImageAlignmentProperty);
             set => SetValue(ImageAlignmentProperty, value);
         }
     }

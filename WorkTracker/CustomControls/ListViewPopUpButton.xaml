@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="WorkTracker.CustomControls.ListViewPopUpButton">
+    <ContentView.Content>
+        <Button x:Name="MainButton" BackgroundColor="Transparent" Clicked="MainButton_OnClicked"></Button>
+    </ContentView.Content>
+    
+    <primitives:RadPopup.Popup>
+
+        <primitives:RadPopup x:Name="popup"
+                             IsModal="False" 
+                             OutsideBackgroundColor="#6FFAFCFA" AnimationType="Zoom"  Placement="Center"  >
+            <shades:Shadows Style="{StaticResource  BackgroundWhiteShadow}">
+                <pancakeView:PancakeView CornerRadius="8" BackgroundColor="#F6F6F6">
+                    <Grid RowSpacing="0"  Margin="0" Padding="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70" />
+                            <RowDefinition Height="300" />
+                        </Grid.RowDefinitions>
+                        <Frame BackgroundColor="{StaticResource MainColorGreen}" HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                            <Label x:Name="PopUpHeadingLabel" Style="{StaticResource WhiteLabelHeaderStyle}"></Label>
+                        </Frame>
+                        <dataControls:RadListView x:Name="MainListView"  Grid.Row="1" SelectionMode="None" Margin="20,20">
+                            <dataControls:RadListView.ItemTemplate>
+                                <DataTemplate>
+                                    <pancakeView:PancakeView BackgroundColor="White" CornerRadius="5">
+                                        <Grid ColumnDefinitions="3,*" Margin="1">
+                                            <BoxView BackgroundColor="{StaticResource CheckboxColor}"></BoxView>
+                                            <Label Grid.Column="1" TextColor="{StaticResource FontColor}" VerticalTextAlignment="Center" Text="{Binding .}"></Label>
+                                        </Grid>
+                                    </pancakeView:PancakeView>
+                                    
+                                </DataTemplate>
+                            </dataControls:RadListView.ItemTemplate>
+                            <dataControls:RadListView.LayoutDefinition>
+                                <listView:ListViewLinearLayout ItemLength="40" VerticalItemSpacing="10" />
+                            </dataControls:RadListView.LayoutDefinition>
+                        </dataControls:RadListView>
+                    </Grid>
+                </pancakeView:PancakeView>
+            </shades:Shadows>
+        </primitives:RadPopup>
+    </primitives:RadPopup.Popup>
+</ContentView>

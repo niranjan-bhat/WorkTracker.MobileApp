@@ -10,12 +10,7 @@
              x:Class="WorkTracker.Views.AddWorkerPage"
              Title="{Binding Title}" BackgroundColor="{StaticResource MainColorGreen}">
     <ContentPage.Content>
-        <Grid Padding="10" Margin="10" RowSpacing="30">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70"></RowDefinition>
-                <RowDefinition Height="70"></RowDefinition>
-                <RowDefinition Height="70"></RowDefinition>
-            </Grid.RowDefinitions>
+        <Grid RowDefinitions="70,70,70"  Padding="10" Margin="10" RowSpacing="30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>

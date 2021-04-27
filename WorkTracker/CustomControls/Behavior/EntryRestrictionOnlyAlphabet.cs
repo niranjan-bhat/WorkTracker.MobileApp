@@ -6,6 +6,9 @@ using Xamarin.Forms;
 
 namespace WorkTracker.CustomControls.Behavior
 {
+    /// <summary>
+    /// This behaviour makes an entry box to accept only alphabets
+    /// </summary>
     public class EntryRestrictionOnlyAlphabet : Behavior<Entry>
     {
 
@@ -28,7 +31,7 @@ namespace WorkTracker.CustomControls.Behavior
 
         void HandleTextChanged(object sender, TextChangedEventArgs e)
         {
-            if(string.IsNullOrEmpty(e.NewTextValue))
+            if (string.IsNullOrEmpty(e.NewTextValue))
                 return;
 
             IsValid = (Regex.IsMatch(e.NewTextValue, alphabetRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)));

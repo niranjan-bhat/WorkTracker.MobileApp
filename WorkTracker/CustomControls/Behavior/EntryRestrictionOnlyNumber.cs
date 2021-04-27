@@ -6,6 +6,9 @@ using Xamarin.Forms;
 
 namespace WorkTracker.CustomControls.Behavior
 {
+    /// <summary>
+    /// This behaviour makes an entry box to accept only numbers
+    /// </summary>
     public class EntryRestrictionOnlyNumber : Behavior<Entry>
     {
 

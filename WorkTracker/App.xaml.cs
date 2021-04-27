@@ -39,13 +39,13 @@ namespace WorkTracker
                 containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
                 containerRegistry.RegisterForNavigation<NavigationPage>(Constants.Navigation);
-                containerRegistry.RegisterForNavigation<DummyView>("dummy");
                 containerRegistry.RegisterForNavigation<SummaryPage, SummaryPageViewModel>(Constants.SummaryPage);
                 containerRegistry.RegisterForNavigation<JobAssignmentPage, JobAssignmentViewModel>(Constants.JobAssignmentPage);
                 containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>(Constants.MainPage);
                 containerRegistry.RegisterForNavigation<AddWorkerPage, AddWorkerPageViewModel>(Constants.AddWorkerPage);
                 containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(Constants.Login);
                 containerRegistry.RegisterForNavigation<SignUpPage, SignUpViewModel>(Constants.SignUpPage);
+
                 containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
                 containerRegistry.RegisterSingleton<JobViewModel>();
                 containerRegistry.Register<INotificationService, NotificationService>();

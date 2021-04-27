@@ -1,8 +1,8 @@
-﻿using Prism.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Prism.Commands;
 using Prism.Navigation;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
@@ -14,16 +14,22 @@ namespace WorkTracker.ViewModels
     public class JobAssignmentViewModel : ViewModelBase, IDisposable
     {
         private ObservableCollection<UiBindableJob> _allJobs;
-        private DelegateCommand<object> _itemTappedCommand;
-        private IJobDataAccessService _jobDAService;
         private DelegateCommand _doneCommand;
+        private DelegateCommand<object> _itemTappedCommand;
+        private readonly IJobDataAccessService _jobDAService;
 
         private WorkerDTO _worker;
 
+        public JobAssignmentViewModel(INavigationService navigationService, IJobDataAccessService da) : base(
+            navigationService)
+        {
+            _jobDAService = da;
+        }
+
         public WorkerDTO Worker
         {
-            get { return _worker; }
-            set { SetProperty(ref _worker, value); }
+            get => _worker;
+            set => SetProperty(ref _worker, value);
         }
 
 
@@ -33,12 +39,6 @@ namespace WorkTracker.ViewModels
             set => SetProperty(ref _allJobs, value);
         }
 
-        public JobAssignmentViewModel(INavigationService navigationService, IJobDataAccessService da) : base(
-            navigationService)
-        {
-            _jobDAService = da;
-        }
-
 
         public DelegateCommand<object> ItemTappedCommand =>
             _itemTappedCommand ??= new DelegateCommand<object>(ExecuteItemTappedCommand);
@@ -46,7 +46,12 @@ namespace WorkTracker.ViewModels
         public DelegateCommand DoneCommand =>
             _doneCommand ??= new DelegateCommand(ExecuteDoneCommand);
 
-        void ExecuteDoneCommand()
+        public void Dispose()
+        {
+            AllJobs.Clear();
+        }
+
+        private void ExecuteDoneCommand()
         {
             var navParam = new NavigationParameters();
             navParam.Add("Jobs", AllJobs.Where(x => x.IsSelected).Select(x => x.Job).ToList());
@@ -57,37 +62,26 @@ namespace WorkTracker.ViewModels
 
         private void ExecuteItemTappedCommand(object obj)
         {
-            if (obj is UiBindableJob item)
-            {
-                item.IsSelected = !item.IsSelected;
-            }
+            if (obj is UiBindableJob item) item.IsSelected = !item.IsSelected;
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters["Worker"] is WorkerDTO worker)
-            {
-                Worker = worker;
-            }
+            if (parameters["Worker"] is WorkerDTO worker) Worker = worker;
 
 
             parameters.TryGetValue("Jobs", out List<JobDTO> alreadyassgnedjobs);
 
             var result = await _jobDAService.GetAllJob(Preferences.Get(Constants.UserId, 0));
 
-            var bindableResult = result.Select(x => new UiBindableJob()
+            var bindableResult = result.Select(x => new UiBindableJob
             {
                 Job = x,
                 IsSelected = alreadyassgnedjobs?.Any(o => o.Id == x.Id) ?? false
             });
 
             AllJobs = new ObservableCollection<UiBindableJob>(bindableResult);
-        }
-
-        public void Dispose()
-        {
-            AllJobs.Clear();
         }
     }
 }

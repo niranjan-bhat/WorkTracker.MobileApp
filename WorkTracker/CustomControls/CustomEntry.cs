@@ -6,6 +6,9 @@ using Xamarin.Forms;
 
 namespace WorkTracker.CustomControls
 {
+    /// <summary>
+    /// Entry with user defined underline color
+    /// </summary>
     public class CustomEntry : Entry
     {
         private Color _underlineColor;

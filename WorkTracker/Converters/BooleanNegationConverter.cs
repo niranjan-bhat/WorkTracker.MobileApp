@@ -6,12 +6,15 @@ using Xamarin.Forms;
 
 namespace WorkTracker.Converters
 {
+    /// <summary>
+    /// Inverts the boolean value
+    /// </summary>
     public class BooleanNegationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is bool)
-            return !((bool)value);
+            if (value is bool)
+                return !((bool)value);
 
             return false;
         }

@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:input="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shades="http://sharpnado.com"
+             xmlns:input="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:workTracker="clr-namespace:WorkTracker;assembly=WorkTracker"
              xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
-             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="WorkTracker.Views.SummaryPage"
              Title="{Binding Title}">
@@ -14,12 +16,14 @@
         <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="400"></RowDefinition>
-                <RowDefinition Height="55"></RowDefinition>
+                <RowDefinition Height="350"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="20"></RowDefinition>
             </Grid.RowDefinitions>
-            <input:RadCalendar x:Name="calender" Grid.Row="1" AppointmentsSource="{Binding Appointments}" Margin="30,0,30,30"
+            <input:RadCalendar x:Name="calender" Grid.Row="1" AppointmentsSource="{Binding Appointments}" Margin="30,0,30,0"
                               SelectionMode="Single" ViewMode="Month">
                 <input:RadCalendar.Behaviors>
                     <prism:EventToCommandBehavior EventName="SelectionChanged"
@@ -30,23 +34,11 @@
                 </input:RadCalendar.Behaviors>
 
             </input:RadCalendar>
-            <shades:Shadows  Grid.Row="2">
-                <shades:Shadows.Shades>
-                    <shades:ImmutableShades>
-                        <shades:Shade BlurRadius="10"
-                                  Opacity="0.2"
-                                  Offset="0,2"
-                                  Color="{StaticResource MainColorGreen}" />
-                    </shades:ImmutableShades>
-                </shades:Shadows.Shades>
-                <Frame >
-                    <Label Style="{StaticResource LabelStyle}" Text="{Binding AppointmentAsString}"></Label>
-                </Frame>
-            </shades:Shadows>
             <Button Grid.Row="0" Style="{StaticResource SimpleButtonStyle}" 
                     Text="+ Add Comments" 
                     IsEnabled="{Binding CanAddComments}"
-                    Margin="250,0,0,0"
+                    Margin="0,0,10,0"
+                    HorizontalOptions="End"
                     TextColor="{StaticResource FontColor}"
                     FontAttributes="Bold"
                     BackgroundColor="Transparent"
@@ -56,19 +48,7 @@
                     <primitives:RadPopup x:Name="popup"
                                                 IsModal="False" 
                                                 OutsideBackgroundColor="#6FFAFCFA" AnimationType="Zoom"  Placement="Top" >
-                        <shades:Shadows>
-                            <shades:Shadows.Shades>
-                                <shades:ImmutableShades>
-                                    <shades:Shade BlurRadius="10"
-                                                  Opacity="0.5"
-                                                  Offset="5,2"
-                                                  Color="{StaticResource MainColorGreen}" />
-                                    <shades:Shade BlurRadius="10"
-                                                  Opacity="0.5"
-                                                  Offset="-5,2"
-                                                  Color="{StaticResource MainColorGreen}" />
-                                </shades:ImmutableShades>
-                            </shades:Shadows.Shades>
+                        <shades:Shadows Style="{StaticResource  BackgroundWhiteShadow}">
                             <Frame CornerRadius="5">
                                 <Grid BackgroundColor="White">
                                     <Grid.ColumnDefinitions>
@@ -93,31 +73,38 @@
                     </primitives:RadPopup>
                 </primitives:RadPopup.Popup>
             </Button>
-            <ScrollView Grid.Row="3" VerticalOptions="FillAndExpand" >
-                <dataControls:RadListView x:Name="listView" ItemsSource="{Binding PreviousCommentsList}" BackgroundColor="#F6F6F6" VerticalOptions="FillAndExpand"
-                                          IsItemsReorderEnabled="True">
-                    <dataControls:RadListView.ItemTemplate>
-                        <DataTemplate>
-                            <listView:ListViewTemplateCell>
-                                <listView:ListViewTemplateCell.View>
-                                    <Grid Padding="16, 0, 0, 0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Source="checked.png"></Image>
-                                        <Label Grid.Column="1" Text="{Binding .}" VerticalOptions="Center" Margin="10,0,0,0" Style="{StaticResource LabelStyle}" HorizontalOptions="Start"/>
-                                    </Grid>
-                                </listView:ListViewTemplateCell.View>
-                            </listView:ListViewTemplateCell>
-                        </DataTemplate>
-                    </dataControls:RadListView.ItemTemplate>
-                    <dataControls:RadListView.LayoutDefinition>
-                        <listView:ListViewLinearLayout ItemLength="40" />
-                    </dataControls:RadListView.LayoutDefinition>
-                </dataControls:RadListView>
-            </ScrollView>
-        </Grid>
+            <Grid Grid.Row="4" ColumnDefinitions="0.5*,0.5*" Margin="10,0">
+               <Frame Grid.Column="0" VerticalOptions="CenterAndExpand" CornerRadius="20"  Padding="0">
+                   <Grid RowDefinitions="50,50" RowSpacing="0">
+                        <Image Source="PinkWave.png" Grid.Row="0" Grid.RowSpan="2" Aspect="Fill"></Image>
+                        <BoxView BackgroundColor="#FA7790" Grid.Row="0" Grid.RowSpan="2" Opacity="0.3"></BoxView>
+                        <Label Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="View Comments" Margin="0,0,0,20" Padding="0" Style="{StaticResource WhiteLabelHeaderStyle}" TextColor="#953939"></Label>
+                          <Label Grid.Row="0" TextColor="#FC6161" FontSize="45" Margin="0,0,0,0" HorizontalTextAlignment="Center" VerticalTextAlignment="End" Text="&#xf105;" FontFamily="{StaticResource FontAwesomeSolid}"></Label>
+                        <customControls:ListViewPopUpButton Items="{Binding PreviousCommentsList}" PopupHeadingText="Comments" BackgroundColor="Transparent" Grid.Row="0" Grid.RowSpan="2"></customControls:ListViewPopUpButton>
+                        </Grid>
+               </Frame>
+                <Frame Grid.Column="1" VerticalOptions="CenterAndExpand" CornerRadius="20"  Padding="0">
+                    <Grid RowDefinitions="50,50" RowSpacing="0">
+                        <BoxView BackgroundColor="#9DF1F1" Grid.Row="0" Grid.RowSpan="2" Opacity="0.9"></BoxView>
+                        <Image Source="GreenWave.png" Grid.Row="0" Grid.RowSpan="2" Aspect="Fill"></Image>
+                        <Label Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="View Jobs" Margin="0,0,0,20" Padding="0" Style="{StaticResource WhiteLabelHeaderStyle}" TextColor="#0F8078"></Label>
+                        <Label Grid.Row="0" TextColor="#16BEB3" FontSize="45" Margin="0,0,0,0" HorizontalTextAlignment="Center" VerticalTextAlignment="End" Text="&#xf105;" FontFamily="{StaticResource FontAwesomeSolid}"></Label>
+                        <customControls:ListViewPopUpButton Items="{Binding AssignedJobsList}" PopupHeadingText="Jobs" BackgroundColor="Transparent" Grid.Row="0" Grid.RowSpan="2"></customControls:ListViewPopUpButton>
+                    </Grid>
+                </Frame>
+            </Grid>
+            <Grid Grid.Row="5" Margin="10,0">
+                <Frame Grid.Column="0" VerticalOptions="CenterAndExpand" CornerRadius="20"  Padding="0">
+                    <Grid RowDefinitions="50,50" RowSpacing="0">
+                        <Image Source="PurpleWave.png" Grid.Row="0" Grid.RowSpan="2" Aspect="Fill"></Image>
+                        <BoxView BackgroundColor="#B479F9" Grid.Row="0" Grid.RowSpan="2" Opacity="0.3"></BoxView>
+                        <Label Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text="Payments" Margin="0,0,0,20" Padding="0" Style="{StaticResource WhiteLabelHeaderStyle}" TextColor="#5A4177"></Label>
+                        <Label Grid.Row="0" TextColor="#815DAB" FontSize="45" Margin="0,0,0,0" HorizontalTextAlignment="Center" VerticalTextAlignment="End" Text="&#xf105;" FontFamily="{StaticResource FontAwesomeSolid}"></Label>
+                        <Button BackgroundColor="Transparent" Grid.Row="0" Grid.RowSpan="2" Command="{Binding NavigateToPayments}"></Button>
+                    </Grid>
+                </Frame>
+                </Grid>
+            </Grid>
 
     </ContentPage.Content>
 </ContentPage>

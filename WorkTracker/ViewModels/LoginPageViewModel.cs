@@ -1,28 +1,33 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Navigation;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
-using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace WorkTracker.ViewModels
 {
     public class LoginPageViewModel : ViewModelBase
     {
-        private DelegateCommand _loginCommand;
-        private DelegateCommand _registerCommand;
         private readonly INotificationService _notificationService;
         private readonly IOwnerDataAccessService _ownerService;
-
-        private string _password ;
-        private string _userEmail ;
-
-        private IPopupService _popupservice;
         private bool _isLoginAction;
+        private DelegateCommand _loginCommand;
+
+        private string _password;
+
+        private readonly IPopupService _popupservice;
+        private DelegateCommand _registerCommand;
+        private string _userEmail;
+
+        public LoginPageViewModel(INavigationService navigationService, IOwnerDataAccessService ownerService,
+            INotificationService ns, IPopupService popup) : base(navigationService)
+        {
+            _ownerService = ownerService;
+            _notificationService = ns;
+            _popupservice = popup;
+        }
+
         public string UserEmail
         {
             get => _userEmail;
@@ -35,16 +40,9 @@ namespace WorkTracker.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        public LoginPageViewModel(INavigationService navigationService, IOwnerDataAccessService ownerService,
-            INotificationService ns, IPopupService popup) : base(navigationService)
-        {
-            _ownerService = ownerService;
-            _notificationService = ns;
-            _popupservice = popup;
-        }
-
         public DelegateCommand LoginCommand =>
             _loginCommand ??= new DelegateCommand(ExecuteLoginCommand);
+
         public DelegateCommand RegisterCommand =>
             _registerCommand ??= new DelegateCommand(ExecuteRegisterCommand);
 
@@ -64,9 +62,11 @@ namespace WorkTracker.ViewModels
 
             if (string.IsNullOrEmpty(Password))
             {
-                _notificationService.Notify(string.Format(Resource.InvalidValue, "Password"), NotificationTypeEnum.Error);
+                _notificationService.Notify(string.Format(Resource.InvalidValue, "Password"),
+                    NotificationTypeEnum.Error);
                 return;
             }
+
             _popupservice.ShowLoadingScreen();
             try
             {
@@ -81,10 +81,11 @@ namespace WorkTracker.ViewModels
                 Preferences.Set(Constants.UserEmail, user.Email);
                 Preferences.Set(Constants.UserId, user.Id);
 
-                await NavigationService.NavigateAsync($"{Constants.Navigation}/{Constants.MainPage}", new NavigationParameters()
-                {
-                    {"from",Constants.Login }
-                });
+                await NavigationService.NavigateAsync($"{Constants.Navigation}/{Constants.MainPage}",
+                    new NavigationParameters
+                    {
+                        {"from", Constants.Login}
+                    });
             }
             catch (Exception e)
             {

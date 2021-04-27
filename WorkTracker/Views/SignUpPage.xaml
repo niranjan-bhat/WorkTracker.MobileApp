@@ -1,12 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:shades="http://sharpnado.com"
-             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
-             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
-             xmlns:behavior="clr-namespace:WorkTracker.CustomControls.Behavior;assembly=WorkTracker"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:WorkTracker.Converters;assembly=WorkTracker"
+             xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="WorkTracker.Views.SignUpPage" Title="Sign Up">
     <ContentPage.Resources>
@@ -32,9 +29,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="10"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Path  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0" Fill="{StaticResource MainColorGreen}" Aspect="Uniform" Data="M22.5,14.1C16.5,23.3,-9.5,21.9,-16.6,12.1C-23.7,2.3,-11.9,-15.9,1.2,-15.2C14.2,-14.6,28.4,5,22.5,14.1Z">
-            </Path>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,10,0,0" Text="Sign Up" FontSize="30" Style="{StaticResource WhiteLabelHeaderStyle}"></Label>
+            <Image  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Source="SignUpGraphic">
+            </Image>
             <Path Grid.Row="3" VerticalOptions="Start" Margin="0,-50,0,0" Grid.Column="0" Grid.ColumnSpan="7" Fill="{StaticResource MainColorGreen}" Data="M0,128L18.5,138.7C36.9,149,74,171,111,165.3C147.7,160,185,128,222,144C258.5,160,295,224,332,245.3C369.2,267,406,245,443,224C480,203,517,181,554,160C590.8,139,628,117,665,101.3C701.5,85,738,75,775,74.7C812.3,75,849,85,886,117.3C923.1,149,960,203,997,229.3C1033.8,256,1071,256,1108,266.7C1144.6,277,1182,299,1218,282.7C1255.4,267,1292,213,1329,181.3C1366.2,149,1403,139,1422,133.3L1440,128L1440,320L1421.5,320C1403.1,320,1366,320,1329,320C1292.3,320,1255,320,1218,320C1181.5,320,1145,320,1108,320C1070.8,320,1034,320,997,320C960,320,923,320,886,320C849.2,320,812,320,775,320C738.5,320,702,320,665,320C627.7,320,591,320,554,320C516.9,320,480,320,443,320C406.2,320,369,320,332,320C295.4,320,258,320,222,320C184.6,320,148,320,111,320C73.8,320,37,320,18,320L0,320Z"></Path>
             <StackLayout IsVisible="{Binding IsOtpLayoutVisible,Converter={StaticResource BooleanNegationConverter}}" Spacing="10" Grid.Row="2" Margin="0,20,0,0" Grid.Column="1" Grid.ColumnSpan="5">
                 <customControls:RoundEdgeEntryBox Padding="20,0,0,0" Text="{Binding UserName}" HeightRequest="50" Style="{StaticResource DefaultEntryStyle}"

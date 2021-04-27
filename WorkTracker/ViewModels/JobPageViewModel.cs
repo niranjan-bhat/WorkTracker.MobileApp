@@ -14,16 +14,17 @@ namespace WorkTracker.ViewModels
 {
     public class JobViewModel : BindableBase, IDisposable
     {
+        private readonly IJobDataAccessService _jobDAService;
         private readonly IEventAggregator eventAggregator;
         private ICommand _addJobCommand;
         private ObservableCollection<JobDTO> _allJobs;
 
         private bool _isNoJob;
         private JobDTO _Job;
-        private readonly IJobDataAccessService _jobDAService;
-        private INotificationService _notificationService;
+        private readonly INotificationService _notificationService;
 
-        public JobViewModel(IJobDataAccessService jobDataAccessService, IEventAggregator ea, INotificationService notificationService)
+        public JobViewModel(IJobDataAccessService jobDataAccessService, IEventAggregator ea,
+            INotificationService notificationService)
         {
             _jobDAService = jobDataAccessService;
             eventAggregator = ea;
@@ -56,6 +57,11 @@ namespace WorkTracker.ViewModels
         public ICommand AddJobCommand =>
             _addJobCommand ??= new DelegateCommand(ExecuteAddJobCommand);
 
+        public void Dispose()
+        {
+            AllJobs.Clear();
+        }
+
         private void SubscribeToEvents()
         {
             eventAggregator.GetEvent<JobAddedEvent>().Subscribe(EventHandler);
@@ -67,6 +73,9 @@ namespace WorkTracker.ViewModels
             RaisePropertyChanged(nameof(AllJobs));
         }
 
+        /// <summary>
+        /// Adds a new job using wep api cal
+        /// </summary>
         private async void ExecuteAddJobCommand()
         {
             if (string.IsNullOrEmpty(Job.Name))
@@ -76,26 +85,24 @@ namespace WorkTracker.ViewModels
             {
                 await _jobDAService.InsertJob(_ownerId, Job.Name);
                 IsNoJob = false;
-                eventAggregator.GetEvent<JobAddedEvent>().Publish(new JobDTO { Name = Job.Name });
+                eventAggregator.GetEvent<JobAddedEvent>().Publish(new JobDTO {Name = Job.Name});
                 _notificationService.Notify(Resource.JobAddedSuccess, NotificationTypeEnum.Success);
             }
             catch (Exception e)
             {
-                _notificationService.Notify(e.InnerException == null ?e.Message : e.InnerException.Message, NotificationTypeEnum.Error);
+                _notificationService.Notify(e.InnerException == null ? e.Message : e.InnerException.Message,
+                    NotificationTypeEnum.Error);
             }
         }
 
-
+        /// <summary>
+        /// Fetches all the job belongs to owner
+        /// </summary>
         private async void GetAllJobs()
         {
             var result = await _jobDAService.GetAllJob(_ownerId);
             IsNoJob = result?.Count == 0;
             if (result != null) AllJobs = new ObservableCollection<JobDTO>(result);
-        }
-
-        public void Dispose()
-        {
-            AllJobs.Clear();
         }
     }
 }

@@ -8,12 +8,12 @@ namespace WorkTracker.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
+        private readonly IMiscellaneousService _miscellaneousService;
         private readonly INotificationService _notificationService;
         private readonly IOwnerDataAccessService _ownerService;
         private readonly IPopupService _popupservice;
         private string _confirmPassword;
         private bool _isOtpLayoutVisible;
-        private readonly IMiscellaneousService _miscellaneousService;
         private int _otp;
         private int? _otpByUser;
         private string _password;
@@ -95,6 +95,7 @@ namespace WorkTracker.ViewModels
                 {
                     _popupservice.HideLoadingScreen();
                 }
+
                 return;
             }
 

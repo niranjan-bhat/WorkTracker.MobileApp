@@ -29,18 +29,13 @@ namespace WorkTracker.ViewModels
         private ObservableCollection<UiBindableAssignment> _allAssignments;
         private ObservableCollection<WorkerDTO> _allWorkers;
         private DelegateCommand<BackButtonPressedEventArgs> _backButtonPressCommand;
+        private bool _isAssignmentSubmittedAlreadies;
         private bool _isNoWorker;
         private DelegateCommand<object> _navigateToJobAssignmentCommand;
         private DelegateCommand<object> _navigateToSummaryCommand;
         private WorkerDTO _selectedWorker;
         private DelegateCommand _submitAttendance;
         private DateTime? _userSelectedDate = DateTime.Today;
-        private bool _isAssignmentSubmittedAlreadies;
-        public bool IsAssignmentSubmittedAlready
-        {
-            get { return _isAssignmentSubmittedAlreadies; }
-            set { SetProperty(ref _isAssignmentSubmittedAlreadies, value); }
-        }
 
         public MainPageViewModel(INavigationService navigationService, IPopupService popupService,
             IEventAggregator ea, INotificationService ns, IAssignmentDataAccessService assignmentDataAccessService,
@@ -56,6 +51,12 @@ namespace WorkTracker.ViewModels
             _popupService = popupService;
         }
 
+        public bool IsAssignmentSubmittedAlready
+        {
+            get => _isAssignmentSubmittedAlreadies;
+            set => SetProperty(ref _isAssignmentSubmittedAlreadies, value);
+        }
+
         public bool IsNoWorker
         {
             get => _isNoWorker;
@@ -65,6 +66,9 @@ namespace WorkTracker.ViewModels
         public DelegateCommand<BackButtonPressedEventArgs> BackButtonPressCommand =>
             _backButtonPressCommand ??= new DelegateCommand<BackButtonPressedEventArgs>(ExecuteBackButtonPressCommand);
 
+        /// <summary>
+        /// Minimum date to choose to mark the attendance.
+        /// </summary>
         public DateTime MinimumSelectableDate => DateTime.Now.AddDays(-100);
 
         public ObservableCollection<WorkerDTO> AllWorkers
@@ -90,7 +94,7 @@ namespace WorkTracker.ViewModels
         }
 
         public DelegateCommand AddNewWorkerCommand =>
-            _addNewWorkerCommand ?? (_addNewWorkerCommand = new DelegateCommand(ExecuteAddNewWorkerCommand));
+            _addNewWorkerCommand ??= new DelegateCommand(ExecuteAddNewWorkerCommand);
 
         public DelegateCommand SubmitAttendanceCommand =>
             _submitAttendance ??= new DelegateCommand(ExecuteSubmitAttendanceCommand);
@@ -107,8 +111,14 @@ namespace WorkTracker.ViewModels
             AllAssignments.Clear();
         }
 
+        /// <summary>
+        /// Event to be raised when user changes the date to mark attendance.
+        /// </summary>
         public event AttendanceDateChanged DateSelectionModified;
 
+        /// <summary>
+        /// Gets all the attendance marked for the date chosen
+        /// </summary>
         private async void FetchSubmittedAttendanceForSelectedDate()
         {
             var ownerId = Preferences.Get(Constants.UserId, 0);
@@ -119,18 +129,17 @@ namespace WorkTracker.ViewModels
                     await _assignmentDataAccessService.GetAllAssignment(ownerId, SelectedDate.Value, SelectedDate.Value,
                         null);
 
-                if (!submittedAssignment.Any())
+                if (!submittedAssignment.Any()) // If there is no attendance submitted for this date
                 {
-                    foreach (var assignment in AllAssignments)
-                    {
-                        assignment.IsAttendanceSubmitted = false;
-                    }
-                    IsAssignmentSubmittedAlready = false;
+                    foreach (var assignment in AllAssignments) assignment.IsAttendanceSubmitted = false; //For all the pre-existing assignment on the UI, mark as not-submitted
+                    IsAssignmentSubmittedAlready = false; //Mark assignment is not submitted to this date
                     return;
                 }
 
-                IsAssignmentSubmittedAlready = true;
-                foreach (var assignmentToDeSelect in AllAssignments)
+                //If assignment is fetched for this date
+
+                IsAssignmentSubmittedAlready = true; //Mark assignment is already submitted
+                foreach (var assignmentToDeSelect in AllAssignments) //For all the worker present in UI, clear the data. Data is added in next step
                 {
                     assignmentToDeSelect.IsSelected = false;
                     assignmentToDeSelect.IsAttendanceSubmitted = false;
@@ -138,7 +147,7 @@ namespace WorkTracker.ViewModels
                     assignmentToDeSelect.Wage = null;
                 }
 
-                foreach (var assignment in submittedAssignment)
+                foreach (var assignment in submittedAssignment) //For all the assignment present in this data, update the UI
                 {
                     var assignmentForWorker =
                         AllAssignments.FirstOrDefault(x => x.Assignment.Worker.Id == assignment.WorkerId);
@@ -151,6 +160,7 @@ namespace WorkTracker.ViewModels
             }
             catch (Exception e)
             {
+                _notify.Notify(e.Message, NotificationTypeEnum.Error);
             }
             finally
             {
@@ -158,6 +168,10 @@ namespace WorkTracker.ViewModels
             }
         }
 
+        /// <summary>
+        /// Log out logic
+        /// </summary>
+        /// <param name="arg"></param>
         private async void ExecuteBackButtonPressCommand(BackButtonPressedEventArgs arg)
         {
             arg.Handled = true;
@@ -189,7 +203,7 @@ namespace WorkTracker.ViewModels
             {
                 case Constants.JobAssignmentPage:
                     var jobs = parameters.GetValue<List<JobDTO>>("Jobs");
-                    HandleAssignedJobs(jobs);
+                    UpdateAssignmentWithNewlyAddedJobs(jobs);
                     break;
                 case Constants.Login:
                     IsAssignmentSubmittedAlready = false;
@@ -202,7 +216,11 @@ namespace WorkTracker.ViewModels
             }
         }
 
-        private void HandleAssignedJobs(List<JobDTO> jobs)
+        /// <summary>
+        /// On assigning new jobs for a worker, update the assignment locally.
+        /// </summary>
+        /// <param name="jobs"></param>
+        private void UpdateAssignmentWithNewlyAddedJobs(List<JobDTO> jobs)
         {
             var assignment = AllAssignments.FirstOrDefault(x => x.Assignment.Worker.Id == _selectedWorker.Id);
             assignment.AssignedJobs = new ObservableCollection<JobDTO>(jobs);
@@ -214,6 +232,10 @@ namespace WorkTracker.ViewModels
             DateSelectionModified += FetchSubmittedAttendanceForSelectedDate;
         }
 
+        /// <summary>
+        /// Handle worker data modified/added
+        /// </summary>
+        /// <param name="obj"></param>
         private async void WorkerModifiedEventHandler(WorkerModifiedEventArguments obj)
         {
             switch (obj.ModificationType)
@@ -239,11 +261,17 @@ namespace WorkTracker.ViewModels
             }
             catch (Exception e)
             {
+                _notify.Notify(e.Message, NotificationTypeEnum.Error);
             }
 
             return new ObservableCollection<WorkerDTO>();
         }
 
+        /// <summary>
+        /// Creates the UI bindable assignment objects from data retrieved from server
+        /// </summary>
+        /// <param name="workers"></param>
+        /// <returns></returns>
         private ObservableCollection<UiBindableAssignment> PopulateAssignment(ObservableCollection<WorkerDTO> workers)
         {
             var assignments = new ObservableCollection<UiBindableAssignment>();
@@ -270,39 +298,39 @@ namespace WorkTracker.ViewModels
             NavigationService.NavigateAsync(Constants.SummaryPage, navPara);
         }
 
+        /// <summary>
+        /// Add a new attendance/ update existing attendance
+        /// </summary>
         private async void ExecuteSubmitAttendanceCommand()
         {
             IsBusy = true;
             try
             {
-                await ValidateAttendanceForSubmission();
+                await ValidateAttendanceForSubmission(); //Validation before adding assignment
 
+                //Give a warning if attendance is submitted already for the chosen date
                 if (IsAssignmentSubmittedAlready && !await _popupService.ShowPopup(Resource.Warning,
                     Resource.AttendanceSubmissionWarning, Resource.Yes,
                     Resource.No))
                 {
-                    return;
                 }
                 else
                 {
                     var ownerId = Preferences.Get(Constants.UserId, 0);
+
+                    //Delete existing attendance if any.
                     await _assignmentDataAccessService.DeleteAssignments(ownerId, SelectedDate.Value);
 
-                    foreach (var uiBindableAssignment in AllAssignments.Where(x => x.IsSelected))
+                    foreach (var uiBindableAssignment in AllAssignments.Where(x => x.IsSelected)) //Submit the attendance for selected workers only
                     {
-                       
+                        await _assignmentDataAccessService.InsertAssignment(ownerId,
+                            uiBindableAssignment.Wage.HasValue
+                                ? uiBindableAssignment.Wage.Value
+                                : 0,
+                            uiBindableAssignment.Assignment.Worker.Id, SelectedDate.Value,
+                            uiBindableAssignment.AssignedJobs?.ToList());
 
-                        if (!uiBindableAssignment.IsAttendanceSubmitted)
-                        {
-                            await _assignmentDataAccessService.InsertAssignment(ownerId,
-                                uiBindableAssignment.Wage.HasValue
-                                    ? uiBindableAssignment.Wage.Value
-                                    : 0,
-                                uiBindableAssignment.Assignment.Worker.Id, SelectedDate.Value,
-                                uiBindableAssignment.AssignedJobs?.ToList());
-
-                            uiBindableAssignment.IsAttendanceSubmitted = true;
-                        }
+                        uiBindableAssignment.IsAttendanceSubmitted = true;
                     }
 
                     IsAssignmentSubmittedAlready = true;
@@ -324,13 +352,13 @@ namespace WorkTracker.ViewModels
         {
             var assignmentsToSubmit = AllAssignments.Where(x => x.IsSelected);
 
-            if (!assignmentsToSubmit.ToList().Any()) throw new Exception("Unable to submit");
+            if (!assignmentsToSubmit.ToList().Any()) throw new Exception("Unable to submit"); //If assignment is selected for insertion
 
             var noJobAssignments = assignmentsToSubmit.Where(x => x.AssignedJobs == null);
 
             var assignments = noJobAssignments as UiBindableAssignment[] ?? noJobAssignments.ToArray();
 
-            if (assignments.Any())
+            if (assignments.Any()) //Warn user for not adding job for assigning 
             {
                 var workersName = assignments.Select(x => x.Assignment.Worker.Name);
                 var enumerable = workersName as string[] ?? workersName.ToArray();

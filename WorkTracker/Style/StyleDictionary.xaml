@@ -20,6 +20,25 @@
     <Font x:Key="UniversalFontSize"></Font>
 
     <x:Double x:Key="FontSize">18</x:Double>
+    <!--#region FontAwesome -->
+    <OnPlatform x:TypeArguments="x:String" 
+                x:Key="FontAwesomeBrands">
+        <On Platform="Android" 
+            Value="FontAwesome5BrandsRegular400.otf#Regular" />
+    </OnPlatform>
+
+    <OnPlatform x:TypeArguments="x:String" 
+                x:Key="FontAwesomeSolid">
+        <On Platform="Android" 
+            Value="FontAwesome5FreeSolid900.otf#Regular" />
+    </OnPlatform>
+
+    <OnPlatform x:TypeArguments="x:String" 
+                x:Key="FontAwesomeRegular">
+        <On Platform="Android" 
+            Value="FontAwesome5FreeRegular400.otf#Regular" />
+    </OnPlatform>
+    <!--#endregion-->
 
     <!--#region Label STyles -->
 
@@ -248,6 +267,7 @@
                    HorizontalTextAlignment="Start"/>
         </Grid>
     </ControlTemplate>
+
 
     <Style x:Key="DatePickerCancelButtonStyle" TargetType="Button" 
            BasedOn="{StaticResource DatePickerFooterButtonStyle}">
