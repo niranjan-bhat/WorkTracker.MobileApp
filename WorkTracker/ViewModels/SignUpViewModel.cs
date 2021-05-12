@@ -89,7 +89,7 @@ namespace WorkTracker.ViewModels
                 }
                 catch (Exception e)
                 {
-                    _notificationService.Notify(e.Message, NotificationTypeEnum.Error);
+                    _notificationService.Notify(Resource.Failure, NotificationTypeEnum.Error);
                 }
                 finally
                 {
@@ -151,7 +151,7 @@ namespace WorkTracker.ViewModels
             }
             catch (Exception e)
             {
-                _notificationService.Notify(e.Message, NotificationTypeEnum.Error);
+                _notificationService.Notify(Resource.Failure, NotificationTypeEnum.Error);
             }
             finally
             {

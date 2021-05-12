@@ -70,6 +70,42 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to *Choose the date range to calculate the salary .
+        /// </summary>
+        internal static string ChooseDateRange {
+            get {
+                return ResourceManager.GetString("ChooseDateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job with this name already exists.
+        /// </summary>
+        internal static string DuplicateJobName {
+            get {
+                return ResourceManager.GetString("DuplicateJobName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile number already exists.
+        /// </summary>
+        internal static string DuplicateMobileNumber {
+            get {
+                return ResourceManager.GetString("DuplicateMobileNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to process the request..
+        /// </summary>
+        internal static string Failure {
+            get {
+                return ResourceManager.GetString("Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid value for {0}.
         /// </summary>
         internal static string InvalidValue {
@@ -84,6 +120,15 @@ namespace WorkTracker {
         internal static string JobAddedSuccess {
             get {
                 return ResourceManager.GetString("JobAddedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid Job name.
+        /// </summary>
+        internal static string JobNameError {
+            get {
+                return ResourceManager.GetString("JobNameError", resourceCulture);
             }
         }
         
@@ -156,6 +201,15 @@ namespace WorkTracker {
         internal static string UserAddedSuccess {
             get {
                 return ResourceManager.GetString("UserAddedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username/Password mismatch..
+        /// </summary>
+        internal static string UsernamePasswordMismatch {
+            get {
+                return ResourceManager.GetString("UsernamePasswordMismatch", resourceCulture);
             }
         }
         

@@ -25,7 +25,16 @@ namespace WorkTracker.CustomControls
             nameof(UnderlineColor),
             typeof(Color),
             typeof(Color),
-            Color.White);
+            Color.White,
+            propertyChanged:SetUnderlineColor);
+
+        private static void SetUnderlineColor(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            if (bindable is CustomEntry control && newvalue is Color newColor)
+            {
+                control.UnderlineColor = newColor;
+            }
+        }
 
         public CustomEntry() : base()
         {

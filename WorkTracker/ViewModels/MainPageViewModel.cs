@@ -147,15 +147,20 @@ namespace WorkTracker.ViewModels
                     assignmentToDeSelect.Wage = null;
                 }
 
-                foreach (var assignment in submittedAssignment) //For all the assignment present in this data, update the UI
+                foreach (var assignment in submittedAssignment
+                ) //For all the assignment present in this data, update the UI
                 {
                     var assignmentForWorker =
                         AllAssignments.FirstOrDefault(x => x.Assignment.Worker.Id == assignment.WorkerId);
-                    assignmentForWorker.Wage = assignment.Wage;
-                    assignmentForWorker.IsAttendanceSubmitted = true;
-                    assignmentForWorker.AssignedJobs = new ObservableCollection<JobDTO>(assignment.Jobs);
-                    assignmentForWorker.IsSelected = true;
-                    assignmentForWorker.Assignment.Id = assignment.Id;
+                    if (assignmentForWorker != null)
+                    {
+
+                        assignmentForWorker.Wage = assignment.Wage;
+                        assignmentForWorker.IsAttendanceSubmitted = true;
+                        assignmentForWorker.AssignedJobs = new ObservableCollection<JobDTO>(assignment.Jobs);
+                        assignmentForWorker.IsSelected = true;
+                        assignmentForWorker.Assignment.Id = assignment.Id;
+                    }
                 }
             }
             catch (Exception e)
@@ -207,11 +212,11 @@ namespace WorkTracker.ViewModels
                     break;
                 case Constants.Login:
                     IsAssignmentSubmittedAlready = false;
+                    SelectedDate = Preferences.Get(Constants.LatestDateOfAttendanceSubmission, DateTime.Today);
                     AllWorkers = await GetAllWorkers();
                     AllAssignments = PopulateAssignment(AllWorkers);
                     SubscribeEvents();
                     IsNoWorker = AllWorkers.Count == 0;
-                    SelectedDate = Preferences.Get(Constants.LatestDateOfAttendanceSubmission, DateTime.Today);
                     break;
             }
         }
@@ -340,7 +345,7 @@ namespace WorkTracker.ViewModels
             }
             catch (Exception e)
             {
-                _notify.Notify(e.Message, NotificationTypeEnum.Error);
+                _notify.Notify(Resource.Failure, NotificationTypeEnum.Error);
             }
             finally
             {

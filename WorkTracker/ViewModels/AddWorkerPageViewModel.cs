@@ -7,6 +7,7 @@ using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
 using WorkTracker.Events;
+using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
 
 namespace WorkTracker.ViewModels
@@ -58,9 +59,14 @@ namespace WorkTracker.ViewModels
                 _notificationService.Notify(Resource.UserAddedSuccess, NotificationTypeEnum.Success);
                 NewWorker = new WorkerDTO();
             }
+            catch (WtException wt) when (wt.ErrorCode == Constants.DUPLICATE_MOBILE_NUMBER)
+            {
+                _notificationService.Notify(Resource.DuplicateMobileNumber, NotificationTypeEnum.Error);
+
+            }
             catch (Exception e)
             {
-                _notificationService.Notify(e.Message, NotificationTypeEnum.Error);
+                _notificationService.Notify(Resource.Failure, NotificationTypeEnum.Error);
             }
         }
 

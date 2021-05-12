@@ -76,6 +76,9 @@
     <EmbeddedResource Update="Views\SummaryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\PaymentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -89,6 +92,9 @@
     </Compile>
     <Compile Update="Views\JobView.xaml.cs">
       <DependentUpon>JobView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PaymentView.xaml.cs">
+      <DependentUpon>PaymentView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

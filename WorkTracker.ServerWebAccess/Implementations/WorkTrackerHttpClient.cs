@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using WorkTracker.WebAccess.Interfaces;
 
 namespace WorkTracker.WebAccess.Implementations
@@ -35,7 +36,8 @@ namespace WorkTracker.WebAccess.Implementations
             switch (response.StatusCode)
             {
                 case HttpStatusCode.BadRequest:
-                    return new WebApiException(message);
+                    var ex = JsonConvert.DeserializeObject<WtException>(message);
+                    return ex ?? new Exception(message);
                 default:
                     return new Exception(message);
             }

@@ -16,6 +16,8 @@
     <Color x:Key="lowerShadowColor">#3C000000</Color>
     <Color x:Key="CheckboxColor">#BD273C</Color>
     <Color x:Key="SubmitCoinFillColor">#E7911D</Color>
+    <Color x:Key="ElementInnerColor">White</Color>
+    <Color x:Key="WhiteBackgroundColor">#F4F4F4</Color>
 
     <Font x:Key="UniversalFontSize"></Font>
 
@@ -139,6 +141,20 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BackgroundWhiteColorShadow" ApplyToDerivedTypes="True" TargetType="shades:Shadows">
+        <Setter Property="Shades">
+            <shades:ImmutableShades>
+                <shades:Shade BlurRadius="10"
+                              Opacity="1"
+                              Offset="-5,-8"
+                              Color="#FAFFFF" />
+                <shades:Shade BlurRadius="10"
+                              Opacity="1"
+                              Offset="8, 8"
+                              Color="#BEBCBC" />
+            </shades:ImmutableShades>
+        </Setter>
+    </Style>
 
     <Style x:Key="NeuroShadowStyle" ApplyToDerivedTypes="True" TargetType="shades:Shadows">
         <Setter Property="CornerRadius" Value="10" />
@@ -261,7 +277,7 @@
                      BackgroundColor="{StaticResource MainColorGreen}"
                      VerticalOptions="End"
                      HeightRequest="5"/>
-            <Image Grid.Row="0" Margin="0,10,0,0" Source="{TemplateBinding TabHeaderImage}" Aspect="AspectFit" HeightRequest="23"></Image>
+            <Label Grid.Row="0" Margin="0,10,0,0" Text="{TemplateBinding TabHeaderImage}" TextColor="{StaticResource FontColor}" FontFamily="{StaticResource FontAwesomeSolid}" HorizontalOptions="Center" FontSize="20"></Label>
             <Label VerticalOptions="Center" Grid.Row="1" Padding="0" Text="{TemplateBinding Text}"
                    Style="{StaticResource GreenLabelStyle}"
                    HorizontalTextAlignment="Start"/>
@@ -293,5 +309,4 @@
         <Setter Property="FontSize" Value="20"></Setter>
         <Setter Property="TextColor" Value="{StaticResource FontColor}"></Setter>
     </Style>
-
 </ResourceDictionary>

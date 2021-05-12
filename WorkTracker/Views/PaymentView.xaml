@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:WorkTracker.Views;assembly=WorkTracker"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:converters="clr-namespace:WorkTracker.Converters;assembly=WorkTracker"
+             x:Class="WorkTracker.Views.PaymentView">
+    <ContentView.Resources>
+        <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"></converters:BooleanNegationConverter>
+        <Style TargetType="Label" x:Key="LocalLabelStyleSet">
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontAttributes" Value="Bold"></Setter>
+            <Style.Triggers>
+                <DataTrigger TargetType="Label"  Binding="{Binding IsSalaryTabActive}" Value="True">
+                    <Setter Property="TextColor" Value="White" />
+                </DataTrigger>
+                <DataTrigger TargetType="Label" Binding="{Binding IsSalaryTabActive}" Value="False">
+                    <Setter Property="TextColor" Value="{StaticResource MainColorDarkGreen}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Label" x:Key="LocalLabelStyleReset">
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontAttributes" Value="Bold"></Setter>
+            <Style.Triggers>
+                <DataTrigger TargetType="Label"  Binding="{Binding IsSalaryTabActive}" Value="False">
+                    <Setter Property="TextColor" Value="White" />
+                </DataTrigger>
+                <DataTrigger TargetType="Label" Binding="{Binding IsSalaryTabActive}" Value="True">
+                    <Setter Property="TextColor" Value="{StaticResource MainColorDarkGreen}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </ContentView.Resources>
+
+    <Grid BackgroundColor="{StaticResource MainColorGreen}" RowDefinitions="60,*">
+        <shades:Shadows  CornerRadius="50" Margin="90,20,90,0"
+                         Style="{StaticResource BackgroundMainColorShadow}">
+            <pancakeView:PancakeView  CornerRadius="50" BackgroundColor="{StaticResource MainColorGreen}">
+                <Grid ColumnDefinitions="*,2,*">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                        <Label Text="&#xf3d1;" FontSize="23" TextColor="{StaticResource MainColorDarkGreen}" FontFamily="{StaticResource FontAwesomeSolid}"
+                               VerticalOptions="Center" Style="{StaticResource LocalLabelStyleSet}"></Label>
+                        <Label Text="Salary" Style="{StaticResource LocalLabelStyleSet}" TextColor="{StaticResource MainColorDarkGreen}"></Label>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleTabActiveCommand}"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <BoxView Grid.Column="1" BackgroundColor="{StaticResource MainColorDarkGreen}" Opacity="0.3" Margin="0"></BoxView>
+                    <StackLayout Grid.Column="2" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleTabActiveCommand}"/>
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="&#xf4c0;" FontSize="23" Style="{StaticResource LocalLabelStyleReset}"
+                               FontFamily="{StaticResource FontAwesomeSolid}">
+
+                        </Label>
+                        <Label Text="Loan" Style="{StaticResource LocalLabelStyleReset}" TextColor="{StaticResource MainColorDarkGreen}"></Label>
+                    </StackLayout>
+                </Grid>
+            </pancakeView:PancakeView>
+        </shades:Shadows>
+
+    </Grid>
+</ContentView>

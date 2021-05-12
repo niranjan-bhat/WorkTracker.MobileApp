@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Drawing;
 using Prism.Commands;
 using Prism.Navigation;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
+using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
 
 namespace WorkTracker.ViewModels
@@ -14,11 +16,11 @@ namespace WorkTracker.ViewModels
         private bool _isLoginAction;
         private DelegateCommand _loginCommand;
 
-        private string _password;
+        private string _password="ni";
 
         private readonly IPopupService _popupservice;
         private DelegateCommand _registerCommand;
-        private string _userEmail;
+        private string _userEmail="ni@ni.com";
 
         public LoginPageViewModel(INavigationService navigationService, IOwnerDataAccessService ownerService,
             INotificationService ns, IPopupService popup) : base(navigationService)
@@ -87,9 +89,14 @@ namespace WorkTracker.ViewModels
                         {"from", Constants.Login}
                     });
             }
+            catch (WtException wt)  when(wt.ErrorCode==Constants.USERNAMEPASSWORD_WRONG)
+            {
+                _notificationService.Notify(Resource.UsernamePasswordMismatch, NotificationTypeEnum.Error);
+
+            }
             catch (Exception e)
             {
-                _notificationService.Notify(e.Message, NotificationTypeEnum.Error);
+                _notificationService.Notify(Resource.LoginFailed, NotificationTypeEnum.Error);
             }
             finally
             {

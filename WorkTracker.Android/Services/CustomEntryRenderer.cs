@@ -19,8 +19,13 @@ using WorkTracker.CustomControls;
 [assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
 namespace WorkTracker.Droid.Services
 {
-    class CustomEntryRenderer : EntryRenderer
+    public class CustomEntryRenderer : EntryRenderer
     {
+        public CustomEntryRenderer(Context con) : base(con)
+        {
+
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);
@@ -28,10 +33,14 @@ namespace WorkTracker.Droid.Services
 
             if (Control == null || e.NewElement == null) return;
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
-                Control.BackgroundTintList = ColorStateList.ValueOf(Color.White);
-            else
-                Control.Background.SetColorFilter(Color.White, PorterDuff.Mode.SrcAtop);
+            if (e.NewElement is CustomEntry _entry)
+            {
+
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+                    Control.BackgroundTintList = ColorStateList.ValueOf(_entry.UnderlineColor.ToAndroid());
+                else
+                    Control.Background.SetColorFilter(_entry.UnderlineColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
+            }
         }
     }
 }

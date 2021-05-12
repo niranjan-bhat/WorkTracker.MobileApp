@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Net.Mime;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
@@ -8,7 +9,9 @@ using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
 using WorkTracker.Events;
+using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace WorkTracker.ViewModels
 {
@@ -78,19 +81,27 @@ namespace WorkTracker.ViewModels
         /// </summary>
         private async void ExecuteAddJobCommand()
         {
-            if (string.IsNullOrEmpty(Job.Name))
+            if (string.IsNullOrWhiteSpace(Job.Name))
+            {
+                _notificationService.Notify(Resource.JobNameError, NotificationTypeEnum.Error);
                 return;
+            }
 
             try
             {
                 await _jobDAService.InsertJob(_ownerId, Job.Name);
                 IsNoJob = false;
-                eventAggregator.GetEvent<JobAddedEvent>().Publish(new JobDTO {Name = Job.Name});
+                eventAggregator.GetEvent<JobAddedEvent>().Publish(new JobDTO { Name = Job.Name });
                 _notificationService.Notify(Resource.JobAddedSuccess, NotificationTypeEnum.Success);
+                Job = new JobDTO();
+            }
+            catch (WtException wt) when (wt.ErrorCode == Constants.DUPLICATE_JOBNAME)
+            {
+                _notificationService.Notify(Resource.DuplicateJobName, NotificationTypeEnum.Error);
             }
             catch (Exception e)
             {
-                _notificationService.Notify(e.InnerException == null ? e.Message : e.InnerException.Message,
+                _notificationService.Notify(Resource.Failure,
                     NotificationTypeEnum.Error);
             }
         }

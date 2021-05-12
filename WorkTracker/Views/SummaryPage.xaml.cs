@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telerik.XamarinForms.Common;
 using Telerik.XamarinForms.Input.Calendar;
 using Telerik.XamarinForms.Primitives;
 using WorkTracker.ViewModels;

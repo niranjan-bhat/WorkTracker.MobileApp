@@ -28,6 +28,7 @@ namespace WorkTracker
             InitializeComponent();
 
             ViewModelLocationProvider.Register<JobView>(() => Container.Resolve<JobViewModel>());
+            ViewModelLocationProvider.Register<PaymentView>(() => Container.Resolve<PaymentViewModel>());
 
             await NavigationService.NavigateAsync($"{Constants.Login}");
         }

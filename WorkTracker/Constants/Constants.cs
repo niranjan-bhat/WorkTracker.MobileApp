@@ -35,12 +35,26 @@ namespace WorkTracker
         public const string JobAssignmentPage = "JobAssignmentPage";
         public const string Login = "LoginPage";
         public const string SignUpPage = "SignUpPage";
+        public const string WorkerSalaryPage = "WorkerSalaryView";
+        public const string WorkerPaymentPage = "PaymentView";
 
         #endregion
         public const string UserEmail = "UserEmail";
         public const string UserId = "UserId";
         public const string DateFormat = "yyyy-MM-dd";
         public const string LatestDateOfAttendanceSubmission = "LatestDateOfAttendanceSubmission";
+
+        #region ErrorCodes
+        public static string OWNER_NOT_FOUND = "OWNER_NOT_FOUND";
+        public static string WORKER_NOT_FOUND = "WORKER_NOT_FOUND";
+        public static string JOB_NOT_FOUND = "JOB_NOT_FOUND";
+        public static string ASSIGNMENT_NOT_FOUND = "ASSIGNMENT_NOT_FOUND";
+        public static string INVALID_TOKEN = "INVALID_TOKEN";
+        public static string USERNAMEPASSWORD_WRONG = "USERNAMEPASSWORD_WRONG";
+        public static string DUPLICATE_JOBNAME = "DUPLICATE_JOBNAME";
+        public static string DUPLICATE_MOBILE_NUMBER = "DUPLICATE_MOBILE_NUMBER";
+        public static string INVALID_EMAIL = "INVALID_EMAIL";
+        #endregion
 
     }
 }

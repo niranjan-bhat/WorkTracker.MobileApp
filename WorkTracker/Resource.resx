@@ -120,11 +120,26 @@
   <data name="AttendanceSubmissionWarning" xml:space="preserve">
     <value>Attendance was already submitted for this day. You wish to update the attendance ?</value>
   </data>
+  <data name="ChooseDateRange" xml:space="preserve">
+    <value>*Choose the date range to calculate the salary </value>
+  </data>
+  <data name="DuplicateJobName" xml:space="preserve">
+    <value>Job with this name already exists</value>
+  </data>
+  <data name="DuplicateMobileNumber" xml:space="preserve">
+    <value>Mobile number already exists</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Unable to process the request.</value>
+  </data>
   <data name="InvalidValue" xml:space="preserve">
     <value>Invalid value for {0}</value>
   </data>
   <data name="JobAddedSuccess" xml:space="preserve">
     <value>Job has been added successfully</value>
+  </data>
+  <data name="JobNameError" xml:space="preserve">
+    <value>Please enter a valid Job name</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Please login to continue</value>
@@ -149,6 +164,9 @@
   </data>
   <data name="UserAddedSuccess" xml:space="preserve">
     <value>User has been added successfully</value>
+  </data>
+  <data name="UsernamePasswordMismatch" xml:space="preserve">
+    <value>Username/Password mismatch.</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>

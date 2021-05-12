@@ -17,6 +17,39 @@
            <ResourceDictionary.MergedDictionaries>
                 <style:StyleDictionary></style:StyleDictionary>
            </ResourceDictionary.MergedDictionaries>
+            <input:CalendarCellStyle  x:Key="CalenderSelectedCellStyle"   BorderColor="#E1691F" 
+                                      BorderThickness="2" 
+                                      HorizontalTextAlignment="Center"
+                                      VerticalTextAlignment="Center"
+                                      TextColor="White" 
+                                      FontSize="20"
+                                      FontAttributes="Bold"
+                                      BackgroundColor="#45576A"/>
+            <input:CalendarCellStyle x:Key="CalenderTitleCellStyle" BackgroundColor="{StaticResource MainColorGreen}" 
+                                     TextColor="White" 
+                                     FontSize="20" 
+                                     Padding="10"
+                                     HorizontalTextAlignment="Center"
+                                     BorderColor="Transparent" 
+                                     FontAttributes="Bold"
+                                     VerticalTextAlignment="Center"
+                                     BorderThickness="2"/>
+            <input:CalendarCellStyle x:Key="CalenderTodayCellStyle"
+                                     BorderColor="Transparent"
+                                     HorizontalTextAlignment="Center"
+                                     VerticalTextAlignment="Center" 
+                                     FontSize="18"
+                                     FontAttributes="Bold"
+                                     TextColor="White"/>
+            <input:CalendarCellStyle x:Key="CalendarDayCellStyle" BackgroundColor="Transparent"
+                                     TextColor="White" 
+                                     HorizontalTextAlignment="Center" 
+                                     VerticalTextAlignment="Center"
+                                     FontSize="15" FontAttributes="Bold"></input:CalendarCellStyle>
+            <input:CalendarCellStyle x:Key="CalendarDayNameCellStyle" TextColor="white" BackgroundColor="{StaticResource FontColor}"
+                                     FontSize="15" FontAttributes="Bold"/>
+
+            <input:CalendarCellStyle x:Key="CalenderOtherMonthCellStyle" TextColor="white" BackgroundColor="#368A90" />
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

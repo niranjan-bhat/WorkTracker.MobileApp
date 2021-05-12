@@ -38,22 +38,29 @@
                     <DataTemplate>
                         <listView:ListViewTemplateCell>
                             <listView:ListViewTemplateCell.View>
-                                <shades:Shadows CornerRadius="30" Margin="20,0"
-                                               Style="{StaticResource BackgroundMainColorShadow}">
-                                    <primitives:RadBorder CornerRadius="30" Margin="20,15">
-                                        <StackLayout Padding="20,5"  Orientation="Horizontal" BackgroundColor="{StaticResource MainColorGreen}">
-                                            <controls:Checkbox VerticalOptions="Center"
-                                                               IsChecked="{Binding IsSelected}" FillColor="{StaticResource CheckboxColor}" 
-                                                               OutlineColor="{StaticResource CheckboxColor}" CheckColor="White" Shape="Circle">
-                                            </controls:Checkbox>
-                                            <Label Margin="10,0" Style="{StaticResource WhiteLabelStyle}" Text="{Binding Job.Name}"></Label>
-                                        </StackLayout>
-                                    </primitives:RadBorder>
-                                </shades:Shadows>
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={Reference ListView}}"
+                                                              CommandParameter="{Binding}" />
+                                    </Grid.GestureRecognizers>
+                                    <shades:Shadows CornerRadius="30" Margin="20,0"
+                                                    Style="{StaticResource BackgroundMainColorShadow}">
+                                        <primitives:RadBorder CornerRadius="30" Margin="20,15">
+                                            <StackLayout Padding="20,5"  Orientation="Horizontal" BackgroundColor="{StaticResource MainColorGreen}">
+                                                <controls:Checkbox VerticalOptions="Center"
+                                                                   IsChecked="{Binding IsSelected}" FillColor="{StaticResource CheckboxColor}" 
+                                                                   OutlineColor="{StaticResource CheckboxColor}" CheckColor="White" Shape="Circle">
+                                                </controls:Checkbox>
+                                                <Label Margin="10,0" Style="{StaticResource WhiteLabelStyle}" Text="{Binding Job.Name}"></Label>
+                                            </StackLayout>
+                                        </primitives:RadBorder>
+                                    </shades:Shadows>
+                                </Grid>
                             </listView:ListViewTemplateCell.View>
                         </listView:ListViewTemplateCell>
                     </DataTemplate>
                 </dataControls:RadListView.ItemTemplate>
+                <!--
                 <dataControls:RadListView.Behaviors>
                     <prism:EventToCommandBehavior EventName="ItemTapped"
                                                       Command="{Binding ItemTappedCommand}"
@@ -62,7 +69,7 @@
                 </dataControls:RadListView.Behaviors>
                 <dataControls:RadListView.SelectedItemStyle>
                     <listView:ListViewItemStyle BackgroundColor="{StaticResource MainColorGreen}"/>
-                </dataControls:RadListView.SelectedItemStyle>
+                </dataControls:RadListView.SelectedItemStyle>-->
                 <dataControls:RadListView.LayoutDefinition>
                     <listView:ListViewLinearLayout Orientation="Vertical"
                                  ItemLength="70"

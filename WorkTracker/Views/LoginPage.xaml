@@ -15,13 +15,13 @@
         <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"></converters:BooleanNegationConverter>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid BackgroundColor="White">
+        <Grid BackgroundColor="{StaticResource WhiteBackgroundColor}">
             <Grid.RowDefinitions>
 
                 <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="160"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="300"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"></ColumnDefinition>
@@ -34,14 +34,31 @@
             </Grid.ColumnDefinitions>
             <Image Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Source="LoginGraphic">
             </Image>
-            <Path Grid.Row="3" VerticalOptions="End" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="7" Fill="{StaticResource MainColorGreen}" Data="M0,128L18.5,138.7C36.9,149,74,171,111,165.3C147.7,160,185,128,222,144C258.5,160,295,224,332,245.3C369.2,267,406,245,443,224C480,203,517,181,554,160C590.8,139,628,117,665,101.3C701.5,85,738,75,775,74.7C812.3,75,849,85,886,117.3C923.1,149,960,203,997,229.3C1033.8,256,1071,256,1108,266.7C1144.6,277,1182,299,1218,282.7C1255.4,267,1292,213,1329,181.3C1366.2,149,1403,139,1422,133.3L1440,128L1440,320L1421.5,320C1403.1,320,1366,320,1329,320C1292.3,320,1255,320,1218,320C1181.5,320,1145,320,1108,320C1070.8,320,1034,320,997,320C960,320,923,320,886,320C849.2,320,812,320,775,320C738.5,320,702,320,665,320C627.7,320,591,320,554,320C516.9,320,480,320,443,320C406.2,320,369,320,332,320C295.4,320,258,320,222,320C184.6,320,148,320,111,320C73.8,320,37,320,18,320L0,320Z"></Path>
-            <StackLayout Spacing="10" Grid.Row="2" Margin="0,80,0,0" Grid.Column="1" Grid.ColumnSpan="5">
-                <customControls:RoundEdgeEntryBox Padding="20,0,0,0" Text="{Binding UserEmail}" HeightRequest="50" Style="{StaticResource DefaultEntryStyle}" 
-                                                  HorizontalTextAlignment="Start" VerticalOptions="Center" Placeholder="Email" Image="email_left" ImageHeight="20" ImageWidth="20">
-                </customControls:RoundEdgeEntryBox>
-                <customControls:RoundEdgeEntryBox Padding="20,0,0,0" Text="{Binding Password}" HeightRequest="50" Style="{StaticResource DefaultEntryStyle}"
-                                                  HorizontalTextAlignment="Start" VerticalOptions="Center" Placeholder="Password" IsPassword="True" Image="lock_left" ImageHeight="20" ImageWidth="20">
-                </customControls:RoundEdgeEntryBox>
+            <Image Grid.Row="3"   Grid.Column="0" Grid.ColumnSpan="7" Source="PinkWave.png" VerticalOptions="End">
+            </Image>
+            <!--<Path Grid.Row="3" VerticalOptions="End" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="7" Fill="{StaticResource MainColorGreen}" Data="M0,128L18.5,138.7C36.9,149,74,171,111,165.3C147.7,160,185,128,222,144C258.5,160,295,224,332,245.3C369.2,267,406,245,443,224C480,203,517,181,554,160C590.8,139,628,117,665,101.3C701.5,85,738,75,775,74.7C812.3,75,849,85,886,117.3C923.1,149,960,203,997,229.3C1033.8,256,1071,256,1108,266.7C1144.6,277,1182,299,1218,282.7C1255.4,267,1292,213,1329,181.3C1366.2,149,1403,139,1422,133.3L1440,128L1440,320L1421.5,320C1403.1,320,1366,320,1329,320C1292.3,320,1255,320,1218,320C1181.5,320,1145,320,1108,320C1070.8,320,1034,320,997,320C960,320,923,320,886,320C849.2,320,812,320,775,320C738.5,320,702,320,665,320C627.7,320,591,320,554,320C516.9,320,480,320,443,320C406.2,320,369,320,332,320C295.4,320,258,320,222,320C184.6,320,148,320,111,320C73.8,320,37,320,18,320L0,320Z"></Path>-->
+            <StackLayout Spacing="22" Grid.Row="2" Margin="0,80,0,0" Grid.Column="1" Grid.ColumnSpan="5">
+                <shades:Shadows  VerticalOptions="Start" CornerRadius="30" Padding="0"
+                                 Style="{StaticResource BackgroundWhiteColorShadow}">
+                    <primitives:RadBorder HeightRequest="90" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
+                        <Grid ColumnDefinitions="50,*" RowDefinitions="*"  BackgroundColor="{StaticResource ElementInnerColor}">
+                            <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf0e0;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
+                            <customControls:CustomEntry Grid.Column="1" Text="{Binding UserEmail}" UnderlineColor="Transparent" FontSize="21" Placeholder="Email" PlaceholderColor="#848F95">
+                            </customControls:CustomEntry>
+                        </Grid>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+                <shades:Shadows  VerticalOptions="Start" CornerRadius="30" Padding="0"
+                                Style="{StaticResource BackgroundWhiteColorShadow}">
+                    <primitives:RadBorder HeightRequest="90" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
+                        <Grid ColumnDefinitions="50,*" RowDefinitions="*" BackgroundColor="{StaticResource ElementInnerColor}">
+                            <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf023;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
+                            <customControls:CustomEntry Grid.Column="1" UnderlineColor="Transparent" Text="{Binding Password}" IsPassword="True" FontSize="21" Placeholder="Password" PlaceholderColor="#848F95">
+                            </customControls:CustomEntry>
+                        </Grid>
+                    </primitives:RadBorder>
+                </shades:Shadows>
+
                 <Grid HeightRequest="100">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -51,10 +68,22 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Grid.ColumnSpan="3"  Text="Sign Up" CornerRadius="30"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding RegisterCommand}">
-                    </Button>
-                    <Button Grid.Column="3" Grid.ColumnSpan="3"  Text="Login" CornerRadius="30"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding LoginCommand}">
-                    </Button>
+                    <shades:Shadows Grid.Column="0" Grid.ColumnSpan="3"  VerticalOptions="Start" CornerRadius="30" Padding="10,15,10,0"
+                                    Style="{StaticResource BackgroundWhiteColorShadow}">
+
+                        <primitives:RadBorder CornerRadius="30" BorderColor="{StaticResource SubmitCoinFillColor}" BorderThickness="2">
+                            <Button  Text="Sign Up" CornerRadius="30"  BackgroundColor="{StaticResource ElementInnerColor}" Command="{Binding RegisterCommand}">
+                            </Button>
+                        </primitives:RadBorder>
+                    </shades:Shadows>
+
+                    <shades:Shadows Grid.Column="3" Grid.ColumnSpan="3" VerticalOptions="Start" CornerRadius="30" Padding="10,15,10,0"
+                                    Style="{StaticResource BackgroundWhiteColorShadow}">
+                        <primitives:RadBorder CornerRadius="30" BorderColor="{StaticResource SubmitCoinFillColor}" BorderThickness="2">
+                            <Button Padding="5" Text="Login" CornerRadius="30"  BackgroundColor="{StaticResource ElementInnerColor}" Command="{Binding LoginCommand}">
+                            </Button>
+                        </primitives:RadBorder>
+                    </shades:Shadows>
                 </Grid>
             </StackLayout>
         </Grid>

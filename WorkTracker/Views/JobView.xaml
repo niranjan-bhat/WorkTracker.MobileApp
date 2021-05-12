@@ -14,86 +14,115 @@
              xmlns:controls="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls"
              x:Class="WorkTracker.Views.JobView">
     <ContentView.Resources>
-        
+
     </ContentView.Resources>
     <ContentView.Content>
-        <Grid BackgroundColor="{StaticResource MainColorGreen}">
+        <Grid BackgroundColor="#EFECEC">
             <Grid.RowDefinitions>
-                <RowDefinition Height="250"></RowDefinition>
+                <RowDefinition Height="220"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Padding="10" Margin="10" ColumnSpacing="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="80"></RowDefinition>
-                    <RowDefinition Height="100"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="100"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <shades:Shadows Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="30" Margin="0"
-                                Style="{StaticResource BackgroundMainColorShadow}">
-                    <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
-                        <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="20" VerticalOptions="StartAndExpand" Spacing="10">
-                                <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
-                                       Text="Job :"></Label>
-                                <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
-                                                            Text="{Binding Job.Name,Mode=TwoWay}" TextColor="White">
+            <shades:Shadows  CornerRadius="30" Margin="0"
+                             >
+                <shades:Shadows.Shades>
+                    <shades:ImmutableShades>
+                        <shades:Shade BlurRadius="30"
+                                      Opacity="0.5"
+                                      Offset="0, 15"
+                                      Color="Gray" />
+                    </shades:ImmutableShades>
+                </shades:Shadows.Shades>
+                <pancakeView:PancakeView BackgroundColor="{StaticResource MainColorGreen}" 
+                                      CornerRadius="0,0,50,50" >
+                    <Grid RowDefinitions="Auto,Auto" Margin="0,00">
+                        <shades:Shadows  VerticalOptions="Start" CornerRadius="30" Margin="20,40,20,0"
+                                >
+                            <shades:Shadows.Shades>
+                                <shades:ImmutableShades>
+                                    <shades:Shade BlurRadius="30"
+                                          Opacity="0.5"
+                                          Offset="-10, -15"
+                                          Color="#C1F6FC" />
+                                    <shades:Shade BlurRadius="30"
+                                          Opacity="0.5"
+                                          Offset="0, 15"
+                                          Color="#4A6264" />
+                                </shades:ImmutableShades>
+                            </shades:Shadows.Shades>
+                            <primitives:RadBorder HeightRequest="55" CornerRadius="30" Margin="0,0,0,0"
+                                          BorderColor="{StaticResource MainColorGreen}"
+                                          BorderThickness="2">
+                                <Grid ColumnDefinitions="50,*" RowDefinitions="55"  BackgroundColor="{StaticResource WhiteBackgroundColor}">
+                                    <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" 
+                                        Text="&#xf0b1;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
+                                    <customControls:CustomEntry Grid.Column="1" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
+                                                        Text="{Binding Job.Name,Mode=TwoWay}" Placeholder="Enter the job name" TextColor="{StaticResource FontColor}" UnderlineColor="Transparent" MaxLength="255">
+                                    </customControls:CustomEntry>
+                                </Grid>
+                            </primitives:RadBorder>
+                        </shades:Shadows>
+                        <Grid Grid.Row="1" Grid.Column="0" Margin="0,30,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <shades:Shadows  Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50" HeightRequest="40"
+                                         Style="{StaticResource BackgroundMainColorShadow}">
+                                <primitives:RadBorder  Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                                    <Button Text="Submit"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding AddJobCommand}">
 
-                                </customControls:CustomEntry>
-                            </StackLayout>
-                        </StackLayout>
-                    </primitives:RadBorder>
-                </shades:Shadows>
-                <Grid Grid.Row="1" Grid.Column="0" Margin="10" ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <shades:Shadows  Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50"
-                                     Style="{StaticResource BackgroundMainColorShadow}">
-                        <primitives:RadBorder  Margin="15" Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
-                            <Button Text="Submit"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding AddJobCommand}">
+                                    </Button>
+                                </primitives:RadBorder>
+                            </shades:Shadows>
+                        </Grid>
 
-                            </Button>
-                    </primitives:RadBorder>
-                    </shades:Shadows>
-                </Grid>
-            </Grid >
-           
-                <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand" Margin="0,0,0,20">
-                <dataControls:RadListView x:Name="listView" ItemsSource="{Binding AllJobs}" VerticalOptions="FillAndExpand" SelectionMode="None"
+                    </Grid>
+
+                </pancakeView:PancakeView>
+            </shades:Shadows>
+            <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+                <dataControls:RadListView x:Name="listView" Margin="0,15,0,0" ItemsSource="{Binding AllJobs}" VerticalOptions="FillAndExpand" SelectionMode="None"
                                           IsItemsReorderEnabled="True">
                     <dataControls:RadListView.ItemTemplate>
-                    <DataTemplate>
-                        <listView:ListViewTemplateCell>
-                            <listView:ListViewTemplateCell.View>
-                                <shades:Shadows CornerRadius="30" Padding="10,15,10,15"
-                                                Style="{StaticResource BackgroundMainColorShadow}">
-                                    <primitives:RadBorder CornerRadius="30" BackgroundColor="{StaticResource MainColorGreen}" Margin="10,0,10,0" >
+                        <DataTemplate>
+                            <listView:ListViewTemplateCell>
+                                <listView:ListViewTemplateCell.View>
+                                    <shades:Shadows CornerRadius="30" Padding="10,8,10,8" >
+                                        <shades:Shadows.Shades>
+                                            <shades:ImmutableShades>
+                                                <shades:Shade BlurRadius="30"
+                                                              Opacity="0.5"
+                                                              Offset="0, 5"
+                                                              Color="#6F6A6A" />
+                                                <shades:Shade BlurRadius="30"
+                                                              Opacity="0.5"
+                                                              Offset="10, -15"
+                                                              Color="#E7E4E4" />
+                                            </shades:ImmutableShades>
+                                        </shades:Shadows.Shades>
+                                        <primitives:RadBorder CornerRadius="30" BackgroundColor="{StaticResource WhiteBackgroundColor}" 
+                                                              Margin="10,0,10,0" >
                                             <Grid Padding="20,0,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="8"></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="8"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
                                                 <Image  Source="circle.png">
                                                 </Image>
-                                                <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center" Margin="10,0,0,0" Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Start"/>
-                                </Grid>
+                                                <Label Grid.Column="1" Text="{Binding Name}" VerticalOptions="Center" 
+                                                       Margin="10,0,0,0" HorizontalOptions="Start" Style="{StaticResource LabelStyleBold}"/>
+                                            </Grid>
                                         </primitives:RadBorder>
-                                </shades:Shadows>
+                                    </shades:Shadows>
                                 </listView:ListViewTemplateCell.View>
-                        </listView:ListViewTemplateCell>
-                    </DataTemplate>
-                </dataControls:RadListView.ItemTemplate>
-                <dataControls:RadListView.LayoutDefinition>
-                    <listView:ListViewLinearLayout ItemLength="80" />
-                </dataControls:RadListView.LayoutDefinition>
+                            </listView:ListViewTemplateCell>
+                        </DataTemplate>
+                    </dataControls:RadListView.ItemTemplate>
+                    <dataControls:RadListView.LayoutDefinition>
+                        <listView:ListViewLinearLayout ItemLength="70" />
+                    </dataControls:RadListView.LayoutDefinition>
                 </dataControls:RadListView>
             </ScrollView>
             <Label Grid.Row="0" Grid.RowSpan="2" VerticalOptions="Center" IsVisible="{Binding IsNoJob}" Text="Please add a job" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
