@@ -32,4 +32,4 @@ Focused on android platform
 ### Update the advance payment made to worker:
 ![Screenshot_1621094467](https://user-images.githubusercontent.com/68012374/118385890-aa7df900-b630-11eb-972e-fc868afefbd7.jpg)
 
-# Thanks for scrolling down, appriciate your patience
+# Thanks for scrolling down, appreciate your patience
