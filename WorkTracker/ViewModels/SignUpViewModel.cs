@@ -21,6 +21,7 @@ namespace WorkTracker.ViewModels
         private string _userEmail;
         private string _userName;
         private DelegateCommand _verifyOtpCommand;
+        private bool _isCommandActive;
 
         public SignUpViewModel(INavigationService navigationService, IOwnerDataAccessService ownerService,
             INotificationService ns, IPopupService popup, IMiscellaneousService miscellaneousService) : base(
@@ -39,6 +40,12 @@ namespace WorkTracker.ViewModels
             set => SetProperty(ref _isOtpLayoutVisible, value);
         }
 
+        public bool IsCommandActive
+        {
+            get => _isCommandActive;
+            private set => SetProperty(ref _isCommandActive, value);
+        }
+
         public int? OtpByUser
         {
             get => _otpByUser;
@@ -46,10 +53,10 @@ namespace WorkTracker.ViewModels
         }
 
         public DelegateCommand VerifyOtpCommand =>
-            _verifyOtpCommand ??= new DelegateCommand(ExecuteVerifyOtpCommand);
+            _verifyOtpCommand ??= new DelegateCommand(ExecuteVerifyOtpCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand RegisterCommand =>
-            _registerCommand ??= new DelegateCommand(ExecuteRegisterCommand);
+            _registerCommand ??= new DelegateCommand(ExecuteRegisterCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
 
         public string UserEmail
         {
@@ -74,11 +81,16 @@ namespace WorkTracker.ViewModels
             get => _confirmPassword;
             set => SetProperty(ref _confirmPassword, value);
         }
+        private bool CanExecuteCommand()
+        {
+            return !IsCommandActive;
+        }
 
         private async void ExecuteVerifyOtpCommand()
         {
             if (_otp == _otpByUser)
             {
+                IsCommandActive = true;
                 _popupservice.ShowLoadingScreen();
                 try
                 {
@@ -100,6 +112,7 @@ namespace WorkTracker.ViewModels
             }
 
             _notificationService.Notify(Resource.OtpMismatch, NotificationTypeEnum.Error);
+            IsCommandActive = false;
         }
 
         private async void ExecuteRegisterCommand()
@@ -140,6 +153,7 @@ namespace WorkTracker.ViewModels
             _popupservice.ShowLoadingScreen();
             try
             {
+                IsCommandActive = true;
                 await _ownerService.Register(UserName, UserEmail, Password);
 
                 _otp = await _miscellaneousService.GenerateOTPForUser(UserEmail);
@@ -155,6 +169,7 @@ namespace WorkTracker.ViewModels
             }
             finally
             {
+                IsCommandActive = false;
                 _popupservice.HideLoadingScreen();
             }
         }

@@ -30,6 +30,7 @@
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.470" />
     <PackageReference Include="IntelliAbb.Xamarin.Controls" Version="1.0.148" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
+    <PackageReference Include="MonkeyCache.FileStore" Version="1.5.2" />
     <PackageReference Include="Plugin.Toast" Version="2.2.0" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1367" />
     <PackageReference Include="Sharpnado.Shadows" Version="1.2.0" />

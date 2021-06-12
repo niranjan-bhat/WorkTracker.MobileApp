@@ -60,6 +60,7 @@ namespace WorkTracker
                 containerRegistry.Register<IWorkerDataAccessService, WorkerDataAccessService>();
                 containerRegistry.Register<IJobDataAccessService, JobDataAccessService>();
                 containerRegistry.Register<IAssignmentDataAccessService, AssignmentDataAccessService>();
+                containerRegistry.Register<IPaymentService, PaymentDataAccessService>();
             }
             catch (System.Exception e)
             {

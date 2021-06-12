@@ -25,7 +25,7 @@ namespace WorkTracker.Classes
             }
         }
 
-        public bool _isAttendanceSubmitted;
+        private bool _isAttendanceSubmitted;
         public bool IsAttendanceSubmitted
         {
             get => _isAttendanceSubmitted;

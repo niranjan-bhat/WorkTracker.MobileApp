@@ -123,6 +123,9 @@
   <data name="ChooseDateRange" xml:space="preserve">
     <value>*Choose the date range to calculate the salary </value>
   </data>
+  <data name="DateRangeSelectionWarning" xml:space="preserve">
+    <value>Please select the date range.</value>
+  </data>
   <data name="DuplicateJobName" xml:space="preserve">
     <value>Job with this name already exists</value>
   </data>
@@ -156,11 +159,23 @@
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Password mismatch</value>
   </data>
+  <data name="PaymentAmountInvalidWarning" xml:space="preserve">
+    <value>Entered amount is invalid</value>
+  </data>
+  <data name="PaymentSelectionAtleastOneWarning" xml:space="preserve">
+    <value>Please select any one payment type.</value>
+  </data>
+  <data name="PaymentSelectionOnlyOneWarning" xml:space="preserve">
+    <value>Please select only one payment type.</value>
+  </data>
   <data name="PleaseEnterOtp" xml:space="preserve">
     <value>Please enter the OTP sent to {0}</value>
   </data>
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>Registration has been completed</value>
+  </data>
+  <data name="SuccessfulPayment" xml:space="preserve">
+    <value>Payment is added successfully</value>
   </data>
   <data name="UserAddedSuccess" xml:space="preserve">
     <value>User has been added successfully</value>
@@ -171,7 +186,13 @@
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="WorkerSelectionWarning" xml:space="preserve">
+    <value>Please select a worker.</value>
+  </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="DuplicateWorkerName" xml:space="preserve">
+    <value>Unable to add the worker, duplicate worker name</value>
   </data>
 </root>

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Net.Mime;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Navigation;
+using Prism.Services;
+using Unity;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
 using WorkTracker.Events;
 using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace WorkTracker.ViewModels
 {
@@ -26,7 +27,7 @@ namespace WorkTracker.ViewModels
         private JobDTO _Job;
         private readonly INotificationService _notificationService;
 
-        public JobViewModel(IJobDataAccessService jobDataAccessService, IEventAggregator ea,
+        public JobViewModel( IJobDataAccessService jobDataAccessService, IEventAggregator ea,
             INotificationService notificationService)
         {
             _jobDAService = jobDataAccessService;

@@ -20,7 +20,6 @@
                 <RowDefinition Height="50"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
             <input:RadCalendar x:Name="calender" Grid.Row="0" AppointmentsSource="{Binding Appointments}" Margin="20,0,20,0"
                               SelectionMode="Single" ViewMode="Month" SelectedDate="{Binding CurrentDate,Mode=TwoWay}" 
@@ -31,7 +30,7 @@
                               DayNameCellStyle="{StaticResource CalendarDayNameCellStyle}"
                               GridLinesColor="{StaticResource MainColorGreen}" 
                               OtherMonthCellStyle="{StaticResource CalenderOtherMonthCellStyle}"
-                              BackgroundColor="{StaticResource MainColorGreen}">
+                              BackgroundColor="{StaticResource CalenderBackgroundColor}">
 
                 <input:RadCalendar.Behaviors>
                     <prism:EventToCommandBehavior EventName="SelectionChanged"
@@ -95,7 +94,9 @@
                 </primitives:RadPopup.Popup>
             </Button>
             <primitives:RadExpander Grid.Row="2" BorderThickness="0,1" BorderColor="{StaticResource MainColorDarkGreen}"
-                                           HeaderLocation="Top" Margin="0,40,0,0">
+                                           HeaderLocation="Top" Margin="0,40,0,0" 
+                                           MinimumHeightRequest="50"
+                                           VerticalOptions="FillAndExpand">
                 <primitives:RadExpander.Header>
                     <primitives:ExpanderHeader Padding="15"
                         IndicatorText="&#xf139;"                   
@@ -134,7 +135,7 @@
                 </primitives:RadExpander.Content>
             </primitives:RadExpander>
             <primitives:RadExpander Grid.Row="3" BorderThickness="0,1" BorderColor="{StaticResource MainColorDarkGreen}"
-                                           HeaderLocation="Top">
+                                           HeaderLocation="Top" VerticalOptions="FillAndExpand">
                 <primitives:RadExpander.Header>
                     <primitives:ExpanderHeader Padding="15"
                         IndicatorText="&#xf139;"                   

@@ -16,7 +16,7 @@
         <primitives:RadPopup x:Name="popup"
                              IsModal="False" 
                              OutsideBackgroundColor="#6FFAFCFA" AnimationType="Zoom"  Placement="Center"  >
-            <shades:Shadows Style="{StaticResource  BackgroundWhiteShadow}">
+            <shades:Shadows Style="{StaticResource  BackgroundDarkWhiteShadow}">
                 <pancakeView:PancakeView CornerRadius="8" BackgroundColor="#F6F6F6">
                     <Grid RowSpacing="0"  Margin="0" Padding="0">
                         <Grid.ColumnDefinitions>

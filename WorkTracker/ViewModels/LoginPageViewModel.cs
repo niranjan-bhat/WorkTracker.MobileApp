@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using Prism.Commands;
 using Prism.Navigation;
 using WorkTracker.Classes;
@@ -13,14 +12,14 @@ namespace WorkTracker.ViewModels
     {
         private readonly INotificationService _notificationService;
         private readonly IOwnerDataAccessService _ownerService;
-        private bool _isLoginAction;
-        private DelegateCommand _loginCommand;
-
-        private string _password="ni";
 
         private readonly IPopupService _popupservice;
+        private bool _isCommandActive;
+        private DelegateCommand _loginCommand;
+
+        private string _password = "ni";
         private DelegateCommand _registerCommand;
-        private string _userEmail="ni@ni.com";
+        private string _userEmail = "ni@ni.com";
 
         public LoginPageViewModel(INavigationService navigationService, IOwnerDataAccessService ownerService,
             INotificationService ns, IPopupService popup) : base(navigationService)
@@ -28,6 +27,12 @@ namespace WorkTracker.ViewModels
             _ownerService = ownerService;
             _notificationService = ns;
             _popupservice = popup;
+        }
+
+        public bool IsCommandActive
+        {
+            get => _isCommandActive;
+            private set => SetProperty(ref _isCommandActive, value);
         }
 
         public string UserEmail
@@ -43,19 +48,28 @@ namespace WorkTracker.ViewModels
         }
 
         public DelegateCommand LoginCommand =>
-            _loginCommand ??= new DelegateCommand(ExecuteLoginCommand);
+            _loginCommand ??=
+                new DelegateCommand(ExecuteLoginCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand RegisterCommand =>
-            _registerCommand ??= new DelegateCommand(ExecuteRegisterCommand);
+            _registerCommand ??=
+                new DelegateCommand(ExecuteRegisterCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
+
+        private bool CanExecuteCommand()
+        {
+            return !IsCommandActive;
+        }
 
         private async void ExecuteRegisterCommand()
         {
+            IsCommandActive = true;
             await NavigationService.NavigateAsync($"{Constants.Navigation}/{Constants.SignUpPage}");
         }
 
 
         private async void ExecuteLoginCommand()
         {
+            IsCommandActive = true;
             if (string.IsNullOrEmpty(UserEmail))
             {
                 _notificationService.Notify(string.Format(Resource.InvalidValue, "Email"), NotificationTypeEnum.Error);
@@ -89,19 +103,26 @@ namespace WorkTracker.ViewModels
                         {"from", Constants.Login}
                     });
             }
-            catch (WtException wt)  when(wt.ErrorCode==Constants.USERNAMEPASSWORD_WRONG)
+            catch (WtException wt) when (wt.ErrorCode == Constants.USERNAMEPASSWORD_WRONG)
             {
                 _notificationService.Notify(Resource.UsernamePasswordMismatch, NotificationTypeEnum.Error);
-
+                IsCommandActive = false;
             }
             catch (Exception e)
             {
                 _notificationService.Notify(Resource.LoginFailed, NotificationTypeEnum.Error);
+                IsCommandActive = false;
             }
             finally
             {
                 _popupservice.HideLoadingScreen();
             }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            IsCommandActive = false;
+            base.OnNavigatedTo(parameters);
         }
     }
 }

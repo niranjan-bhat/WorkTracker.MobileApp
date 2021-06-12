@@ -23,5 +23,14 @@ namespace WorkTracker.Contracts
         /// <param name="mobile"></param>
         /// <returns></returns>
         Task<WorkerDTO> AddWorker(int ownerId, string workerName, string mobile);
+
+        /// <summary>
+        /// Calculate salary for a worker
+        /// </summary>
+        /// <param name="workerId"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        Task<int> CalculateSalary(int workerId, DateTime startDate, DateTime endDate);
     }
 }

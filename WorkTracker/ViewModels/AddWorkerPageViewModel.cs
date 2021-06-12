@@ -64,6 +64,11 @@ namespace WorkTracker.ViewModels
                 _notificationService.Notify(Resource.DuplicateMobileNumber, NotificationTypeEnum.Error);
 
             }
+            catch (WtException wt) when (wt.ErrorCode == Constants.DUPLICATE_WORKERNAME)
+            {
+                _notificationService.Notify(Resource.DuplicateWorkerName, NotificationTypeEnum.Error);
+
+            }
             catch (Exception e)
             {
                 _notificationService.Notify(Resource.Failure, NotificationTypeEnum.Error);

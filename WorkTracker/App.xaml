@@ -22,9 +22,17 @@
                                       HorizontalTextAlignment="Center"
                                       VerticalTextAlignment="Center"
                                       TextColor="White" 
-                                      FontSize="20"
+                                      FontSize="18"
                                       FontAttributes="Bold"
                                       BackgroundColor="#45576A"/>
+            <input:CalendarCellStyle  x:Key="CalenderSelectedCellStyleWB"   BorderColor="#E1691F" 
+                                      BorderThickness="2" 
+                                      HorizontalTextAlignment="Center"
+                                      VerticalTextAlignment="Center"
+                                      TextColor="{StaticResource FontColor}" 
+                                      FontSize="18"
+                                      FontAttributes="Bold"
+                                      BackgroundColor="#FCF0EC"/>
             <input:CalendarCellStyle x:Key="CalenderTitleCellStyle" BackgroundColor="{StaticResource MainColorGreen}" 
                                      TextColor="White" 
                                      FontSize="20" 
@@ -41,8 +49,20 @@
                                      FontSize="18"
                                      FontAttributes="Bold"
                                      TextColor="White"/>
+            <input:CalendarCellStyle x:Key="CalenderTodayCellStyleWB"
+                                     BorderColor="Transparent"
+                                     HorizontalTextAlignment="Center"
+                                     VerticalTextAlignment="Center" 
+                                     FontSize="18"
+                                     FontAttributes="Bold"
+                                     TextColor="{StaticResource SubmitCoinFillColor}"/>
             <input:CalendarCellStyle x:Key="CalendarDayCellStyle" BackgroundColor="Transparent"
                                      TextColor="White" 
+                                     HorizontalTextAlignment="Center" 
+                                     VerticalTextAlignment="Center"
+                                     FontSize="15" FontAttributes="Bold"></input:CalendarCellStyle>
+            <input:CalendarCellStyle x:Key="CalendarDayCellStyleWB" BackgroundColor="Transparent"
+                                     TextColor="{StaticResource SubmitCoinFillColor}" 
                                      HorizontalTextAlignment="Center" 
                                      VerticalTextAlignment="Center"
                                      FontSize="15" FontAttributes="Bold"></input:CalendarCellStyle>
@@ -50,6 +70,7 @@
                                      FontSize="15" FontAttributes="Bold"/>
 
             <input:CalendarCellStyle x:Key="CalenderOtherMonthCellStyle" TextColor="white" BackgroundColor="#368A90" />
+            <input:CalendarCellStyle x:Key="CalenderOtherMonthCellStyleWB" TextColor="white" BackgroundColor="#D6D6D6" />
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

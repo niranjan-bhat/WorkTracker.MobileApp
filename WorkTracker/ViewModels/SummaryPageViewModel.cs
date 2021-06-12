@@ -121,8 +121,10 @@ namespace WorkTracker.ViewModels
             {
                 var comment = await _assignmentDAService.AddComment(_currentAssignment.Id, UserComment);
                 _currentAssignment.Comments.Add(comment);
+                PreviousCommentsList.Clear();
                 PreviousCommentsList =
                     new ObservableCollection<string>(_currentAssignment.Comments?.Select(x => x.OwnerComment));
+                UserComment = string.Empty;
             }
             catch (Exception e)
             {
@@ -142,10 +144,11 @@ namespace WorkTracker.ViewModels
                     ResetUIElemnts();
                     return;
                 }
-
+                AssignedJobsList?.Clear();
                 AssignedJobsList =
                     new ObservableCollection<string>(_currentAssignment.Jobs.Select(x => x.Name));
                 CanAddComments = true;
+                PreviousCommentsList?.Clear();
                 PreviousCommentsList =
                     new ObservableCollection<string>(_currentAssignment?.Comments?.Select(x => x.OwnerComment));
             }

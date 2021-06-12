@@ -10,44 +10,49 @@
              x:Class="WorkTracker.Views.AddWorkerPage"
              Title="{Binding Title}" BackgroundColor="{StaticResource MainColorGreen}">
     <ContentPage.Content>
-        <Grid RowDefinitions="70,70,70"  Padding="10" Margin="10" RowSpacing="30">
+        <Grid RowDefinitions="100,100,70"  Padding="10" Margin="10" RowSpacing="30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <shades:Shadows Grid.Row="0" CornerRadius="30" Margin="0,5,0,0"
-                            Style="{StaticResource BackgroundMainColorShadow}">
-                <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
-                    <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="20,10,0,10" VerticalOptions="StartAndExpand" Spacing="10">
-                            <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
-                                   Text="Name :"></Label>
-                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
-                                                        Text="{Binding NewWorker.Name}" TextColor="White">
-                                <Entry.Behaviors>
-                                    <behavior:EntryRestrictionOnlyAlphabet/>
-                                </Entry.Behaviors>
-                            </customControls:CustomEntry>
-                        </StackLayout>
-                    </StackLayout>
+
+            <shades:Shadows Grid.Row="0" VerticalOptions="Start" CornerRadius="30" Style="{StaticResource GlossyGreenBackgroundShadow}" Margin="20,40,20,0">
+                <primitives:RadBorder HeightRequest="55" CornerRadius="30" Margin="0,0,0,0"
+                                      BorderColor="{StaticResource MainColorGreen}"
+                                      BorderThickness="2">
+                    <Grid ColumnDefinitions="50,*" RowDefinitions="55"  BackgroundColor="White">
+                        <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" 
+                                        Text="&#xf007;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
+                        <customControls:CustomEntry Grid.Column="1" Style="{StaticResource EntryStyle}" 
+                                                    HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
+                                                    Text="{Binding NewWorker.Name,Mode=TwoWay}"  
+                                                    Placeholder="Enter the worker's name" 
+                                                    TextColor="{StaticResource FontColor}" 
+                                                    UnderlineColor="Transparent" MaxLength="255">
+                            <Entry.Behaviors>
+                                <behavior:EntryRestrictionOnlyAlphabet></behavior:EntryRestrictionOnlyAlphabet>
+                            </Entry.Behaviors>
+                        </customControls:CustomEntry>
+                    </Grid>
                 </primitives:RadBorder>
             </shades:Shadows>
 
-            <shades:Shadows Grid.Row="1" CornerRadius="30" Margin="0,5,0,0"
-                            Style="{StaticResource BackgroundMainColorShadow}">
-                <primitives:RadBorder  CornerRadius="30" Margin="15,0" BackgroundColor="{StaticResource MainColorGreen}" VerticalOptions="FillAndExpand">
-                    <StackLayout Orientation="Vertical" VerticalOptions="Center" Spacing="0">
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Margin="20,10,0,10" VerticalOptions="StartAndExpand" Spacing="10">
-                            <Label Style="{StaticResource WhiteLabelStyle}" HorizontalOptions="Center" VerticalOptions="Center" 
-                                   Text="Mobile :"></Label>
-                            <customControls:CustomEntry Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
-                                                        MaxLength="10" Keyboard="Numeric" Text="{Binding NewWorker.Mobile}" TextColor="White">
-                                <Entry.Behaviors>
-                                    <behavior:EntryRestrictionOnlyNumber></behavior:EntryRestrictionOnlyNumber>
-                                </Entry.Behaviors>
-                            </customControls:CustomEntry>
-                        </StackLayout>
-                    </StackLayout>
+            <shades:Shadows Grid.Row="1" VerticalOptions="Start" Style="{StaticResource GlossyGreenBackgroundShadow}"  CornerRadius="30" Margin="20,0,20,0">
+                <primitives:RadBorder HeightRequest="55" CornerRadius="30" Margin="0,0,0,0"
+                                      BorderColor="{StaticResource MainColorGreen}"
+                                      BorderThickness="2">
+                    <Grid ColumnDefinitions="50,*" RowDefinitions="55"  BackgroundColor="White">
+                        <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" 
+                                Text="&#xf3cd;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
+                        <customControls:CustomEntry Grid.Column="1" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
+                                                    Text="{Binding NewWorker.Mobile}"  
+                                                    Placeholder="Enter the mobile number" TextColor="{StaticResource FontColor}" 
+                                                    UnderlineColor="Transparent" MaxLength="10">
+                            <Entry.Behaviors>
+                                <behavior:EntryRestrictionOnlyNumber></behavior:EntryRestrictionOnlyNumber>
+                            </Entry.Behaviors>
+                        </customControls:CustomEntry>
+                    </Grid>
                 </primitives:RadBorder>
             </shades:Shadows>
 

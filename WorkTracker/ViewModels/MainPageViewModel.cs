@@ -35,7 +35,8 @@ namespace WorkTracker.ViewModels
         private DelegateCommand<object> _navigateToSummaryCommand;
         private WorkerDTO _selectedWorker;
         private DelegateCommand _submitAttendance;
-        private DateTime? _userSelectedDate = DateTime.Today;
+        private DateTime? _userSelectedDate;
+        private bool _isCommandActive;
 
         public MainPageViewModel(INavigationService navigationService, IPopupService popupService,
             IEventAggregator ea, INotificationService ns, IAssignmentDataAccessService assignmentDataAccessService,
@@ -49,6 +50,7 @@ namespace WorkTracker.ViewModels
             _assignmentDataAccessService = assignmentDataAccessService;
             _jobDataAccessService = jobDataAccessService;
             _popupService = popupService;
+            AllAssignments = new ObservableCollection<UiBindableAssignment>();
         }
 
         public bool IsAssignmentSubmittedAlready
@@ -94,13 +96,13 @@ namespace WorkTracker.ViewModels
         }
 
         public DelegateCommand AddNewWorkerCommand =>
-            _addNewWorkerCommand ??= new DelegateCommand(ExecuteAddNewWorkerCommand);
+            _addNewWorkerCommand ??= new DelegateCommand(ExecuteAddNewWorkerCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand SubmitAttendanceCommand =>
             _submitAttendance ??= new DelegateCommand(ExecuteSubmitAttendanceCommand);
 
         public DelegateCommand<object> NavigateToSummaryCommand =>
-            _navigateToSummaryCommand ??= new DelegateCommand<object>(ExecuteNavigateToSummaryCommand);
+            _navigateToSummaryCommand ??= new DelegateCommand<object>(ExecuteNavigateToSummaryCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand<object> NavigateToJobAssignmentCommand =>
             _navigateToJobAssignmentCommand ??= new DelegateCommand<object>(ExecuteNavigateToJobAssignmentCommand);
@@ -125,8 +127,9 @@ namespace WorkTracker.ViewModels
             _popupService.ShowLoadingScreen();
             try
             {
+                var date = SelectedDate.Value;
                 var submittedAssignment =
-                    await _assignmentDataAccessService.GetAllAssignment(ownerId, SelectedDate.Value, SelectedDate.Value,
+                    await _assignmentDataAccessService.GetAllAssignment(ownerId, date, date,
                         null);
 
                 if (!submittedAssignment.Any()) // If there is no attendance submitted for this date
@@ -173,6 +176,15 @@ namespace WorkTracker.ViewModels
             }
         }
 
+        private bool CanExecuteCommand()
+        {
+            return !IsCommandActive;
+        }
+        private bool CanExecuteCommand(object ob)
+        {
+            return !IsCommandActive;
+        }
+
         /// <summary>
         /// Log out logic
         /// </summary>
@@ -195,14 +207,14 @@ namespace WorkTracker.ViewModels
 
         private void ExecuteAddNewWorkerCommand()
         {
+            IsCommandActive = true;
             NavigationService.NavigateAsync(Constants.AddWorkerPage);
         }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            string from;
-            parameters.TryGetValue("from", out from);
+            _ = parameters.TryGetValue("from", out string from);
 
             switch (from)
             {
@@ -212,13 +224,15 @@ namespace WorkTracker.ViewModels
                     break;
                 case Constants.Login:
                     IsAssignmentSubmittedAlready = false;
-                    SelectedDate = Preferences.Get(Constants.LatestDateOfAttendanceSubmission, DateTime.Today);
                     AllWorkers = await GetAllWorkers();
                     AllAssignments = PopulateAssignment(AllWorkers);
                     SubscribeEvents();
+                    SelectedDate = Preferences.Get(Constants.LatestDateOfAttendanceSubmission, DateTime.Today);
                     IsNoWorker = AllWorkers.Count == 0;
                     break;
             }
+
+            IsCommandActive = false;
         }
 
         /// <summary>
@@ -237,6 +251,13 @@ namespace WorkTracker.ViewModels
             DateSelectionModified += FetchSubmittedAttendanceForSelectedDate;
         }
 
+        public bool IsCommandActive
+        {
+            get => _isCommandActive;
+            private set => SetProperty(ref _isCommandActive, value);
+        }
+
+
         /// <summary>
         /// Handle worker data modified/added
         /// </summary>
@@ -246,14 +267,28 @@ namespace WorkTracker.ViewModels
             switch (obj.ModificationType)
             {
                 case CrudEnum.Added:
-                    var ownerId = Preferences.Get(Constants.UserId, 0);
-                    var workerList = await _workerDataAccessService.GetAllWorker(ownerId);
-                    AllWorkers = new ObservableCollection<WorkerDTO>(workerList);
+                    //var ownerId = Preferences.Get(Constants.UserId, 0);
+                    //var workerList = await _workerDataAccessService.GetAllWorker(ownerId);
+                    //AllWorkers = new ObservableCollection<WorkerDTO>(workerList);
+
+                    AllAssignments.Add(new UiBindableAssignment()
+                    {
+                        IsAttendanceSubmitted = false,
+                        AssignedJobs = new ObservableCollection<JobDTO>(),
+                        IsSelected = false,
+                        Assignment = new AssignmentDTO()
+                        {
+                            AssignedDate = DateTime.Now,
+                            Worker = obj.Worker
+                        }
+
+                    });
+                    AllWorkers.Add(obj.Worker);
                     IsNoWorker = false;
                     break;
             }
 
-            AllAssignments = PopulateAssignment(AllWorkers);
+            //AllAssignments = PopulateAssignment(AllWorkers);
         }
 
         private async Task<ObservableCollection<WorkerDTO>> GetAllWorkers()
@@ -298,6 +333,7 @@ namespace WorkTracker.ViewModels
             if (param == null)
                 return;
 
+            IsCommandActive = true;
             var navPara = new NavigationParameters();
             navPara.Add("Worker", param);
             NavigationService.NavigateAsync(Constants.SummaryPage, navPara);

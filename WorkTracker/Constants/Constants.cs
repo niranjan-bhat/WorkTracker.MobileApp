@@ -33,6 +33,7 @@ namespace WorkTracker
         public const string MainPage = "MainPage";
         public const string SummaryPage = "SummaryPage";
         public const string JobAssignmentPage = "JobAssignmentPage";
+        public const string JobView = "JobView";
         public const string Login = "LoginPage";
         public const string SignUpPage = "SignUpPage";
         public const string WorkerSalaryPage = "WorkerSalaryView";
@@ -54,6 +55,7 @@ namespace WorkTracker
         public static string DUPLICATE_JOBNAME = "DUPLICATE_JOBNAME";
         public static string DUPLICATE_MOBILE_NUMBER = "DUPLICATE_MOBILE_NUMBER";
         public static string INVALID_EMAIL = "INVALID_EMAIL";
+        internal static string DUPLICATE_WORKERNAME = "DUPLICATE_WORKERNAME";
         #endregion
 
     }

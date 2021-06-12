@@ -72,213 +72,215 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <primitives:RadTabView x:Name="tabView">
-                    <primitives:RadTabView.HeaderPosition>Bottom</primitives:RadTabView.HeaderPosition>
-                    <primitives:RadTabView.Items>
+            <primitives:RadTabView.HeaderPosition>Bottom</primitives:RadTabView.HeaderPosition>
+            <primitives:RadTabView.Items>
 
-                        <primitives:TabViewItem >
-                            <primitives:TabViewItem.Header>
+                <primitives:TabViewItem >
+                    <primitives:TabViewItem.Header>
                         <workTracker:TabWithIcon ControlTemplate="{StaticResource TabHeaderControlTemplate}" Text="Attendance" TabHeaderImage="&#xf46d;">
-                                </workTracker:TabWithIcon>
-                            </primitives:TabViewItem.Header>
-                            <primitives:TabViewItem.Content>
-                                <Grid RowSpacing="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="30"></RowDefinition>
-                                        <RowDefinition Height="30"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="60"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <StackLayout  Grid.Row="0" Orientation="Horizontal" HorizontalOptions="End" Margin="0,2,10,0" IsVisible="{Binding IsAssignmentSubmittedAlready}">
-                                        <Grid RowDefinitions="28" HorizontalOptions="End">
-                                            <Ellipse Fill="{StaticResource SubmitCoinFillColor}" StrokeThickness="2" Stroke="{StaticResource MainColorDarkGreen}"  Grid.Row="0"  WidthRequest="28"></Ellipse>
-                                            <Label Grid.Row="0" Text="S" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="15"></Label>
-                                        </Grid>
-                                        <Label Text="Submitted Already" Style="{StaticResource LabelStyle}"></Label>
-                                    </StackLayout>
-                                    <Grid ColumnDefinitions="50,Auto,*" Grid.Row="1">
-                                        <Image  Margin="20,0,0,0"   Source="calendar.png"></Image>
-                                        <input:RadDatePicker HeightRequest="10" HorizontalOptions="Fill" Grid.Column="1"
+                        </workTracker:TabWithIcon>
+                    </primitives:TabViewItem.Header>
+                    <primitives:TabViewItem.Content>
+                        <Grid RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="60"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <StackLayout  Grid.Row="0" Orientation="Horizontal" HorizontalOptions="End" Margin="0,2,10,0" IsVisible="{Binding IsAssignmentSubmittedAlready}">
+                                <Grid RowDefinitions="28" HorizontalOptions="End" IsVisible="{Binding IsAssignmentSubmittedAlready}">
+                                    <primitives:RadBorder BorderThickness="2" CornerRadius="15" BorderColor="{StaticResource MainColorDarkGreen}" HeightRequest="28" WidthRequest="28">
+                                        <BoxView BackgroundColor="{StaticResource SubmitCoinFillColor}"></BoxView>
+                                    </primitives:RadBorder>
+                                    <Label Grid.Row="0" Text="S" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="15"></Label>
+                                </Grid>
+                                <Label Text="Submitted Already" Style="{StaticResource LabelStyle}"></Label>
+                            </StackLayout>
+                            <Grid ColumnDefinitions="50,Auto,*" Grid.Row="1">
+                                <Image  Margin="20,0,0,0"   Source="calendar.png"></Image>
+                                <input:RadDatePicker HeightRequest="10" HorizontalOptions="Fill" Grid.Column="1"
                                                  Date="{Binding SelectedDate}" 
                                                  Placeholder="Select Date"
                                                  Style="{StaticResource DefaultDatePickerStyle}"
                                                  Margin="20,0,10,0"
                                                  MaximumDate="{Static sys:DateTime.Now}"
                                                  MinimumDate="{Binding MinimumSelectableDate}" PlaceholderLabelStyle="{StaticResource DatePickerPlaceholderLabelStyle}">
-                                            <input:RadDatePicker.SpinnerStyle>
-                                                <Style TargetType="dataControls:RadSpinner" BasedOn="{StaticResource DefaultSpinnerStyle}" />
-                                            </input:RadDatePicker.SpinnerStyle>
-                                            <input:RadDatePicker.SelectorSettings>
-                                                <input:PickerPopupSelectorSettings HeaderLabelText="Pick a Date" 
+                                    <input:RadDatePicker.SpinnerStyle>
+                                        <Style TargetType="dataControls:RadSpinner" BasedOn="{StaticResource DefaultSpinnerStyle}" />
+                                    </input:RadDatePicker.SpinnerStyle>
+                                    <input:RadDatePicker.SelectorSettings>
+                                        <input:PickerPopupSelectorSettings HeaderLabelText="Pick a Date" 
                                                                            HeaderLabelStyle="{StaticResource DefaultHeaderLabelStyle}"
                                                                            HeaderStyle="{StaticResource DefaultHeaderStyle}" 
                                                                            FooterStyle="{StaticResource DatePickerFooterStyle}"
                                                                            AcceptButtonStyle="{StaticResource DatePickerAcceptButtonStyle}"
                                                                            CancelButtonStyle="{StaticResource DatePickerCancelButtonStyle}">
-                                                </input:PickerPopupSelectorSettings>
-                                            </input:RadDatePicker.SelectorSettings>
-                                        </input:RadDatePicker >
-                                    </Grid>
-                                    <shades:Shadows Grid.Row="2" CornerRadius="70" Margin="0,40,0,0">
-                                        <shades:Shadows.Shades>
-                                            <shades:ImmutableShades>
-                                                <shades:Shade BlurRadius="15"
+                                        </input:PickerPopupSelectorSettings>
+                                    </input:RadDatePicker.SelectorSettings>
+                                </input:RadDatePicker >
+                            </Grid>
+                            <shades:Shadows Grid.Row="2" CornerRadius="70" Margin="0,40,0,0">
+                                <shades:Shadows.Shades>
+                                    <shades:ImmutableShades>
+                                        <shades:Shade BlurRadius="15"
                                                   Opacity="0.4"
                                                   Offset="0,-6"
                                                   Color="{StaticResource FontColor}" />
-                                            </shades:ImmutableShades>
-                                        </shades:Shadows.Shades>
-                                        <yummy:PancakeView CornerRadius="70,70,0,0"  BackgroundColor="{StaticResource MainColorGreen}">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <dataControls:RadListView x:Name="listView" Margin="0,15,0,40" ItemsSource="{Binding AllAssignments}"
+                                    </shades:ImmutableShades>
+                                </shades:Shadows.Shades>
+                                <yummy:PancakeView CornerRadius="70,70,0,0"  BackgroundColor="{StaticResource MainColorGreen}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <dataControls:RadListView x:Name="listView" Margin="0,15,0,40" ItemsSource="{Binding AllAssignments}"
                                                                   BackgroundColor="{StaticResource MainColorGreen}"
                                                                   
                                                                   ItemTemplate="{StaticResource ListViewItemTemplate}" SelectionMode="None">
-                                                    <dataControls:RadListView.LayoutDefinition>
-                                                        <listView:ListViewLinearLayout ItemLength="95" VerticalItemSpacing="0" />
-                                                    </dataControls:RadListView.LayoutDefinition>
-                                                    <dataControls:RadListView.SelectedItemStyle>
-                                                        <listView:ListViewItemStyle BackgroundColor="{StaticResource MainColorGreen}" 
+                                            <dataControls:RadListView.LayoutDefinition>
+                                                <listView:ListViewLinearLayout ItemLength="95" VerticalItemSpacing="0" />
+                                            </dataControls:RadListView.LayoutDefinition>
+                                            <dataControls:RadListView.SelectedItemStyle>
+                                                <listView:ListViewItemStyle BackgroundColor="{StaticResource MainColorGreen}" 
                                                 />
-                                                    </dataControls:RadListView.SelectedItemStyle>
-                                                    <!--<dataControls:RadListView.Behaviors>
+                                            </dataControls:RadListView.SelectedItemStyle>
+                                            <!--<dataControls:RadListView.Behaviors>
                                                 <behaviors:EventToCommandBehavior EventName="ItemTapped"
                                                                                   Command="{Binding NavigateToJobAssignmentCommand}"
                                                                                   EventArgsParameterPath="Item"/>
 
                                             </dataControls:RadListView.Behaviors>-->
-                                                </dataControls:RadListView>
-                                                <Label Grid.Row="0" VerticalOptions="Center" IsVisible="{Binding IsNoWorker}" Text="Please add a worker" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
+                                        </dataControls:RadListView>
+                                        <Label Grid.Row="0" VerticalOptions="Center" IsVisible="{Binding IsNoWorker}" Text="Please add a worker" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
 
-                                            </Grid>
-                                        </yummy:PancakeView>
-                                    </shades:Shadows>
-                                    <Grid Grid.Row="3" Grid.Column="0" VerticalOptions="End" BackgroundColor="{StaticResource MainColorGreen}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <shades:Shadows Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50" Margin="0,0,0,19"
-                                                    Style="{StaticResource NeuroShadowStyle}">
-                                            <primitives:RadBorder  CornerRadius="50" Style="{StaticResource BorderStyleForSimpleButton}">
-                                                <Button Text="Submit"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding SubmitAttendanceCommand}"></Button>
-                                            </primitives:RadBorder>
-                                        </shades:Shadows>
                                     </Grid>
-                                </Grid>
-                            </primitives:TabViewItem.Content>
-                        </primitives:TabViewItem>
+                                </yummy:PancakeView>
+                            </shades:Shadows>
+                            <Grid Grid.Row="3" Grid.Column="0" VerticalOptions="End" BackgroundColor="{StaticResource MainColorGreen}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <shades:Shadows Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="50" Margin="0,0,0,19"
+                                                    Style="{StaticResource NeuroShadowStyle}">
+                                    <primitives:RadBorder  CornerRadius="50" Style="{StaticResource BorderStyleForSimpleButton}">
+                                        <Button Text="Submit Attendance"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding SubmitAttendanceCommand}"></Button>
+                                    </primitives:RadBorder>
+                                </shades:Shadows>
+                            </Grid>
+                        </Grid>
+                    </primitives:TabViewItem.Content>
+                </primitives:TabViewItem>
 
-                        <primitives:TabViewItem HeaderText="Folder">
-                            <primitives:TabViewItem.Header>
+                <primitives:TabViewItem HeaderText="Folder">
+                    <primitives:TabViewItem.Header>
                         <workTracker:TabWithIcon ControlTemplate="{StaticResource TabHeaderControlTemplate}" Text="Job" TabHeaderImage="&#xf0b1;">
-                                </workTracker:TabWithIcon>
-                            </primitives:TabViewItem.Header>
-                            <primitives:TabViewItem.Content>
-                                <localViews:JobView></localViews:JobView>
-                            </primitives:TabViewItem.Content>
-                        </primitives:TabViewItem>
+                        </workTracker:TabWithIcon>
+                    </primitives:TabViewItem.Header>
+                    <primitives:TabViewItem.Content>
+                        <localViews:JobView></localViews:JobView>
+                    </primitives:TabViewItem.Content>
+                </primitives:TabViewItem>
 
-                        <primitives:TabViewItem HeaderText="View">
-                            <primitives:TabViewItem.Header>
+                <primitives:TabViewItem HeaderText="View">
+                    <primitives:TabViewItem.Header>
                         <workTracker:TabWithIcon ControlTemplate="{StaticResource TabHeaderControlTemplate}" Text="Workers" TabHeaderImage="&#xf0c0;">
-                                </workTracker:TabWithIcon>
-                            </primitives:TabViewItem.Header>
-                            <primitives:TabViewItem.Content>
-                                <Grid BackgroundColor="{StaticResource MainColorGreen}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
+                        </workTracker:TabWithIcon>
+                    </primitives:TabViewItem.Header>
+                    <primitives:TabViewItem.Content>
+                        <Grid BackgroundColor="{StaticResource MainColorGreen}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
 
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" VerticalOptions="Center" IsVisible="{Binding IsNoWorker}" Text="Please add a worker" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" VerticalOptions="Center" IsVisible="{Binding IsNoWorker}" Text="Please add a worker" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
 
-                                    <ScrollView Grid.Row="0">
-                                        <dataControls:RadListView x:Name="WorkersListView" ItemsSource="{Binding AllWorkers}">
-                                            <!--<dataControls:RadListView.Behaviors>
+                            <ScrollView Grid.Row="0">
+                                <dataControls:RadListView x:Name="WorkersListView" ItemsSource="{Binding AllWorkers}">
+                                    <!--<dataControls:RadListView.Behaviors>
                                         <behaviors:EventToCommandBehavior EventName="ItemTapped"
                                                                   Command="{Binding NavigateToSummaryCommand}"
                                                                   EventArgsParameterPath="Item"/>
 
                                     </dataControls:RadListView.Behaviors>-->
-                                            <dataControls:RadListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <listView:ListViewTemplateCell>
-                                                        <Grid>
-                                                            <Grid.GestureRecognizers>
-                                                                <TapGestureRecognizer Command="{Binding BindingContext.NavigateToSummaryCommand, Source={Reference WorkersListView}}"
+                                    <dataControls:RadListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <listView:ListViewTemplateCell>
+                                                <Grid>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding BindingContext.NavigateToSummaryCommand, Source={Reference WorkersListView}}"
                                                                               CommandParameter="{Binding}" />
-                                                            </Grid.GestureRecognizers>
-                                                            <shades:Shadows Style="{StaticResource BackgroundMainColorShadow}" CornerRadius="40">
+                                                    </Grid.GestureRecognizers>
+                                                    <shades:Shadows Style="{StaticResource BackgroundMainColorShadow}" CornerRadius="40">
 
-                                                                <primitives:RadBorder Margin="20" CornerRadius="40" BackgroundColor="{StaticResource MainColorGreen}">
-                                                                    <Grid Padding="5" HorizontalOptions="Center">
-                                                                        <Grid.RowDefinitions>
-                                                                            <RowDefinition Height="30"></RowDefinition>
-                                                                            <RowDefinition Height="25"></RowDefinition>
-                                                                            <RowDefinition Height="20"></RowDefinition>
-                                                                        </Grid.RowDefinitions>
-                                                                        <Image Source="user_green.png" Grid.Row="0"></Image>
-                                                                        <Label Style="{StaticResource WhiteBoldLabelStyle}" Text="{Binding Name}" Grid.Row="1"></Label>
-                                                                        <Label Grid.Row="2" Style="{StaticResource WhiteLabelStyle}" Text="{Binding Mobile}"></Label>
+                                                        <primitives:RadBorder Margin="20" CornerRadius="40" BackgroundColor="{StaticResource MainColorGreen}">
+                                                            <Grid Padding="5" HorizontalOptions="Center">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="30"></RowDefinition>
+                                                                    <RowDefinition Height="25"></RowDefinition>
+                                                                    <RowDefinition Height="20"></RowDefinition>
+                                                                </Grid.RowDefinitions>
+                                                                <Image Source="user_green.png" Grid.Row="0"></Image>
+                                                                <Label Style="{StaticResource WhiteBoldLabelStyle}" Text="{Binding Name}" Grid.Row="1"></Label>
+                                                                <Label Grid.Row="2" Style="{StaticResource WhiteLabelStyle}" Text="{Binding Mobile}"></Label>
 
-                                                                    </Grid>
-                                                                </primitives:RadBorder>
-                                                            </shades:Shadows>
-                                                        </Grid>
-                                                    </listView:ListViewTemplateCell>
-                                                </DataTemplate>
-                                            </dataControls:RadListView.ItemTemplate>
-                                            <dataControls:RadListView.SelectedItemStyle>
-                                                <listView:ListViewItemStyle BackgroundColor="{StaticResource MainColorGreen}" 
+                                                            </Grid>
+                                                        </primitives:RadBorder>
+                                                    </shades:Shadows>
+                                                </Grid>
+                                            </listView:ListViewTemplateCell>
+                                        </DataTemplate>
+                                    </dataControls:RadListView.ItemTemplate>
+                                    <dataControls:RadListView.SelectedItemStyle>
+                                        <listView:ListViewItemStyle BackgroundColor="{StaticResource MainColorGreen}" 
                                                                                />
-                                            </dataControls:RadListView.SelectedItemStyle>
-                                            <dataControls:RadListView.LayoutDefinition>
-                                                <listView:ListViewGridLayout HorizontalItemSpacing="0"
+                                    </dataControls:RadListView.SelectedItemStyle>
+                                    <dataControls:RadListView.LayoutDefinition>
+                                        <listView:ListViewGridLayout HorizontalItemSpacing="0"
                                                     ItemLength="150"
                                                     SpanCount="2"
                                                     VerticalItemSpacing="0" />
-                                            </dataControls:RadListView.LayoutDefinition>
-                                        </dataControls:RadListView>
-                                    </ScrollView>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="90"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="90"></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <shades:Shadows Grid.Column="1" Style="{StaticResource BackgroundMainColorShadow}" Padding="15" WidthRequest="40" CornerRadius="50">
-                                            <primitives:RadBorder Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
-                                                <ImageButton HeightRequest="80" WidthRequest="80" Source="plus_256px.png" CornerRadius="50"
+                                    </dataControls:RadListView.LayoutDefinition>
+                                </dataControls:RadListView>
+                            </ScrollView>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="90"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="90"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <shades:Shadows Grid.Column="1" Style="{StaticResource BackgroundMainColorShadow}" Padding="15" WidthRequest="40" CornerRadius="50">
+                                    <primitives:RadBorder Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                                        <ImageButton HeightRequest="80" WidthRequest="80" Source="plus_256px.png" CornerRadius="50"
                                                          BackgroundColor="{StaticResource MainColorGreen}"
                                                          Opacity="0.7"
                                                          Command="{Binding AddNewWorkerCommand}">
-                                                </ImageButton>
-                                            </primitives:RadBorder>
-                                        </shades:Shadows>
-                                    </Grid>
-                                </Grid>
-                            </primitives:TabViewItem.Content>
-                        </primitives:TabViewItem>
+                                        </ImageButton>
+                                    </primitives:RadBorder>
+                                </shades:Shadows>
+                            </Grid>
+                        </Grid>
+                    </primitives:TabViewItem.Content>
+                </primitives:TabViewItem>
 
-                        <primitives:TabViewItem>
-                            <primitives:TabViewItem.Header>
+                <primitives:TabViewItem>
+                    <primitives:TabViewItem.Header>
                         <workTracker:TabWithIcon ControlTemplate="{StaticResource TabHeaderControlTemplate}" Text="Payments" TabHeaderImage="&#xf555;">
-                                </workTracker:TabWithIcon>
-                            </primitives:TabViewItem.Header>
-                            <primitives:TabViewItem.Content>
-                                <localViews:PaymentView></localViews:PaymentView>
-                            </primitives:TabViewItem.Content>
-                        </primitives:TabViewItem>
+                        </workTracker:TabWithIcon>
+                    </primitives:TabViewItem.Header>
+                    <primitives:TabViewItem.Content>
+                        <localViews:PaymentView></localViews:PaymentView>
+                    </primitives:TabViewItem.Content>
+                </primitives:TabViewItem>
             </primitives:RadTabView.Items>
-                </primitives:RadTabView>
+        </primitives:RadTabView>
     </ContentPage.Content>
 
 </localViews:BasePage>

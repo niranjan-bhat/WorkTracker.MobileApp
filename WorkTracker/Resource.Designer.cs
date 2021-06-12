@@ -79,6 +79,15 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select the date range..
+        /// </summary>
+        internal static string DateRangeSelectionWarning {
+            get {
+                return ResourceManager.GetString("DateRangeSelectionWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job with this name already exists.
         /// </summary>
         internal static string DuplicateJobName {
@@ -93,6 +102,15 @@ namespace WorkTracker {
         internal static string DuplicateMobileNumber {
             get {
                 return ResourceManager.GetString("DuplicateMobileNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to add the worker, duplicate worker name.
+        /// </summary>
+        internal static string DuplicateWorkerName {
+            get {
+                return ResourceManager.GetString("DuplicateWorkerName", resourceCulture);
             }
         }
         
@@ -178,6 +196,33 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entered amount is invalid.
+        /// </summary>
+        internal static string PaymentAmountInvalidWarning {
+            get {
+                return ResourceManager.GetString("PaymentAmountInvalidWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select any one payment type..
+        /// </summary>
+        internal static string PaymentSelectionAtleastOneWarning {
+            get {
+                return ResourceManager.GetString("PaymentSelectionAtleastOneWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select only one payment type..
+        /// </summary>
+        internal static string PaymentSelectionOnlyOneWarning {
+            get {
+                return ResourceManager.GetString("PaymentSelectionOnlyOneWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter the OTP sent to {0}.
         /// </summary>
         internal static string PleaseEnterOtp {
@@ -192,6 +237,15 @@ namespace WorkTracker {
         internal static string RegistrationSuccess {
             get {
                 return ResourceManager.GetString("RegistrationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment is added successfully.
+        /// </summary>
+        internal static string SuccessfulPayment {
+            get {
+                return ResourceManager.GetString("SuccessfulPayment", resourceCulture);
             }
         }
         
@@ -219,6 +273,15 @@ namespace WorkTracker {
         internal static string Warning {
             get {
                 return ResourceManager.GetString("Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a worker..
+        /// </summary>
+        internal static string WorkerSelectionWarning {
+            get {
+                return ResourceManager.GetString("WorkerSelectionWarning", resourceCulture);
             }
         }
         

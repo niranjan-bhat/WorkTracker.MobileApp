@@ -35,7 +35,7 @@
             </Image>
             <StackLayout IsVisible="{Binding IsOtpLayoutVisible,Converter={StaticResource BooleanNegationConverter}}" Spacing="15" Grid.Row="2" Margin="0,20,0,0" Grid.Column="1" Grid.ColumnSpan="5">
                 <shades:Shadows  VerticalOptions="Start" CornerRadius="30"
-                                 Style="{StaticResource BackgroundWhiteColorShadow}">
+                                 Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder HeightRequest="50" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
                         <Grid ColumnDefinitions="50,*" RowDefinitions="45"  BackgroundColor="{StaticResource ElementInnerColor}">
                             <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf007;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
@@ -45,7 +45,7 @@
                     </primitives:RadBorder>
                 </shades:Shadows>
                 <shades:Shadows  VerticalOptions="Start" CornerRadius="30"
-                                 Style="{StaticResource BackgroundWhiteColorShadow}">
+                                 Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder HeightRequest="50" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
                         <Grid ColumnDefinitions="50,*" RowDefinitions="45"  BackgroundColor="{StaticResource ElementInnerColor}">
                             <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf0e0;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
@@ -55,7 +55,7 @@
                     </primitives:RadBorder>
                 </shades:Shadows>
                 <shades:Shadows  VerticalOptions="Start" CornerRadius="30"
-                                 Style="{StaticResource BackgroundWhiteColorShadow}">
+                                 Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder HeightRequest="50" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
                         <Grid ColumnDefinitions="50,*" RowDefinitions="45"  BackgroundColor="{StaticResource ElementInnerColor}">
                             <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf084;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
@@ -65,7 +65,7 @@
                     </primitives:RadBorder>
                 </shades:Shadows>
                 <shades:Shadows  VerticalOptions="Start" CornerRadius="30"
-                                 Style="{StaticResource BackgroundWhiteColorShadow}">
+                                 Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder HeightRequest="50" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
                         <Grid ColumnDefinitions="50,*" RowDefinitions="45"  BackgroundColor="{StaticResource ElementInnerColor}">
                             <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf084;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
@@ -80,7 +80,7 @@
                 <shades:Shadows  IsVisible="{Binding IsOtpLayoutVisible,Converter={StaticResource BooleanNegationConverter}}"  
                                 Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" 
                                 VerticalOptions="Start" HeightRequest="40" CornerRadius="30" Margin="30,20,30,0"
-                                Style="{StaticResource BackgroundWhiteColorShadow}">
+                                Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder CornerRadius="30" HeightRequest="40" BorderColor="{StaticResource SubmitCoinFillColor}" BorderThickness="2">
                         <Button  Text="Sign Up" CornerRadius="30"  BackgroundColor="{StaticResource ElementInnerColor}" Command="{Binding RegisterCommand}">
                         </Button>
@@ -89,7 +89,7 @@
            
             <StackLayout IsVisible="{Binding IsOtpLayoutVisible}"  Spacing="10" Grid.Row="2" Margin="0,110,0,0" Grid.Column="1" Grid.ColumnSpan="5">
                 <shades:Shadows  VerticalOptions="Start" CornerRadius="30"
-                                 Style="{StaticResource BackgroundWhiteColorShadow}">
+                                 Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder HeightRequest="50" CornerRadius="30" BorderColor="{StaticResource MainColorGreen}" BorderThickness="2">
                         <Grid ColumnDefinitions="50,*" RowDefinitions="45"  BackgroundColor="{StaticResource ElementInnerColor}">
                             <Label  TextColor="{StaticResource FontColor}" FontSize="23" Margin="10,0,0,0"  HorizontalOptions="Center" VerticalOptions="Center" Text="&#xf017;" FontFamily="{StaticResource FontAwesomeSolid}" ></Label>
@@ -99,7 +99,7 @@
                     </primitives:RadBorder>
                 </shades:Shadows>
                 <shades:Shadows VerticalOptions="Start" HeightRequest="40" CornerRadius="30" Margin="90,20,90,0"
-                                Style="{StaticResource BackgroundWhiteColorShadow}">
+                                Style="{StaticResource BackgroundDarkWhiteShadow}">
                     <primitives:RadBorder CornerRadius="30" HeightRequest="40" BorderColor="{StaticResource SubmitCoinFillColor}" BorderThickness="2">
                         <Button  Text="Verify" CornerRadius="30"  BackgroundColor="{StaticResource ElementInnerColor}" Command="{Binding VerifyOtpCommand}">
                         </Button>

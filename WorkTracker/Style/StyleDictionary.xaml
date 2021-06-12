@@ -13,11 +13,14 @@
     <Color x:Key="MainColorGreen">#57B6C2</Color>
     <Color x:Key="MainColorDarkGreen">#3E7B82</Color>
     <Color x:Key="UpperShadowColor">#7DCFD9</Color>
+    <Color x:Key="UpperShadowGlossyColor">#7EF7F7</Color>
     <Color x:Key="lowerShadowColor">#3C000000</Color>
     <Color x:Key="CheckboxColor">#BD273C</Color>
     <Color x:Key="SubmitCoinFillColor">#E7911D</Color>
     <Color x:Key="ElementInnerColor">White</Color>
     <Color x:Key="WhiteBackgroundColor">#F4F4F4</Color>
+    <Color x:Key="DarkWhiteBackgroundColor">#E5E5E5</Color>
+    <Color x:Key="CalenderBackgroundColor">#46989D</Color>
 
     <Font x:Key="UniversalFontSize"></Font>
 
@@ -60,6 +63,13 @@
 
     <Style x:Key="LabelStyleBold" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="FontAttributes" Value="Bold"></Setter>
+        <Setter Property="VerticalOptions" Value="Center"></Setter>
+        <Setter Property="HorizontalOptions" Value="Center"></Setter>
+        <Setter Property="TextColor" Value="#FF7A848A" />
+    </Style>
+    <Style x:Key="LabelStyleHeadingBold" TargetType="Label">
+        <Setter Property="FontSize" Value="18"></Setter>
         <Setter Property="FontAttributes" Value="Bold"></Setter>
         <Setter Property="VerticalOptions" Value="Center"></Setter>
         <Setter Property="HorizontalOptions" Value="Center"></Setter>
@@ -132,7 +142,7 @@
                 <shades:Shade BlurRadius="10"
                               Opacity="1"
                               Offset="-5,-10"
-                              Color="#F1F1F1" />
+                              Color="#E6E6E6" />
                 <shades:Shade BlurRadius="10"
                               Opacity="1"
                               Offset="5, 8"
@@ -140,15 +150,29 @@
             </shades:ImmutableShades>
         </Setter>
     </Style>
-
-    <Style x:Key="BackgroundWhiteColorShadow" ApplyToDerivedTypes="True" TargetType="shades:Shadows">
+    <Style x:Key="GlossyGreenBackgroundShadow" ApplyToDerivedTypes="True" TargetType="shades:Shadows">
+        <Setter Property="Shades">
+                <shades:ImmutableShades>
+                    <shades:Shade BlurRadius="10"
+                                  Opacity="0.5"
+                                  Offset="5, 8"
+                                  Color="#181616" />
+                    <shades:Shade BlurRadius="10"
+                                  Opacity="0.5"
+                                  Offset="-5, -8"
+                                  Color="{StaticResource UpperShadowGlossyColor}" />
+                </shades:ImmutableShades>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="BackgroundDarkWhiteShadow" ApplyToDerivedTypes="True" TargetType="shades:Shadows">
         <Setter Property="Shades">
             <shades:ImmutableShades>
-                <shades:Shade BlurRadius="10"
+                <shades:Shade BlurRadius="9"
                               Opacity="1"
-                              Offset="-5,-8"
-                              Color="#FAFFFF" />
-                <shades:Shade BlurRadius="10"
+                              Offset="-10,-8"
+                              Color="White" />
+                <shades:Shade BlurRadius="9"
                               Opacity="1"
                               Offset="8, 8"
                               Color="#BEBCBC" />
