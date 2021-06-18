@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Prism.Commands;
 using Prism.Navigation;
 using Telerik.XamarinForms.Input;
@@ -33,6 +34,24 @@ namespace WorkTracker.ViewModels
         private DelegateCommand<object> _navigationCommand;
         private ObservableCollection<string> _previousCommentsList;
         private DelegateCommand<object> _selectedDateChangedCommand;
+        private DelegateCommand<object> _activatetabCommand;
+        private bool _isJobsTabActive;
+        private bool _isEmptyData;
+
+        public AssignmentDTO CurrentAssignment
+        {
+            get => _currentAssignment;
+            set
+            {
+                SetProperty(ref _currentAssignment, value);
+            }
+        }
+
+        public bool IsEmptyData
+        {
+            get { return _isEmptyData; }
+            set { SetProperty(ref _isEmptyData, value); }
+        }
 
         public SummaryPageViewModel(INavigationService navigationService, INotificationService notify,
             IAssignmentDataAccessService assignmentDataAccessService, IPopupService popupService) : base(
@@ -42,7 +61,8 @@ namespace WorkTracker.ViewModels
             _notificationService = notify;
             _assignmentDAService = assignmentDataAccessService;
             var date = DateTime.Today;
-            _currentAssignment = new AssignmentDTO();
+            IsJobsTabActive = true;
+            CurrentAssignment = new AssignmentDTO();
         }
 
         public IPopupService _popupService { get; }
@@ -75,7 +95,11 @@ namespace WorkTracker.ViewModels
             get => _comment;
             set => SetProperty(ref _comment, value);
         }
-
+        public bool IsJobsTabActive
+        {
+            get => _isJobsTabActive;
+            set => SetProperty(ref _isJobsTabActive, value);
+        }
         public ObservableCollection<Appointment> Appointments
         {
             get => _appointments;
@@ -119,12 +143,13 @@ namespace WorkTracker.ViewModels
         {
             try
             {
-                var comment = await _assignmentDAService.AddComment(_currentAssignment.Id, UserComment);
-                _currentAssignment.Comments.Add(comment);
+                var comment = await _assignmentDAService.AddComment(CurrentAssignment.Id, UserComment);
+                CurrentAssignment.Comments.Add(comment);
                 PreviousCommentsList.Clear();
                 PreviousCommentsList =
-                    new ObservableCollection<string>(_currentAssignment.Comments?.Select(x => x.OwnerComment));
+                    new ObservableCollection<string>(CurrentAssignment.Comments?.Select(x => x.OwnerComment));
                 UserComment = string.Empty;
+                CheckEmptyData();
             }
             catch (Exception e)
             {
@@ -137,21 +162,33 @@ namespace WorkTracker.ViewModels
             if (ob is IList<DateTime> dateList)
             {
                 CurrentDate = dateList.FirstOrDefault();
-                _currentAssignment = await GetAssignmentForDate(CurrentDate, _currentWorker);
+                CurrentAssignment = await GetAssignmentForDate(CurrentDate, _currentWorker);
 
-                if (_currentAssignment == null)
+                if (CurrentAssignment == null)
                 {
                     ResetUIElemnts();
+                    CheckEmptyData();
                     return;
                 }
                 AssignedJobsList?.Clear();
                 AssignedJobsList =
-                    new ObservableCollection<string>(_currentAssignment.Jobs.Select(x => x.Name));
+                    new ObservableCollection<string>(CurrentAssignment.Jobs.Select(x => x.Name));
                 CanAddComments = true;
                 PreviousCommentsList?.Clear();
                 PreviousCommentsList =
-                    new ObservableCollection<string>(_currentAssignment?.Comments?.Select(x => x.OwnerComment));
+                    new ObservableCollection<string>(CurrentAssignment?.Comments?.Select(x => x.OwnerComment));
+
+                CheckEmptyData();
             }
+        }
+
+        private void CheckEmptyData()
+        {
+            IsEmptyData = IsJobsTabActive switch
+            {
+                true => AssignedJobsList == null || AssignedJobsList.Count == 0,
+                false => PreviousCommentsList == null || PreviousCommentsList.Count == 0
+            };
         }
 
         private void ResetUIElemnts()
@@ -161,6 +198,19 @@ namespace WorkTracker.ViewModels
             CanAddComments = false;
         }
 
+        public ICommand ActivatetabCommand =>
+            _activatetabCommand ??= new DelegateCommand<object>(obj =>
+            {
+                var tab = (JobCommentEnum)obj;
+                IsJobsTabActive = tab switch
+                {
+                    JobCommentEnum.Comments => false,
+                    JobCommentEnum.Jobs => true,
+                    _ => IsJobsTabActive
+                };
+
+                CheckEmptyData();
+            });
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -176,17 +226,21 @@ namespace WorkTracker.ViewModels
             {
                 Appointments = await GetAppointmentsForMonthYear(DateTime.Today, _currentWorker);
 
-                _currentAssignment = await GetAssignmentForDate(CurrentDate, _currentWorker);
+                CurrentAssignment = await GetAssignmentForDate(CurrentDate, _currentWorker);
 
-                if (_currentAssignment != null)
+                if (CurrentAssignment != null)
                 {
                     CanAddComments = true;
+
                     AssignedJobsList =
-                        new ObservableCollection<string>(_currentAssignment.Jobs.Select(x => x.Name));
+                        new ObservableCollection<string>(CurrentAssignment.Jobs.Select(x => x.Name));
 
                     PreviousCommentsList =
-                        new ObservableCollection<string>(_currentAssignment.Comments?.Select(x => x.OwnerComment));
+                        new ObservableCollection<string>(CurrentAssignment.Comments?.Select(x => x.OwnerComment));
+
+
                 }
+                CheckEmptyData();
             }
             catch (Exception e)
             {
@@ -235,7 +289,7 @@ namespace WorkTracker.ViewModels
                                 StartDate = assignment.AssignedDate,
                                 EndDate = assignment.AssignedDate.AddHours(12),
                                 Title = string.Empty,
-                                Color = (Xamarin.Forms.Color) Application.Current.Resources["SubmitCoinFillColor"]
+                                Color = (Xamarin.Forms.Color)Application.Current.Resources["SubmitCoinFillColor"]
                             }
                         );
             }

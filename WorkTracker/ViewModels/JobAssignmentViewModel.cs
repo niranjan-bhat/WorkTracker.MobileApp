@@ -16,13 +16,17 @@ namespace WorkTracker.ViewModels
         private ObservableCollection<UiBindableJob> _allJobs;
         private DelegateCommand _doneCommand;
         private DelegateCommand<object> _itemTappedCommand;
+        private readonly INotificationService _notificationService;
+        private readonly IPopupService _popupService;
         private readonly IJobDataAccessService _jobDAService;
 
         private WorkerDTO _worker;
 
-        public JobAssignmentViewModel(INavigationService navigationService, IJobDataAccessService da) : base(
+        public JobAssignmentViewModel(INavigationService navigationService, INotificationService notificationService, IPopupService popupService, IJobDataAccessService da) : base(
             navigationService)
         {
+            _notificationService = notificationService;
+            _popupService = popupService;
             _jobDAService = da;
         }
 
@@ -53,11 +57,18 @@ namespace WorkTracker.ViewModels
 
         private void ExecuteDoneCommand()
         {
-            var navParam = new NavigationParameters();
-            navParam.Add("Jobs", AllJobs.Where(x => x.IsSelected).Select(x => x.Job).ToList());
-            navParam.Add("from", Constants.JobAssignmentPage);
-            AllJobs.Clear();
-            NavigationService.GoBackAsync(navParam);
+            try
+            {
+                var navParam = new NavigationParameters();
+                navParam.Add("Jobs", AllJobs.Where(x => x.IsSelected).Select(x => x.Job).ToList());
+                navParam.Add("from", Constants.JobAssignmentPage);
+                AllJobs.Clear();
+                NavigationService.GoBackAsync(navParam);
+            }
+            catch (Exception e)
+            {
+                _notificationService.Notify(Resource.Failure,NotificationTypeEnum.Error);
+            }
         }
 
         private void ExecuteItemTappedCommand(object obj)
@@ -70,18 +81,31 @@ namespace WorkTracker.ViewModels
             base.OnNavigatedTo(parameters);
             if (parameters["Worker"] is WorkerDTO worker) Worker = worker;
 
+            _popupService.ShowLoadingScreen();
 
-            parameters.TryGetValue("Jobs", out List<JobDTO> alreadyassgnedjobs);
 
-            var result = await _jobDAService.GetAllJob(Preferences.Get(Constants.UserId, 0));
-
-            var bindableResult = result.Select(x => new UiBindableJob
+            try
             {
-                Job = x,
-                IsSelected = alreadyassgnedjobs?.Any(o => o.Id == x.Id) ?? false
-            });
+                parameters.TryGetValue("Jobs", out List<JobDTO> alreadyassgnedjobs);
 
-            AllJobs = new ObservableCollection<UiBindableJob>(bindableResult);
+                var result = await _jobDAService.GetAllJob(Preferences.Get(Constants.UserId, 0));
+                var bindableResult = result.Select(x => new UiBindableJob
+                {
+                    Job = x,
+                    IsSelected = alreadyassgnedjobs?.Any(o => o.Id == x.Id) ?? false
+                });
+
+                AllJobs = new ObservableCollection<UiBindableJob>(bindableResult);
+            }
+            catch (Exception e)
+            {
+
+                _notificationService.Notify(e.Message, NotificationTypeEnum.Error);
+            }
+            finally
+            {
+                _popupService.HideLoadingScreen();
+            }
         }
     }
 }

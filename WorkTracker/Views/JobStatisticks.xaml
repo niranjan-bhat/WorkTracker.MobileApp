@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:input="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:shades="http://sharpnado.com"
+             xmlns:chart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.XamarinForms.Chart"
+             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             x:Class="WorkTracker.Views.JobStatisticks" Title="{Binding Title}">
+    <ContentPage.Content>
+        <Grid RowDefinitions="Auto,Auto,*" BackgroundColor="{StaticResource WhiteBackgroundColor}">
+            <shades:Shadows Grid.Row="0" CornerRadius="70" >
+                <shades:Shadows.Shades>
+                    <shades:ImmutableShades>
+                        <shades:Shade BlurRadius="15"
+                                      Opacity="0.4"
+                                      Offset="0,6"
+                                      Color="{StaticResource FontColor}" />
+                    </shades:ImmutableShades>
+                </shades:Shadows.Shades>
+                <pancakeView:PancakeView  BackgroundColor="{StaticResource MainColorGreen}"  CornerRadius="0,0,70,70">
+                    <Grid RowDefinitions="30,80,10" Margin="30,0,30,0">
+                        <Grid ColumnDefinitions="50,Auto,*,Auto" Grid.Row="0" Margin="0,00,0,0">
+                            <Label Text="&#xf073;" FontSize="{StaticResource IconFontBigSize}" 
+                                   FontFamily="{StaticResource FontAwesomeSolid}" 
+                                   TextColor="{StaticResource WhiteBackgroundColor}"
+                                   VerticalOptions="CenterAndExpand"></Label>
+                            <input:RadDatePicker HeightRequest="30" HorizontalOptions="StartAndExpand" Grid.Column="1"
+                                                 Date="{Binding StartDate}" 
+                                                 Placeholder="Select a start date"
+                                                 Style="{StaticResource DatePickerStyleWhite}"
+                                                 MaximumDate="{Static sys:DateTime.Now}"
+                                                 PlaceholderLabelStyle="{StaticResource DatePickerPlaceholderLabelStyleWhite}">
+                                <input:RadDatePicker.SpinnerStyle>
+                                    <Style TargetType="dataControls:RadSpinner" BasedOn="{StaticResource DefaultSpinnerStyle}" />
+                                </input:RadDatePicker.SpinnerStyle>
+                                <input:RadDatePicker.DisplayLabelStyle>
+                                    <Style TargetType="Label">
+                                        <Setter Property="TextColor" Value="{StaticResource WhiteBackgroundColor}"></Setter>
+                                    </Style>
+                                </input:RadDatePicker.DisplayLabelStyle>
+                                <input:RadDatePicker.SelectorSettings>
+                                    <input:PickerPopupSelectorSettings HeaderLabelText="Pick a Date" 
+                                                                           HeaderLabelStyle="{StaticResource DefaultHeaderLabelStyle}"
+                                                                           HeaderStyle="{StaticResource DefaultHeaderStyle}" 
+                                                                           FooterStyle="{StaticResource DatePickerFooterStyle}"
+                                                                           AcceptButtonStyle="{StaticResource DatePickerAcceptButtonStyle}"
+                                                                           CancelButtonStyle="{StaticResource DatePickerCancelButtonStyle}">
+                                    </input:PickerPopupSelectorSettings>
+                                </input:RadDatePicker.SelectorSettings>
+                            </input:RadDatePicker >
+                            <input:RadDatePicker HeightRequest="30" HorizontalOptions="EndAndExpand" Grid.Column="3"
+                                                 Date="{Binding EndDate}" 
+                                                 Placeholder="Select a end date"
+                                                 Style="{StaticResource DatePickerStyleWhite}"
+                                                 MaximumDate="{Static sys:DateTime.Now}"
+                                                 PlaceholderLabelStyle="{StaticResource DatePickerPlaceholderLabelStyleWhite}">
+                                <input:RadDatePicker.SpinnerStyle>
+                                    <Style TargetType="dataControls:RadSpinner" BasedOn="{StaticResource DefaultSpinnerStyle}" />
+                                </input:RadDatePicker.SpinnerStyle>
+                                <input:RadDatePicker.DisplayLabelStyle>
+                                    <Style TargetType="Label">
+                                        <Setter Property="TextColor" Value="{StaticResource WhiteBackgroundColor}"></Setter>
+                                    </Style>
+                                </input:RadDatePicker.DisplayLabelStyle>
+                                <input:RadDatePicker.SelectorSettings>
+                                    <input:PickerPopupSelectorSettings HeaderLabelText="Pick a Date" 
+                                                                           HeaderLabelStyle="{StaticResource DefaultHeaderLabelStyle}"
+                                                                           HeaderStyle="{StaticResource DefaultHeaderStyle}" 
+                                                                           FooterStyle="{StaticResource DatePickerFooterStyle}"
+                                                                           AcceptButtonStyle="{StaticResource DatePickerAcceptButtonStyle}"
+                                                                           CancelButtonStyle="{StaticResource DatePickerCancelButtonStyle}">
+                                    </input:PickerPopupSelectorSettings>
+                                </input:RadDatePicker.SelectorSettings>
+                            </input:RadDatePicker >
+                        </Grid>
+                        <shades:Shadows Grid.Row="1"  CornerRadius="50" HeightRequest="40" Margin="80,15" VerticalOptions="EndAndExpand"
+                                        Style="{StaticResource BackgroundMainColorShadow}">
+                            <primitives:RadBorder  Style="{StaticResource BorderStyleForSimpleButton}" CornerRadius="50">
+                                <Button Text="Submit"  Style="{StaticResource SimpleButtonStyle}" Command="{Binding CalculateStatistics}">
+
+                                </Button>
+                            </primitives:RadBorder>
+                        </shades:Shadows>
+                    </Grid>
+                </pancakeView:PancakeView>
+            </shades:Shadows>
+
+            <Grid ColumnDefinitions="150,*"  Grid.Row="1" HeightRequest="230" Margin="0,20,0,0"  VerticalOptions="CenterAndExpand">
+                <chart:RadPieChart Grid.Column="1" Palette="{Binding ChartPaletteCollection}">
+                    <chart:RadPieChart.Series>
+                        <chart:PieSeries ItemsSource="{Binding ItemSource}">
+                            <chart:PieSeries.ValueBinding>
+                                <chart:PropertyNameDataPointBinding PropertyName="Days"/>
+                            </chart:PieSeries.ValueBinding>
+                        </chart:PieSeries>
+                    </chart:RadPieChart.Series>
+
+                </chart:RadPieChart>
+                <StackLayout VerticalOptions="Center" IsVisible="{Binding IsTotalWageVisible}">
+                    <Label VerticalOptions="CenterAndExpand" Text="Total money spent" Margin="10,0" Style="{StaticResource LabelStyle}"/>
+                    <Label VerticalOptions="CenterAndExpand" Text="on this job: " Margin="10,0" Style="{StaticResource LabelStyle}"/>
+                    
+                    <Label VerticalOptions="CenterAndExpand" Margin="10,0" Style="{StaticResource LabelStyleHeadingBold}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding TotalMoneySpentForThisJob}"></Span>
+                                <Span Text="/-"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+
+            </Grid>
+            <Grid Grid.Row="2" Margin="0,0,0,20" >
+                <dataControls:RadListView ItemsSource="{Binding ItemSource}" SelectionMode="None"
+                                          BackgroundColor="{StaticResource WhiteBackgroundColor}">
+                    <dataControls:RadListView.ItemTemplate>
+                        <DataTemplate>
+                            <listView:ListViewTemplateCell>
+                                <listView:ListViewTemplateCell.View>
+                                    <shades:Shadows CornerRadius="30" Padding="10,11,10,12" >
+                                        <shades:Shadows.Shades>
+                                            <shades:ImmutableShades>
+                                                <shades:Shade BlurRadius="15"
+                                                              Opacity="0.4"
+                                                              Offset="0, 5"
+                                                              Color="#6F6A6A" />
+                                                <shades:Shade BlurRadius="15"
+                                                              Opacity="1"
+                                                              Offset="5, -5"
+                                                              Color="#F4F4F4" />
+                                            </shades:ImmutableShades>
+                                        </shades:Shadows.Shades>
+                                        <primitives:RadBorder CornerRadius="30" BackgroundColor="{StaticResource WhiteBackgroundColor}" 
+                                                              Margin="10,0,10,0" >
+                                            <Grid Padding="20,0,0,0" BackgroundColor="White">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="23"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="130"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Grid Grid.Column="0" Grid.RowSpan="2" RowDefinitions="*,Auto,*" VerticalOptions="CenterAndExpand">
+                                                    <BoxView Grid.Row="1" HeightRequest="23"  CornerRadius="13" BackgroundColor="{Binding ColorCode}">
+                                                    </BoxView>
+                                                </Grid>
+                                                <Label Grid.Column="1" Grid.Row="0" Text="{Binding WorkerName}" VerticalOptions="Center" 
+                                                       Margin="10,10,0,0" HorizontalOptions="Start" VerticalTextAlignment="End" Style="{StaticResource LabelStyleBold}"/>
+
+                                                <Label Grid.Column="2" Grid.Row="0" VerticalOptions="Center" 
+                                                       Margin="10,10,0,0" HorizontalOptions="Start" Style="{StaticResource LabelStyle}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Days taken: " TextColor="#AC364A57"></Span>
+                                                            <Span Text="{Binding Days}" FontAttributes="Bold"></Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" VerticalOptions="Start" 
+                                                       Margin="10,0,0,0" HorizontalOptions="Start" Style="{StaticResource LabelStyle}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text=" Wage given to this worker: " TextColor="#AC364A57"></Span>
+                                                            <Span Text="{Binding TotalWage}" FontAttributes="Bold"></Span>
+                                                            <Span Text="/-"></Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+                                        </primitives:RadBorder>
+                                    </shades:Shadows>
+                                </listView:ListViewTemplateCell.View>
+                            </listView:ListViewTemplateCell>
+                        </DataTemplate>
+                    </dataControls:RadListView.ItemTemplate>
+                    <dataControls:RadListView.LayoutDefinition>
+                        <listView:ListViewLinearLayout ItemLength="85" />
+                    </dataControls:RadListView.LayoutDefinition>
+                </dataControls:RadListView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

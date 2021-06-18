@@ -9,30 +9,39 @@
              xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              xmlns:controls="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls"
              xmlns:shades="http://sharpnado.com"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              prism:ViewModelLocator.AutowireViewModel="True" Title="Job Assignment">
     <ContentPage.Resources>
         <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"></converters:BooleanNegationConverter>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid BackgroundColor="{StaticResource MainColorGreen}">
+        <Grid BackgroundColor="{StaticResource DarkWhiteBackgroundColor}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="90"></RowDefinition>
+                <RowDefinition Height="150"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
-            <shades:Shadows Grid.Column="1"  Grid.Row="0" CornerRadius="30" Padding="10"
-                            Style="{StaticResource BackgroundMainColorShadow}">
-                <primitives:RadBorder CornerRadius="30" Margin="0,10" BackgroundColor="{StaticResource MainColorGreen}">
-                    <Label  Text="{Binding Worker.Name,StringFormat='Available jobs for {0}'}" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
-                </primitives:RadBorder>
+            <shades:Shadows Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" CornerRadius="30"
+                            Style="{StaticResource BackgroundDarkWhiteShadow}">
+                <pancakeView:PancakeView BackgroundColor="{StaticResource MainColorGreen}" CornerRadius="0,0,50,50">
+               <Grid RowDefinitions="*,60,*" Margin="10,0">
+                   <shades:Shadows Grid.Row="1"  CornerRadius="30" Margin="15,0"
+                                   Style="{StaticResource BackgroundMainColorShadow}">
+                            <primitives:RadBorder CornerRadius="30" Margin="0,10" BackgroundColor="{StaticResource MainColorGreen}">
+                       <Label Margin="10,0,5,0" Text="{Binding Worker.Name,StringFormat='Available jobs for {0}'}" Style="{StaticResource WhiteBoldLabelStyle}" 
+                              LineBreakMode="TailTruncation"></Label>
+                   </primitives:RadBorder>
+                       </shades:Shadows>
+                    </Grid>
+                    </pancakeView:PancakeView>
             </shades:Shadows>
             <!--<Label Text="Available jobs for: {0}"></Label>-->
-            <dataControls:RadListView Grid.Column="0" Grid.ColumnSpan="3" x:Name="ListView" Grid.Row="1" Margin="0,0,0,10"
+            <dataControls:RadListView Grid.Column="0" Grid.ColumnSpan="3" x:Name="ListView" Grid.Row="1" Margin="0,20,0,10"
                                       ItemsSource="{Binding AllJobs}" SelectionMode="None">
                 <dataControls:RadListView.ItemTemplate>
                     <DataTemplate>
@@ -44,14 +53,14 @@
                                                               CommandParameter="{Binding}" />
                                     </Grid.GestureRecognizers>
                                     <shades:Shadows CornerRadius="30" Margin="20,0"
-                                                    Style="{StaticResource BackgroundMainColorShadow}">
+                                                    Style="{StaticResource BackgroundDarkWhiteShadow}">
                                         <primitives:RadBorder CornerRadius="30" Margin="20,15">
-                                            <StackLayout Padding="20,5"  Orientation="Horizontal" BackgroundColor="{StaticResource MainColorGreen}">
+                                            <StackLayout Padding="20,5"  Orientation="Horizontal" BackgroundColor="{StaticResource WhiteBackgroundColor}">
                                                 <controls:Checkbox VerticalOptions="Center"
                                                                    IsChecked="{Binding IsSelected}" FillColor="{StaticResource CheckboxColor}" 
                                                                    OutlineColor="{StaticResource CheckboxColor}" CheckColor="White" Shape="Circle">
                                                 </controls:Checkbox>
-                                                <Label Margin="10,0" Style="{StaticResource WhiteLabelStyle}" Text="{Binding Job.Name}"></Label>
+                                                <Label Margin="10,0" Style="{StaticResource LabelStyleHeadingBold}" Text="{Binding Job.Name}"></Label>
                                             </StackLayout>
                                         </primitives:RadBorder>
                                     </shades:Shadows>
@@ -78,9 +87,9 @@
             </dataControls:RadListView>
 
             <shades:Shadows Grid.Column="1"  Grid.Row="2" CornerRadius="30" Padding="10"
-                            Style="{StaticResource BackgroundMainColorShadow}">
-                <primitives:RadBorder CornerRadius="30" Margin="0,10" Style="{StaticResource BorderStyleForSimpleButton}">
-                    <Button  Text="Done" Style="{StaticResource SimpleButtonStyle}" Command="{Binding DoneCommand}"></Button>
+                            Style="{StaticResource BackgroundDarkWhiteShadow}">
+                <primitives:RadBorder CornerRadius="30" Margin="0,10" BackgroundColor="{StaticResource WhiteBackgroundColor}">
+                    <Button  Text="Done" Style="{StaticResource ButtonStyleWhite}"  BackgroundColor="{StaticResource WhiteBackgroundColor}" Command="{Binding DoneCommand}"></Button>
                 </primitives:RadBorder>
             </shades:Shadows>
         </Grid>

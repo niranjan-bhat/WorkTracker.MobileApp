@@ -115,6 +115,15 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a end date..
+        /// </summary>
+        internal static string EndDateError {
+            get {
+                return ResourceManager.GetString("EndDateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to process the request..
         /// </summary>
         internal static string Failure {
@@ -169,11 +178,29 @@ namespace WorkTracker {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End date should be greater than start date..
+        /// </summary>
+        internal static string NegativeDateRange {
+            get {
+                return ResourceManager.GetString("NegativeDateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         internal static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No job-assignment is found in this given date range..
+        /// </summary>
+        internal static string NoJobStatistics {
+            get {
+                return ResourceManager.GetString("NoJobStatistics", resourceCulture);
             }
         }
         
@@ -237,6 +264,15 @@ namespace WorkTracker {
         internal static string RegistrationSuccess {
             get {
                 return ResourceManager.GetString("RegistrationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a starting date..
+        /// </summary>
+        internal static string StartDateError {
+            get {
+                return ResourceManager.GetString("StartDateError", resourceCulture);
             }
         }
         

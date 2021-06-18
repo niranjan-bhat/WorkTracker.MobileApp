@@ -36,12 +36,20 @@ namespace WorkTracker.Services
             return result;
         }
 
-        public async Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int? workerId)
+        public async Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int? workerId, int? jobId = null)
         {
             var startDateUrl = HttpUtility.UrlEncode(startDate.ToString(Constants.DateFormat));
             var endDateUrl = HttpUtility.UrlEncode(enDateTime.ToString(Constants.DateFormat));
-
-            return await _webAccess.GetAsync<List<AssignmentDTO>>($"{_controller}/GetAllAssignment?ownerId={ownerId}&startDate={startDateUrl}&endDate={endDateUrl}&workerId={workerId}");
+            StringBuilder otherParams = new StringBuilder();
+            if (workerId.HasValue)
+            {
+                otherParams.Append($"&workerId={workerId.Value}");
+            }
+            if (jobId.HasValue)
+            {
+                otherParams.Append($"&jobId={jobId.Value}");
+            }
+            return await _webAccess.GetAsync<List<AssignmentDTO>>($"{_controller}/GetAllAssignment?ownerId={ownerId}&startDate={startDateUrl}&endDate={endDateUrl}{otherParams}");
         }
 
         public async Task<CommentDTO> AddComment(int assignmentId, string comment)

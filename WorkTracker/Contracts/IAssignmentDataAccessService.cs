@@ -35,7 +35,7 @@ namespace WorkTracker.Contracts
         /// <param name="enDateTime"></param>
         /// <param name="workerId"></param>
         /// <returns></returns>
-        Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int? workerId);
+        Task<List<AssignmentDTO>> GetAllAssignment(int ownerId, DateTime startDate, DateTime enDateTime, int? workerId = null, int? jobId = null);
 
         /// <summary>
         /// Adds a comment for an assignment

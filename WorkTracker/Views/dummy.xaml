@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:primitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
+             xmlns:dataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="WorkTracker.Views.dummy">
+  <ContentPage.Content>
+       <StackLayout Orientation="Vertical">
+            <primitives:RadExpander Margin="0,500,0,0" BorderThickness="0,1" BorderColor="{StaticResource MainColorDarkGreen}"
+                                           HeaderLocation="Top" VerticalOptions="FillAndExpand">
+                <primitives:RadExpander.Header>
+                    <primitives:ExpanderHeader Padding="15"
+                        IndicatorText="&#xf139;"                   
+                        IndicatorColor="{StaticResource SubmitCoinFillColor}"
+                        IndicatorFontFamily="{StaticResource FontAwesomeSolid}"
+                        IndicatorFontSize="26"
+                        IndicatorLocation="End"
+                        IndicatorAnimationDuration="1000"
+                        BorderColor="Transparent"
+                        BorderThickness="0,0"
+                        BackgroundColor="{StaticResource FontColor}">
+
+                        <Label Text="Jobs Assigned" FontSize="{StaticResource FontSize}" 
+                               Style="{StaticResource WhiteBoldLabelStyle}"
+                               HorizontalOptions="Start"/>
+                    </primitives:ExpanderHeader>
+                </primitives:RadExpander.Header>
+                <primitives:RadExpander.Content>
+                    <dataControls:RadListView SelectionMode="None" BackgroundColor="#536C85"
+                                              ItemsSource="{Binding ContryList}">
+                        <dataControls:RadListView.ItemTemplate>
+                            <DataTemplate>
+                                <pancakeView:PancakeView BackgroundColor="Transparent" CornerRadius="5" Margin="0">
+                                    <Grid RowDefinitions="*,1" Margin="1">
+                                        <BoxView Grid.Row="1" BackgroundColor="#45576A"></BoxView>
+                                        <Label Grid.Row="0" Style="{StaticResource WhiteLabelStyle}" Margin="50,0,0,0" FontSize="18" HorizontalOptions="Start" Text="{Binding .}"></Label>
+                                    </Grid>
+                                </pancakeView:PancakeView>
+
+                            </DataTemplate>
+                        </dataControls:RadListView.ItemTemplate>
+                        <dataControls:RadListView.LayoutDefinition>
+                            <listView:ListViewLinearLayout ItemLength="40" VerticalItemSpacing="10" />
+                        </dataControls:RadListView.LayoutDefinition>
+                    </dataControls:RadListView>
+                </primitives:RadExpander.Content>
+            </primitives:RadExpander>
+            <Button Command="{Binding CommandName}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

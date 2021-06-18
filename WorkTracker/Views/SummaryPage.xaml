@@ -10,16 +10,55 @@
              xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:customControls="clr-namespace:WorkTracker.CustomControls;assembly=WorkTracker"
              xmlns:listView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:classes="clr-namespace:WorkTracker.Classes;assembly=WorkTracker"
+             xmlns:converters="clr-namespace:WorkTracker.Converters;assembly=WorkTracker"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="WorkTracker.Views.SummaryPage"
              Title="{Binding Title}">
+    <ContentPage.Resources>
+        <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"></converters:BooleanNegationConverter>
+        <Style TargetType="Label" x:Key="LocalLabelStyleSet">
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontAttributes" Value="Bold"></Setter>
+            <Style.Triggers>
+                <DataTrigger TargetType="Label"  Binding="{Binding IsJobsTabActive}" Value="True">
+                    <Setter Property="TextColor" Value="{StaticResource WhiteBackgroundColor}" />
+                </DataTrigger>
+                <DataTrigger TargetType="Label" Binding="{Binding IsJobsTabActive}" Value="False">
+                    <Setter Property="TextColor" Value="{StaticResource MainColorDarkGreen}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Label" x:Key="LocalLabelStyleReset">
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontAttributes" Value="Bold"></Setter>
+            <Style.Triggers>
+                <DataTrigger TargetType="Label"  Binding="{Binding IsJobsTabActive}" Value="False">
+                    <Setter Property="TextColor" Value="{StaticResource WhiteBackgroundColor}" />
+                </DataTrigger>
+                <DataTrigger TargetType="Label" Binding="{Binding IsJobsTabActive}" Value="True">
+                    <Setter Property="TextColor" Value="{StaticResource MainColorDarkGreen}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate x:Key="listViewDataTemplate">
+            <pancakeView:PancakeView BackgroundColor="Transparent" CornerRadius="5" Margin="0">
+                <Grid RowDefinitions="*,1" Margin="1">
+                    <BoxView Grid.Row="1" BackgroundColor="#45576A"></BoxView>
+                    <Label Grid.Row="0" Style="{StaticResource WhiteLabelStyle}" Margin="50,0,0,0" FontSize="18" HorizontalOptions="Start" Text="{Binding .}"></Label>
+                </Grid>
+            </pancakeView:PancakeView>
+        </DataTemplate>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid x:Name="MainGrid" BackgroundColor="{StaticResource MainColorGreen}" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="300"></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
             </Grid.RowDefinitions>
             <input:RadCalendar x:Name="calender" Grid.Row="0" AppointmentsSource="{Binding Appointments}" Margin="20,0,20,0"
                               SelectionMode="Single" ViewMode="Month" SelectedDate="{Binding CurrentDate,Mode=TwoWay}" 
@@ -46,6 +85,14 @@
                 </input:RadCalendar.Behaviors>
 
             </input:RadCalendar>
+            <Label Grid.Row="1" HorizontalOptions="Start" Margin="20,0,0,0" Style="{StaticResource WhiteBoldLabelStyle}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding CurrentAssignment.Wage }"></Span>
+                        <Span Text=" /-"></Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
             <Button Grid.Row="1" Style="{StaticResource SimpleButtonStyle}" 
                     Text="+ Add Comments" 
                     IsEnabled="{Binding CanAddComments}"
@@ -93,87 +140,91 @@
                     </primitives:RadPopup>
                 </primitives:RadPopup.Popup>
             </Button>
-            <primitives:RadExpander Grid.Row="2" BorderThickness="0,1" BorderColor="{StaticResource MainColorDarkGreen}"
-                                           HeaderLocation="Top" Margin="0,40,0,0" 
-                                           MinimumHeightRequest="50"
-                                           VerticalOptions="FillAndExpand">
-                <primitives:RadExpander.Header>
-                    <primitives:ExpanderHeader Padding="15"
-                        IndicatorText="&#xf139;"                   
-                        IndicatorColor="{StaticResource SubmitCoinFillColor}"
-                        IndicatorFontFamily="{StaticResource FontAwesomeSolid}"
-                        IndicatorFontSize="26"
-                        IndicatorLocation="End"
-                        IndicatorAnimationDuration="1000"
-                        BorderColor="Transparent"
-                        BorderThickness="0,0"
-                        BackgroundColor="{StaticResource FontColor}">
+           
+            <shades:Shadows Grid.Row="3"  CornerRadius="30" Margin="25,30,25,0"
+                            Style="{StaticResource BackgroundMainColorShadow}" >
+                <pancakeView:PancakeView BackgroundColor="{StaticResource MainColorGreen}" CornerRadius="30">
+                    <Grid >
+                        <Grid  Margin="0,10,0,10" VerticalOptions="FillAndExpand"
+                                IsVisible="{Binding IsJobsTabActive,Converter={StaticResource BooleanNegationConverter}}">
+                            <dataControls:RadListView SelectionMode="None" VerticalOptions="FillAndExpand"
+                                          ItemsSource="{Binding PreviousCommentsList,Mode=OneWay}">
+                                <dataControls:RadListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <pancakeView:PancakeView BackgroundColor="Transparent" CornerRadius="5" Margin="0">
+                                            <Grid RowDefinitions="*,1" Margin="1">
+                                                <BoxView Grid.Row="1" BackgroundColor="#45576A" Margin="20,0,20,0"></BoxView>
+                                                <Label Grid.Row="0" Style="{StaticResource WhiteLabelStyle}" Margin="50,0,0,0" FontSize="18" HorizontalOptions="Start" Text="{Binding .}"></Label>
+                                            </Grid>
+                                        </pancakeView:PancakeView>
 
-                        <Label Text="Comments" FontSize="{StaticResource FontSize}" 
-                               Style="{StaticResource WhiteBoldLabelStyle}"
-                               HorizontalOptions="Start"/>
-                    </primitives:ExpanderHeader>
-                </primitives:RadExpander.Header>
-                <primitives:RadExpander.Content>
-                    <dataControls:RadListView SelectionMode="None" BackgroundColor="#536C85"
-                                              ItemsSource="{Binding PreviousCommentsList}">
-                        <dataControls:RadListView.ItemTemplate>
-                            <DataTemplate>
-                                <pancakeView:PancakeView BackgroundColor="Transparent" CornerRadius="5" Margin="0">
-                                    <Grid RowDefinitions="*,1" Margin="1">
-                                        <BoxView Grid.Row="1" BackgroundColor="#45576A"></BoxView>
-                                        <Label Grid.Row="0" Style="{StaticResource WhiteLabelStyle}" Margin="50,0,0,0" FontSize="18" HorizontalOptions="Start" Text="{Binding .}"></Label>
-                                    </Grid>
-                                </pancakeView:PancakeView>
+                                    </DataTemplate>
+                                </dataControls:RadListView.ItemTemplate>
+                                <dataControls:RadListView.LayoutDefinition>
+                                    <listView:ListViewLinearLayout ItemLength="40" VerticalItemSpacing="10" />
+                                </dataControls:RadListView.LayoutDefinition>
+                            </dataControls:RadListView>
+                        </Grid>
+                        <Grid IsVisible="{Binding IsJobsTabActive}" VerticalOptions="FillAndExpand" Margin="0,10,0,10">
+                            <dataControls:RadListView SelectionMode="None"
+                                          ItemsSource="{Binding AssignedJobsList}" VerticalOptions="FillAndExpand">
+                                <dataControls:RadListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <pancakeView:PancakeView BackgroundColor="Transparent" CornerRadius="5" Margin="0">
+                                            <Grid RowDefinitions="*,1" Margin="1">
+                                                <BoxView Grid.Row="1" BackgroundColor="#45576A" Margin="20,0,20,0"></BoxView>
+                                                <Label Grid.Row="0" Style="{StaticResource WhiteLabelStyle}" Margin="50,0,0,0" FontSize="18" HorizontalOptions="Start" Text="{Binding .}"></Label>
+                                            </Grid>
+                                        </pancakeView:PancakeView>
 
-                            </DataTemplate>
-                        </dataControls:RadListView.ItemTemplate>
-                        <dataControls:RadListView.LayoutDefinition>
-                            <listView:ListViewLinearLayout ItemLength="40" VerticalItemSpacing="10" />
-                        </dataControls:RadListView.LayoutDefinition>
-                    </dataControls:RadListView>
-                </primitives:RadExpander.Content>
-            </primitives:RadExpander>
-            <primitives:RadExpander Grid.Row="3" BorderThickness="0,1" BorderColor="{StaticResource MainColorDarkGreen}"
-                                           HeaderLocation="Top" VerticalOptions="FillAndExpand">
-                <primitives:RadExpander.Header>
-                    <primitives:ExpanderHeader Padding="15"
-                        IndicatorText="&#xf139;"                   
-                        IndicatorColor="{StaticResource SubmitCoinFillColor}"
-                        IndicatorFontFamily="{StaticResource FontAwesomeSolid}"
-                        IndicatorFontSize="26"
-                        IndicatorLocation="End"
-                        IndicatorAnimationDuration="1000"
-                        BorderColor="Transparent"
-                        BorderThickness="0,0"
-                        BackgroundColor="{StaticResource FontColor}">
+                                    </DataTemplate>
+                                </dataControls:RadListView.ItemTemplate>
+                                <dataControls:RadListView.LayoutDefinition>
+                                    <listView:ListViewLinearLayout ItemLength="40" VerticalItemSpacing="10" />
+                                </dataControls:RadListView.LayoutDefinition>
+                            </dataControls:RadListView>
+                        </Grid>
+                        <Label VerticalOptions="CenterAndExpand"  Text="No data to display" IsVisible="{Binding IsEmptyData}" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
+                    </Grid>
+                </pancakeView:PancakeView>
+            </shades:Shadows>
+            <shades:Shadows Grid.Row="2"  CornerRadius="50" Margin="25,10,25,0"
+                            Style="{StaticResource BackgroundMainColorShadow}" >
+                <primitives:RadBorder  CornerRadius="50" BackgroundColor="{StaticResource MainColorGreen}">
+                    <Grid ColumnDefinitions="*,2,*" ColumnSpacing="0">
+                        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="*,4" HorizontalOptions="Center" VerticalOptions="FillAndExpand" >
+                            <BoxView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" IsVisible="{Binding IsJobsTabActive}"
+                                 BackgroundColor="{StaticResource WhiteBackgroundColor}"></BoxView>
+                            <StackLayout Orientation="Horizontal" VerticalOptions="Center" Grid.RowSpan="2">
+                                <Label Text="&#xf0b1;" FontSize="23" Style="{StaticResource LocalLabelStyleSet}"  TextColor="{StaticResource MainColorDarkGreen}" FontFamily="{StaticResource FontAwesomeSolid}"
+                                   VerticalOptions="Center" ></Label>
+                                <Label Text="Assigned jobs" Style="{StaticResource LocalLabelStyleSet}"  TextColor="{StaticResource MainColorDarkGreen}"/>
+                            </StackLayout>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ActivatetabCommand}" CommandParameter="{x:Static classes:JobCommentEnum.Jobs}">
 
-                        <Label Text="Jobs Assigned" FontSize="{StaticResource FontSize}" 
-                               Style="{StaticResource WhiteBoldLabelStyle}"
-                               HorizontalOptions="Start"/>
-                    </primitives:ExpanderHeader>
-                </primitives:RadExpander.Header>
-                <primitives:RadExpander.Content>
-                    <dataControls:RadListView SelectionMode="None" BackgroundColor="#536C85"
-                                              ItemsSource="{Binding AssignedJobsList}">
-                        <dataControls:RadListView.ItemTemplate>
-                            <DataTemplate>
-                                <pancakeView:PancakeView BackgroundColor="Transparent" CornerRadius="5" Margin="0">
-                                    <Grid RowDefinitions="*,1" Margin="1">
-                                        <BoxView Grid.Row="1" BackgroundColor="#45576A"></BoxView>
-                                        <Label Grid.Row="0" Style="{StaticResource WhiteLabelStyle}" Margin="50,0,0,0" FontSize="18" HorizontalOptions="Start" Text="{Binding .}"></Label>
-                                    </Grid>
-                                </pancakeView:PancakeView>
+                                </TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                        <BoxView Grid.Column="1" BackgroundColor="{StaticResource MainColorDarkGreen}" Opacity="0.3" Margin="0"></BoxView>
+                        <Grid ColumnDefinitions="Auto,Auto" Grid.Column="2"  RowDefinitions="*,4" HorizontalOptions="Center"  VerticalOptions="FillAndExpand">
+                            <BoxView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" IsVisible="{Binding IsJobsTabActive,Converter={StaticResource BooleanNegationConverter}}"
+                                 BackgroundColor="{StaticResource WhiteBackgroundColor}"></BoxView>
+                            <StackLayout Orientation="Horizontal"  VerticalOptions="Center" Grid.RowSpan="2">
+                                <Label Text="&#xf086;" FontSize="23" Style="{StaticResource LocalLabelStyleReset}" 
+                                   FontFamily="{StaticResource FontAwesomeSolid}"/>
+                                <Label  Text="Comments" Style="{StaticResource LocalLabelStyleReset}"   />
+                            </StackLayout>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ActivatetabCommand}" CommandParameter="{x:Static classes:JobCommentEnum.Comments}">
 
-                            </DataTemplate>
-                        </dataControls:RadListView.ItemTemplate>
-                        <dataControls:RadListView.LayoutDefinition>
-                            <listView:ListViewLinearLayout ItemLength="40" VerticalItemSpacing="10" />
-                        </dataControls:RadListView.LayoutDefinition>
-                    </dataControls:RadListView>
-                </primitives:RadExpander.Content>
-            </primitives:RadExpander>
+                                </TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+                </primitives:RadBorder>
+            </shades:Shadows>
+
         </Grid>
-
     </ContentPage.Content>
 </ContentPage>

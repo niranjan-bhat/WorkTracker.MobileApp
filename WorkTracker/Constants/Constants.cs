@@ -38,12 +38,14 @@ namespace WorkTracker
         public const string SignUpPage = "SignUpPage";
         public const string WorkerSalaryPage = "WorkerSalaryView";
         public const string WorkerPaymentPage = "PaymentView";
+        public const string JobStatistics = "JobStatistics";
 
         #endregion
         public const string UserEmail = "UserEmail";
         public const string UserId = "UserId";
         public const string DateFormat = "yyyy-MM-dd";
         public const string LatestDateOfAttendanceSubmission = "LatestDateOfAttendanceSubmission";
+        public const string Job = "Job";
 
         #region ErrorCodes
         public static string OWNER_NOT_FOUND = "OWNER_NOT_FOUND";
@@ -56,6 +58,7 @@ namespace WorkTracker
         public static string DUPLICATE_MOBILE_NUMBER = "DUPLICATE_MOBILE_NUMBER";
         public static string INVALID_EMAIL = "INVALID_EMAIL";
         internal static string DUPLICATE_WORKERNAME = "DUPLICATE_WORKERNAME";
+        public static string DUPLICATE_EMAIL = "DUPLICATE_EMAIL";
         #endregion
 
     }

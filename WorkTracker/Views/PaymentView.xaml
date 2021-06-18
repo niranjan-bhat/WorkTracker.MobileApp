@@ -126,7 +126,7 @@
             </telerikPrimitives:RadBorder>
         </shades:Shadows>
 
-        <shades:Shadows Grid.Row="1"  CornerRadius="50" Margin="50,40,50,0"
+        <shades:Shadows Grid.Row="1"  CornerRadius="50" Margin="25,40,25,0"
                         Style="{StaticResource BackgroundDarkWhiteShadow}" >
             <telerikPrimitives:RadBorder  CornerRadius="50" BackgroundColor="{StaticResource WhiteBackgroundColor}">
                 <Grid ColumnDefinitions="*,2,*" ColumnSpacing="0">

@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
+using WorkTracker.WebAccess.Implementations;
 
 namespace WorkTracker.ViewModels
 {
@@ -162,6 +163,10 @@ namespace WorkTracker.ViewModels
 
                 _notificationService.Notify(string.Format(Resource.PleaseEnterOtp, UserEmail),
                     NotificationTypeEnum.Success);
+            }
+            catch (WtException wtException)
+            {
+                _notificationService.Notify(wtException.Message, NotificationTypeEnum.Error);
             }
             catch (Exception e)
             {

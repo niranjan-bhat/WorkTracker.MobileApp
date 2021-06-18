@@ -21,7 +21,8 @@
     <Color x:Key="WhiteBackgroundColor">#F4F4F4</Color>
     <Color x:Key="DarkWhiteBackgroundColor">#E5E5E5</Color>
     <Color x:Key="CalenderBackgroundColor">#46989D</Color>
-
+    <x:Double x:Key="IconFontDefaultSize">23</x:Double>
+    <x:Double x:Key="IconFontBigSize">25</x:Double>
     <Font x:Key="UniversalFontSize"></Font>
 
     <x:Double x:Key="FontSize">18</x:Double>
@@ -216,8 +217,12 @@
     <Style x:Key="SimpleButtonStyle" TargetType="Button">
         <Setter Property="CornerRadius" Value="50"></Setter>
         <Setter Property="VerticalOptions" Value="Center"></Setter>
-        <Setter Property="TextColor" Value="White" />
+        <Setter Property="TextColor" Value="{StaticResource ElementInnerColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource MainColorGreen}" />
+    </Style>
+
+    <Style x:Key="ButtonStyleWhite" TargetType="Button" BasedOn="{StaticResource SimpleButtonStyle}">
+        <Setter Property="TextColor" Value="#FF7A848A" />
     </Style>
 
     <Style x:Key="DatePickerFooterButtonStyle" TargetType="Button"  BasedOn="{StaticResource SimpleButtonStyle}">
@@ -243,6 +248,19 @@
         <Setter Property="BorderColor" Value="#B7B7BA" />
         <Setter Property="DefaultHighlightedDate" Value="{Static sys:DateTime.Now}"/>
     </Style>
+
+    <Style x:Key="DatePickerStyleWhite"
+           TargetType="input:RadDatePicker">
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="DisplayStringFormat" Value="dd MMMM yyyy" />
+        <Setter Property="SpinnerFormat" Value="dd MMMM yyyy" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="BorderThickness" Value="0, 0, 0, 1" />
+        <Setter Property="BorderColor" Value="{StaticResource WhiteBackgroundColor}" />
+        <Setter Property="DefaultHighlightedDate" Value="{Static sys:DateTime.Now}"/>
+    </Style>
+
     <Style x:Key="DefaultSpinnerStyle" 
                    TargetType="dataControls:RadSpinner">
         <Setter Property="ItemStyle">
@@ -289,6 +307,11 @@
         <Setter Property="HorizontalOptions" Value="StartAndExpand" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="DatePickerPlaceholderLabelStyleWhite" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+        <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="TextColor" Value="{StaticResource WhiteBackgroundColor}" />
     </Style>
     <ControlTemplate x:Key="TabHeaderControlTemplate">
         <Grid BackgroundColor="Transparent" RowSpacing="0">

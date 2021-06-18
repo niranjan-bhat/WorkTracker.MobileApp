@@ -27,10 +27,9 @@ namespace WorkTracker
         {
             InitializeComponent();
 
-            ViewModelLocationProvider.Register<JobView>(() => Container.Resolve<JobViewModel>());
             ViewModelLocationProvider.Register<PaymentView>(() => Container.Resolve<PaymentViewModel>());
 
-            await NavigationService.NavigateAsync($"{Constants.Login}");
+            await NavigationService.NavigateAsync(Constants.Login);
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -46,9 +45,10 @@ namespace WorkTracker
                 containerRegistry.RegisterForNavigation<AddWorkerPage, AddWorkerPageViewModel>(Constants.AddWorkerPage);
                 containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>(Constants.Login);
                 containerRegistry.RegisterForNavigation<SignUpPage, SignUpViewModel>(Constants.SignUpPage);
+                containerRegistry.RegisterForNavigation<JobStatisticks, JobStatisticksViewModel>(Constants.JobStatistics);
+                containerRegistry.RegisterForNavigation<dummy, dummyViewModel>("dummy");
 
                 containerRegistry.RegisterSingleton<IEventAggregator, EventAggregator>();
-                containerRegistry.RegisterSingleton<JobViewModel>();
                 containerRegistry.Register<INotificationService, NotificationService>();
                 containerRegistry.Register<IOwnerDataAccessService, OwnerDataAccessService>();
                 containerRegistry.Register<IWebDataAccess, WebDataAccess>();
@@ -66,6 +66,8 @@ namespace WorkTracker
             {
 
             }
+            containerRegistry.RegisterForNavigation<JobStatisticks, JobStatisticksViewModel>();
+            containerRegistry.RegisterForNavigation<dummy, dummyViewModel>();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Navigation;
@@ -10,8 +12,10 @@ using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
 using WorkTracker.Events;
+using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace WorkTracker.ViewModels
 {
@@ -37,6 +41,10 @@ namespace WorkTracker.ViewModels
         private DelegateCommand _submitAttendance;
         private DateTime? _userSelectedDate;
         private bool _isCommandActive;
+        private ObservableCollection<JobDTO> _allJobs;
+        private bool _isNoJob;
+        private JobDTO _Job;
+        private ICommand _addJobCommand;
 
         public MainPageViewModel(INavigationService navigationService, IPopupService popupService,
             IEventAggregator ea, INotificationService ns, IAssignmentDataAccessService assignmentDataAccessService,
@@ -63,6 +71,21 @@ namespace WorkTracker.ViewModels
         {
             get => _isNoWorker;
             set => SetProperty(ref _isNoWorker, value);
+        }
+        public bool IsNoJob
+        {
+            get => _isNoJob;
+            set => SetProperty(ref _isNoJob, value);
+        }
+        public ObservableCollection<JobDTO> AllJobs
+        {
+            get => _allJobs;
+            set => SetProperty(ref _allJobs, value);
+        }
+        public JobDTO Job
+        {
+            get => _Job;
+            set => SetProperty(ref _Job, value);
         }
 
         public DelegateCommand<BackButtonPressedEventArgs> BackButtonPressCommand =>
@@ -99,13 +122,35 @@ namespace WorkTracker.ViewModels
             _addNewWorkerCommand ??= new DelegateCommand(ExecuteAddNewWorkerCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand SubmitAttendanceCommand =>
-            _submitAttendance ??= new DelegateCommand(ExecuteSubmitAttendanceCommand);
+            _submitAttendance ??= new DelegateCommand(ExecuteSubmitAttendanceCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand<object> NavigateToSummaryCommand =>
             _navigateToSummaryCommand ??= new DelegateCommand<object>(ExecuteNavigateToSummaryCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
+        public ICommand AddJobCommand =>
+            _addJobCommand ??= new DelegateCommand(ExecuteAddJobCommand).ObservesProperty(() => IsCommandActive);
 
         public DelegateCommand<object> NavigateToJobAssignmentCommand =>
-            _navigateToJobAssignmentCommand ??= new DelegateCommand<object>(ExecuteNavigateToJobAssignmentCommand);
+            _navigateToJobAssignmentCommand ??= new DelegateCommand<object>(ExecuteNavigateToJobAssignmentCommand, CanExecuteCommand).ObservesProperty(() => IsCommandActive);
+
+        private DelegateCommand<object> _navigateToJobStatisticsCommand;
+        public DelegateCommand<object> NavigateToJobStatisticsCommand =>
+            _navigateToJobStatisticsCommand ?? (_navigateToJobStatisticsCommand = new DelegateCommand<object>(ExecuteNavigateToJobStatisticsCommand, CanExecuteCommand)).ObservesProperty(() => IsCommandActive);
+
+        async void ExecuteNavigateToJobStatisticsCommand(object obj)
+        {
+            if (IsCommandActive)
+                return;
+
+            IsCommandActive = true;
+            _popupService.ShowLoadingScreen();
+            await NavigationService.NavigateAsync(Constants.JobStatistics, new NavigationParameters()
+           {
+               { Constants.Job,obj}
+           });
+
+            _popupService.HideLoadingScreen();
+            IsCommandActive = false;
+        }
 
         public void Dispose()
         {
@@ -178,11 +223,15 @@ namespace WorkTracker.ViewModels
 
         private bool CanExecuteCommand()
         {
+            Debug.WriteLine("CanExecuteCommand - start");
             return !IsCommandActive;
+            Debug.WriteLine("CanExecuteCommand - end");
         }
         private bool CanExecuteCommand(object ob)
         {
+            Debug.WriteLine("CanExecuteCommand - start");
             return !IsCommandActive;
+            Debug.WriteLine("CanExecuteCommand - end");
         }
 
         /// <summary>
@@ -196,13 +245,22 @@ namespace WorkTracker.ViewModels
                 await NavigationService.GoBackAsync();
         }
 
-
-        private void ExecuteNavigateToJobAssignmentCommand(object obj)
+        private async void ExecuteNavigateToJobAssignmentCommand(object obj)
         {
+            if (IsCommandActive)
+                return;
+
+            IsCommandActive = true;
+            Debug.WriteLine("ExecuteNavigateToJobAssignmentCommand - start");
+            _popupService.ShowLoadingScreen();
+
             var assignment = (UiBindableAssignment)obj;
             _selectedWorker = assignment.Assignment.Worker;
-            NavigationService.NavigateAsync(Constants.JobAssignmentPage,
+            await NavigationService.NavigateAsync(Constants.JobAssignmentPage,
                 new NavigationParameters { { "Worker", _selectedWorker }, { "Jobs", assignment.AssignedJobs?.ToList() } });
+            IsCommandActive = false;
+            _popupService.HideLoadingScreen();
+            Debug.WriteLine("ExecuteNavigateToJobAssignmentCommand - end");
         }
 
         private void ExecuteAddNewWorkerCommand()
@@ -226,13 +284,32 @@ namespace WorkTracker.ViewModels
                     IsAssignmentSubmittedAlready = false;
                     AllWorkers = await GetAllWorkers();
                     AllAssignments = PopulateAssignment(AllWorkers);
+                    AllJobs = await GetAllJobs();
                     SubscribeEvents();
+                    Job = new JobDTO();
                     SelectedDate = Preferences.Get(Constants.LatestDateOfAttendanceSubmission, DateTime.Today);
                     IsNoWorker = AllWorkers.Count == 0;
                     break;
             }
 
             IsCommandActive = false;
+        }
+
+        private async Task<ObservableCollection<JobDTO>> GetAllJobs()
+        {
+            try
+            {
+                var result = await _jobDataAccessService.GetAllJob(Preferences.Get(Constants.UserId, 0));
+                IsNoJob = result.Count == 0;
+                return new ObservableCollection<JobDTO>(result);
+            }
+            catch (Exception e)
+            {
+
+                _notify.Notify(e.Message, NotificationTypeEnum.Error);
+            }
+
+            return new ObservableCollection<JobDTO>();
         }
 
         /// <summary>
@@ -248,6 +325,7 @@ namespace WorkTracker.ViewModels
         private void SubscribeEvents()
         {
             _eventAggrigator.GetEvent<WorkerModifiedEvent>().Subscribe(WorkerModifiedEventHandler);
+            _eventAggrigator.GetEvent<JobAddedEvent>().Subscribe(EventHandler);
             DateSelectionModified += FetchSubmittedAttendanceForSelectedDate;
         }
 
@@ -344,9 +422,13 @@ namespace WorkTracker.ViewModels
         /// </summary>
         private async void ExecuteSubmitAttendanceCommand()
         {
-            IsBusy = true;
+            if (IsCommandActive)
+                return;
+
+            IsCommandActive = true;
             try
             {
+                _popupService.ShowLoadingScreen();
                 await ValidateAttendanceForSubmission(); //Validation before adding assignment
 
                 //Give a warning if attendance is submitted already for the chosen date
@@ -375,9 +457,14 @@ namespace WorkTracker.ViewModels
                     }
 
                     IsAssignmentSubmittedAlready = true;
+                    AllAssignments.Where(x => !x.IsSelected)?.ForEach(x => x.IsAttendanceSubmitted = false);
                     _notify.Notify("Success", NotificationTypeEnum.Success);
                     Preferences.Set(Constants.LatestDateOfAttendanceSubmission, SelectedDate.Value);
                 }
+            }
+            catch (WtException e)
+            {
+                _notify.Notify(e.Message, NotificationTypeEnum.Error);
             }
             catch (Exception e)
             {
@@ -385,7 +472,8 @@ namespace WorkTracker.ViewModels
             }
             finally
             {
-                IsBusy = false;
+                IsCommandActive = false;
+                _popupService.HideLoadingScreen();
             }
         }
 
@@ -393,9 +481,9 @@ namespace WorkTracker.ViewModels
         {
             var assignmentsToSubmit = AllAssignments.Where(x => x.IsSelected);
 
-            if (!assignmentsToSubmit.ToList().Any()) throw new Exception("Unable to submit"); //If assignment is selected for insertion
+            if (!assignmentsToSubmit.ToList().Any()) throw new Exception("Unable to submit"); //If no assignment is selected for insertion
 
-            var noJobAssignments = assignmentsToSubmit.Where(x => x.AssignedJobs == null);
+            var noJobAssignments = assignmentsToSubmit.Where(x => x.AssignedJobs == null || x.AssignedJobs.Count == 0);
 
             var assignments = noJobAssignments as UiBindableAssignment[] ?? noJobAssignments.ToArray();
 
@@ -403,13 +491,60 @@ namespace WorkTracker.ViewModels
             {
                 var workersName = assignments.Select(x => x.Assignment.Worker.Name);
                 var enumerable = workersName as string[] ?? workersName.ToArray();
-
-                throw new Exception(enumerable.Length <= 10
+                var excep = new WtException();
+                excep.Message = enumerable.Length <= 10
                     ? "Please assign at least one job to " + string.Join(",", enumerable)
-                    : "Please assign at least one job to workers");
+                    : "Please assign at least one job to workers";
+
+                throw excep;
             }
 
             return true;
+        }
+
+        private void EventHandler(JobDTO obj)
+        {
+            AllJobs.Insert(0, obj);
+            RaisePropertyChanged(nameof(AllJobs));
+        }
+
+        /// <summary>
+        /// Adds a new job using wep api cal
+        /// </summary>
+        private async void ExecuteAddJobCommand()
+        {
+            IsCommandActive = true;
+            if (string.IsNullOrWhiteSpace(Job.Name))
+            {
+                _notify.Notify(Resource.JobNameError, NotificationTypeEnum.Error);
+                IsCommandActive = false;
+                return;
+            }
+
+            try
+            {
+                _popupService.ShowLoadingScreen();
+                var ownerId = Preferences.Get(Constants.UserId, 0);
+                var addedJob = await _jobDataAccessService.InsertJob(ownerId, Job.Name);
+                IsNoJob = false;
+                _eventAggrigator.GetEvent<JobAddedEvent>().Publish(addedJob);
+                _notify.Notify(Resource.JobAddedSuccess, NotificationTypeEnum.Success);
+                Job = new JobDTO();
+            }
+            catch (WtException wt) when (wt.ErrorCode == Constants.DUPLICATE_JOBNAME)
+            {
+                _notify.Notify(Resource.DuplicateJobName, NotificationTypeEnum.Error);
+            }
+            catch (Exception e)
+            {
+                _notify.Notify(Resource.Failure,
+                    NotificationTypeEnum.Error);
+            }
+            finally
+            {
+                _popupService.HideLoadingScreen();
+                IsCommandActive = false;
+            }
         }
     }
 }

@@ -195,4 +195,16 @@
   <data name="DuplicateWorkerName" xml:space="preserve">
     <value>Unable to add the worker, duplicate worker name</value>
   </data>
+  <data name="EndDateError" xml:space="preserve">
+    <value>Please select a end date.</value>
+  </data>
+  <data name="NegativeDateRange" xml:space="preserve">
+    <value>End date should be greater than start date.</value>
+  </data>
+  <data name="NoJobStatistics" xml:space="preserve">
+    <value>No job-assignment is found in this given date range.</value>
+  </data>
+  <data name="StartDateError" xml:space="preserve">
+    <value>Please select a starting date.</value>
+  </data>
 </root>

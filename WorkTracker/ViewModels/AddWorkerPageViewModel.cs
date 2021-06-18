@@ -16,19 +16,28 @@ namespace WorkTracker.ViewModels
     {
         private readonly IEventAggregator _ea;
         private readonly IWorkerDataAccessService _workerDAService;
+        private readonly IPopupService _popupservice;
         private WorkerDTO _newWorker;
         private readonly INotificationService _notificationService;
         private ICommand _submitCommand;
+        private bool _isCommandActive;
 
         public AddWorkerPageViewModel(INavigationService navigationService, IEventAggregator ea,
-            IWorkerDataAccessService dataAccessService, INotificationService notificationService) : base(
+            IWorkerDataAccessService dataAccessService, IPopupService popupservice, INotificationService notificationService) : base(
             navigationService)
         {
             Title = "Add a new worker";
             _ea = ea;
             NewWorker = new WorkerDTO();
             _workerDAService = dataAccessService;
+            _popupservice = popupservice;
             _notificationService = notificationService;
+        }
+
+        public bool IsCommandActive
+        {
+            get => _isCommandActive;
+            private set => SetProperty(ref _isCommandActive, value);
         }
 
         public WorkerDTO NewWorker
@@ -47,6 +56,7 @@ namespace WorkTracker.ViewModels
         {
             try
             {
+                _popupservice.ShowLoadingScreen();
                 var result = await _workerDAService.AddWorker(Preferences.Get(Constants.UserId, 0),
                     FormatString(NewWorker.Name),
                     NewWorker.Mobile);
@@ -72,6 +82,10 @@ namespace WorkTracker.ViewModels
             catch (Exception e)
             {
                 _notificationService.Notify(Resource.Failure, NotificationTypeEnum.Error);
+            }
+            finally
+            {
+                _popupservice.HideLoadingScreen();
             }
         }
 
