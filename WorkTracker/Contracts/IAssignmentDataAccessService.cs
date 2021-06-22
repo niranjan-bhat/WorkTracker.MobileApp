@@ -24,8 +24,7 @@ namespace WorkTracker.Contracts
         /// <param name="assignedDate">Date of the assignment</param>
         /// <param name="jobs">Collection of jobs assignment</param>
         /// <returns></returns>
-        Task<AssignmentDTO> InsertAssignment(int ownerId, int wage, int workerId, DateTime assignedDate,
-            List<JobDTO> jobs);
+        Task<List<AssignmentDTO>> InsertAssignment(List<AssignmentDTO> assignments);
 
         /// <summary>
         /// Fetches all the assignment for a given date range and owner and worker

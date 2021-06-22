@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
+using WorkTracker.Services;
 using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
 
@@ -14,19 +15,21 @@ namespace WorkTracker.ViewModels
         private readonly IOwnerDataAccessService _ownerService;
 
         private readonly IPopupService _popupservice;
+        private readonly ICachedDataService _cacheService;
         private bool _isCommandActive;
         private DelegateCommand _loginCommand;
 
-        private string _password = "ni";
+        private string _password;
         private DelegateCommand _registerCommand;
-        private string _userEmail = "ni@ni.com";
+        private string _userEmail;
 
         public LoginPageViewModel(INavigationService navigationService, IOwnerDataAccessService ownerService,
-            INotificationService ns, IPopupService popup) : base(navigationService)
+            INotificationService ns, IPopupService popup, ICachedDataService cacheService) : base(navigationService)
         {
             _ownerService = ownerService;
             _notificationService = ns;
             _popupservice = popup;
+            _cacheService = cacheService;
         }
 
         public bool IsCommandActive
@@ -94,8 +97,7 @@ namespace WorkTracker.ViewModels
 
                 var user = await _ownerService.GetOwnerByEmail(UserEmail);
 
-                Preferences.Set(Constants.UserEmail, user.Email);
-                Preferences.Set(Constants.UserId, user.Id);
+                _cacheService.CacheOwner(user);
 
                 await NavigationService.NavigateAsync($"{Constants.Navigation}/{Constants.MainPage}",
                     new NavigationParameters

@@ -7,6 +7,7 @@ using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
 using WorkTracker.Events;
+using WorkTracker.Services;
 using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
 
@@ -17,13 +18,14 @@ namespace WorkTracker.ViewModels
         private readonly IEventAggregator _ea;
         private readonly IWorkerDataAccessService _workerDAService;
         private readonly IPopupService _popupservice;
+        private readonly ICachedDataService _cachedDataService;
         private WorkerDTO _newWorker;
         private readonly INotificationService _notificationService;
         private ICommand _submitCommand;
         private bool _isCommandActive;
 
         public AddWorkerPageViewModel(INavigationService navigationService, IEventAggregator ea,
-            IWorkerDataAccessService dataAccessService, IPopupService popupservice, INotificationService notificationService) : base(
+            IWorkerDataAccessService dataAccessService, IPopupService popupservice, ICachedDataService cachedDataService, INotificationService notificationService) : base(
             navigationService)
         {
             Title = "Add a new worker";
@@ -31,6 +33,7 @@ namespace WorkTracker.ViewModels
             NewWorker = new WorkerDTO();
             _workerDAService = dataAccessService;
             _popupservice = popupservice;
+            _cachedDataService = cachedDataService;
             _notificationService = notificationService;
         }
 
@@ -57,7 +60,7 @@ namespace WorkTracker.ViewModels
             try
             {
                 _popupservice.ShowLoadingScreen();
-                var result = await _workerDAService.AddWorker(Preferences.Get(Constants.UserId, 0),
+                var result = await _workerDAService.AddWorker(_cachedDataService.GetCachedOwner().Id,
                     FormatString(NewWorker.Name),
                     NewWorker.Mobile);
 

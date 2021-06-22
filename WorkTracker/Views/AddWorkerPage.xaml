@@ -47,7 +47,7 @@
                         <customControls:CustomEntry Grid.Column="1" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" Margin="0,0,25,0"
                                                     Text="{Binding NewWorker.Mobile}"  
                                                     Placeholder="Enter the mobile number" TextColor="{StaticResource FontColor}" 
-                                                    UnderlineColor="Transparent" MaxLength="10">
+                                                    UnderlineColor="Transparent" MaxLength="10" Keyboard="Telephone">
                             <Entry.Behaviors>
                                 <behavior:EntryRestrictionOnlyNumber></behavior:EntryRestrictionOnlyNumber>
                             </Entry.Behaviors>

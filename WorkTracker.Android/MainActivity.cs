@@ -12,7 +12,7 @@ using Environment = System.Environment;
 
 namespace WorkTracker.Droid
 {
-    [Activity(Theme = "@style/MainTheme", Icon = "@drawable/WorkTracker_Green",
+    [Activity(Theme = "@style/MainTheme", Icon = "@drawable/WorkTracker_Green", ScreenOrientation = ScreenOrientation.Portrait,
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

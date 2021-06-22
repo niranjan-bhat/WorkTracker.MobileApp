@@ -7,6 +7,7 @@ using Prism.Navigation;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
+using WorkTracker.Services;
 using Xamarin.Essentials;
 
 namespace WorkTracker.ViewModels
@@ -19,17 +20,26 @@ namespace WorkTracker.ViewModels
         private readonly INotificationService _notificationService;
         private readonly IPopupService _popupService;
         private readonly IJobDataAccessService _jobDAService;
+        private readonly ICachedDataService _cachedDataService;
 
         private WorkerDTO _worker;
+        private bool _isNoJob;
 
-        public JobAssignmentViewModel(INavigationService navigationService, INotificationService notificationService, IPopupService popupService, IJobDataAccessService da) : base(
+        public JobAssignmentViewModel(INavigationService navigationService, 
+            INotificationService notificationService, IPopupService popupService, IJobDataAccessService da, ICachedDataService cachedDataService) : base(
             navigationService)
         {
             _notificationService = notificationService;
             _popupService = popupService;
             _jobDAService = da;
+            _cachedDataService = cachedDataService;
         }
 
+        public bool IsNoJob
+        {
+            get => _isNoJob;
+            set => SetProperty(ref _isNoJob, value);
+        }
         public WorkerDTO Worker
         {
             get => _worker;
@@ -86,16 +96,16 @@ namespace WorkTracker.ViewModels
 
             try
             {
-                parameters.TryGetValue("Jobs", out List<JobDTO> alreadyassgnedjobs);
+                parameters.TryGetValue("JobsAssigned", out List<JobDTO> alreadyassgnedjobs);
+                parameters.TryGetValue("AllJobs", out List<JobDTO> allJobs);
 
-                var result = await _jobDAService.GetAllJob(Preferences.Get(Constants.UserId, 0));
-                var bindableResult = result.Select(x => new UiBindableJob
+                var bindableResult = allJobs?.Select(x => new UiBindableJob
                 {
                     Job = x,
                     IsSelected = alreadyassgnedjobs?.Any(o => o.Id == x.Id) ?? false
                 });
-
                 AllJobs = new ObservableCollection<UiBindableJob>(bindableResult);
+                IsNoJob = AllJobs.Count == 0;
             }
             catch (Exception e)
             {

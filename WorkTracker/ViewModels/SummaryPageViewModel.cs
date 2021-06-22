@@ -11,6 +11,7 @@ using Telerik.XamarinForms.Input;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
+using WorkTracker.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -19,6 +20,7 @@ namespace WorkTracker.ViewModels
     public class SummaryPageViewModel : ViewModelBase
     {
         private readonly IAssignmentDataAccessService _assignmentDAService;
+        private readonly ICachedDataService _cachedDataService;
         private readonly INotificationService _notificationService;
         private DelegateCommand<object> _addCommentsCommand;
         private ObservableCollection<Appointment> _appointments;
@@ -54,12 +56,13 @@ namespace WorkTracker.ViewModels
         }
 
         public SummaryPageViewModel(INavigationService navigationService, INotificationService notify,
-            IAssignmentDataAccessService assignmentDataAccessService, IPopupService popupService) : base(
+            IAssignmentDataAccessService assignmentDataAccessService, IPopupService popupService,ICachedDataService cachedDataService) : base(
             navigationService)
         {
             _popupService = popupService;
             _notificationService = notify;
             _assignmentDAService = assignmentDataAccessService;
+            _cachedDataService = cachedDataService;
             var date = DateTime.Today;
             IsJobsTabActive = true;
             CurrentAssignment = new AssignmentDTO();
@@ -70,7 +73,7 @@ namespace WorkTracker.ViewModels
         public DelegateCommand<object> NavigationCommand =>
             _navigationCommand ??= new DelegateCommand<object>(ExecuteNavigationCommand);
 
-        private int _ownerId => Preferences.Get(Constants.UserId, 0);
+        private int _ownerId;
 
         public ObservableCollection<string> PreviousCommentsList
         {
@@ -134,9 +137,20 @@ namespace WorkTracker.ViewModels
         private async void ExecuteDisplayDateChangedCommand(object obj)
         {
             var date = (DateTime)obj;
-            Appointments = await GetAppointmentsForMonthYear(date, _currentWorker);
+            _popupService.ShowLoadingScreen();
+            try
+            {
+                Appointments = await GetAppointmentsForMonthYear(date, _currentWorker);
+                SelectedDateChangedCommand.Execute(new List<DateTime> { date });
+            }
+            catch
+            {
 
-            SelectedDateChangedCommand.Execute(new List<DateTime> { date });
+            }
+            finally
+            {
+                _popupService.HideLoadingScreen();
+            }
         }
 
         private async void ExecuteAddCommentsCommand(object obj)
@@ -214,6 +228,8 @@ namespace WorkTracker.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            _ownerId = _cachedDataService.GetCachedOwner().Id;
+
             var workerObj = parameters["Worker"] as WorkerDTO;
             if (workerObj == null)
                 return;

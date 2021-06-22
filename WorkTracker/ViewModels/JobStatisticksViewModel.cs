@@ -11,6 +11,8 @@ using Telerik.XamarinForms.DataGrid.Commands;
 using WorkTracker.Classes;
 using WorkTracker.Contracts;
 using WorkTracker.Database.DTOs;
+using WorkTracker.Services;
+using WorkTracker.WebAccess.Implementations;
 using Xamarin.Essentials;
 
 namespace WorkTracker.ViewModels
@@ -21,6 +23,7 @@ namespace WorkTracker.ViewModels
         private readonly INotificationService _notificationService;
         private readonly IPopupService _popupService;
         private readonly IWorkerDataAccessService _workerDataAccessService;
+        private readonly ICachedDataService _cachedDataService;
         private DelegateCommand _calculateStatisticsCommand;
         private DateTime? _endDateTime;
 
@@ -35,12 +38,13 @@ namespace WorkTracker.ViewModels
 
         public JobStatisticksViewModel(INavigationService navigationService, IPopupService popupService,
             INotificationService notificationService, IAssignmentDataAccessService assignmentDataAccessService,
-            IWorkerDataAccessService workerDataAccessService) : base(navigationService)
+            IWorkerDataAccessService workerDataAccessService, ICachedDataService cachedDataService) : base(navigationService)
         {
             _popupService = popupService;
             _notificationService = notificationService;
             _assignmentDataAccessService = assignmentDataAccessService;
             _workerDataAccessService = workerDataAccessService;
+            _cachedDataService = cachedDataService;
         }
 
         public bool IsTotalWageVisible
@@ -97,7 +101,7 @@ namespace WorkTracker.ViewModels
             {
                 ValidateInput();
 
-                var ownerId = Preferences.Get(Constants.UserId, 0);
+                var ownerId = _cachedDataService.GetCachedOwner().Id;
                 var allAssignment =
                     await _assignmentDataAccessService.GetAllAssignment(ownerId, StartDate.Value, EndDate.Value, null,
                         Job.Id);
@@ -137,8 +141,9 @@ namespace WorkTracker.ViewModels
             }
             catch (Exception e)
             {
+                string msg = (e is WtException wt) ? wt.Message : e.Message;
                 IsTotalWageVisible = false;
-                _notificationService.Notify(e.Message, NotificationTypeEnum.Error);
+                _notificationService.Notify(msg, NotificationTypeEnum.Error);
             }
             finally
             {

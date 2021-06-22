@@ -61,6 +61,7 @@ namespace WorkTracker
                 containerRegistry.Register<IJobDataAccessService, JobDataAccessService>();
                 containerRegistry.Register<IAssignmentDataAccessService, AssignmentDataAccessService>();
                 containerRegistry.Register<IPaymentService, PaymentDataAccessService>();
+                containerRegistry.RegisterSingleton(typeof(ICachedDataService), typeof(CachedDataService));
             }
             catch (System.Exception e)
             {

@@ -41,8 +41,6 @@ namespace WorkTracker
         public const string JobStatistics = "JobStatistics";
 
         #endregion
-        public const string UserEmail = "UserEmail";
-        public const string UserId = "UserId";
         public const string DateFormat = "yyyy-MM-dd";
         public const string LatestDateOfAttendanceSubmission = "LatestDateOfAttendanceSubmission";
         public const string Job = "Job";

@@ -27,12 +27,11 @@ namespace WorkTracker.Services
             return await _webAccess.GetAsync<AssignmentDTO>($"{_controller}?id={id}");
         }
 
-        public async Task<AssignmentDTO> InsertAssignment(int ownerId, int wage, int workerId, DateTime assignedDate, List<JobDTO> jobs)
+        public async Task<List<AssignmentDTO>> InsertAssignment(List<AssignmentDTO> assignmests)
         {
-            var assignedDateUrlParam = assignedDate.ToString(Constants.DateFormat);
-            var stringContent = new StringContent(JsonConvert.SerializeObject(jobs), Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(JsonConvert.SerializeObject(assignmests), Encoding.UTF8, "application/json");
 
-            var result = await _webAccess.PostAsync<AssignmentDTO>($"{_controller}?ownerId={ownerId}&wage={wage}&workerId={workerId}&assignedDate={assignedDateUrlParam}", stringContent);
+            var result = await _webAccess.PostAsync<List<AssignmentDTO>>($"{_controller}", stringContent);
             return result;
         }
 

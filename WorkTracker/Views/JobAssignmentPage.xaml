@@ -85,6 +85,7 @@
                                  VerticalItemSpacing="0" />
                 </dataControls:RadListView.LayoutDefinition>
             </dataControls:RadListView>
+            <Label Grid.Column="0" Grid.ColumnSpan="3"  Grid.Row="1" VerticalOptions="Center" IsVisible="{Binding IsNoJob}" Text="Please add a job" Style="{StaticResource WhiteBoldLabelStyle}"></Label>
 
             <shades:Shadows Grid.Column="1"  Grid.Row="2" CornerRadius="30" Padding="10"
                             Style="{StaticResource BackgroundDarkWhiteShadow}">

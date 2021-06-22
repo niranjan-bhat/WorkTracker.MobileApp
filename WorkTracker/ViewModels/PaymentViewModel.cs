@@ -12,6 +12,7 @@ using WorkTracker.Contracts;
 using WorkTracker.DataAccess.DTOs;
 using WorkTracker.Database.DTOs;
 using WorkTracker.Events;
+using WorkTracker.Services;
 using Xamarin.Essentials;
 
 namespace WorkTracker.ViewModels
@@ -23,6 +24,7 @@ namespace WorkTracker.ViewModels
         private readonly IPaymentService _paymentService;
         private readonly IPopupService _popupService;
         private readonly IWorkerDataAccessService _workerDataAccessService;
+        private readonly ICachedDataService _cachedDataService;
 
         private ICommand _activatetabCommand;
         private DelegateCommand _addPaymentCommand;
@@ -45,13 +47,14 @@ namespace WorkTracker.ViewModels
         private ObservableCollection<WorkerDTO> _workerList;
 
         public PaymentViewModel(IPaymentService paymentService, INotificationService notifyService,
-            IPopupService popupService, IWorkerDataAccessService workerDataAccessService,
+            IPopupService popupService, IWorkerDataAccessService workerDataAccessService, ICachedDataService cachedDataService,
             IEventAggregator iaEventAggregator)
         {
             _paymentService = paymentService;
             _notifyService = notifyService;
             _popupService = popupService;
             _workerDataAccessService = workerDataAccessService;
+            _cachedDataService = cachedDataService;
             _iaEventAggregator = iaEventAggregator;
             IsSalaryTabActive = true;
             Task.Run(GetAllWorkers);
@@ -238,6 +241,7 @@ namespace WorkTracker.ViewModels
 
             try
             {
+                _popupService.ShowLoadingScreen();
                 IsCommandActive = true;
                 CalculatedSalaryString = await _workerDataAccessService.CalculateSalary(SelectedWorker.Id,
                     SelectedDateRange.From, SelectedDateRange.To);
@@ -249,6 +253,7 @@ namespace WorkTracker.ViewModels
             finally
             {
                 IsCommandActive = false;
+                _popupService.HideLoadingScreen();
             }
         }
 
@@ -275,7 +280,7 @@ namespace WorkTracker.ViewModels
 
         private async void GetAllWorkers()
         {
-            var ownerId = Preferences.Get(Constants.UserId, 0);
+            var ownerId = _cachedDataService.GetCachedOwner().Id;
             var list = await _workerDataAccessService.GetAllWorker(ownerId);
 
             AllWorkers = new ObservableCollection<WorkerDTO>(list);
