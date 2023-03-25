@@ -32,13 +32,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
     <PackageReference Include="MonkeyCache.FileStore" Version="1.5.2" />
     <PackageReference Include="Plugin.Toast" Version="2.2.0" />
-    <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1367" />
-    <PackageReference Include="Sharpnado.Shadows" Version="1.2.0" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
-    <PackageReference Include="Telerik.UI.for.Xamarin" Version="2020.2.624.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.968" />
-    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.6.0-pre2" />
-    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.0.1.707" />
+    <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
+    <PackageReference Include="Sharpnado.Shadows" Version="1.2.1" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="Telerik.UI.for.Xamarin" Version="2023.1.314.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.4" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
   </ItemGroup>
 
   <ItemGroup>
